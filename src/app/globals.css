@@ -1,0 +1,182 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: white;
+  --foreground: black;
+  --dot: #999;
+  --focus: #93c5fd;
+
+  --npm: rgb(232, 43, 0);
+  --github: white;
+  --instagram: #da63a6;
+  --linkedin: #009bee;
+  --email: #bbb;
+  --habr: #a4cbdf;
+
+  --border-width: 3px;
+  --l-gap: 40px;
+  --m-gap: 20px;
+  --s-gap: 16px;
+  --b-shadow: 10px;
+  --s-shadow: 4px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: rgb(22, 22, 22);
+    --foreground: rgb(232, 232, 232);
+    --dot: #a7a7a7;
+    --focus: #0b51a0;
+    
+    --npm: rgb(187, 34, 0);
+    --github: black;
+    --instagram: #833a5c;
+    --linkedin: #005582;
+    --habr: #4a6a7a;
+
+    --border-width: 2px;
+  }
+}
+
+html {
+  height: 100%;
+  background-color: var(--background);
+}
+
+body {
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  color: var(--foreground);
+  font-size: 16px;
+  font-family: var(--fira-sans);
+
+  background-color: var(--background);
+  background-image: linear-gradient(45deg, var(--foreground) 1px, transparent 1px);
+  background-size: 15px 15px;
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--fira-code);
+  font-weight: 700;
+}
+
+h2, .content h1 {
+  font-size: 38px;
+  line-height: 1;
+}
+
+h3 {
+  font-size: 32px;
+  line-height: 1;
+}
+
+h1 strong, h2 strong {
+  color: rgb(244, 68, 68);
+}
+
+p code {
+  font-family: var(--fira-code);
+  background-color: rgb(235, 235, 235);
+  border-radius: 4px;
+  padding: 1px 4px;
+}
+
+p:has(> img) {
+  margin-right: var(--s-shadow); /* Fix not working margin of img. */
+}
+
+.big-shadow {
+  border-width: var(--border-width);
+  border-color: var(--foreground);
+  box-shadow: var(--b-shadow) var(--b-shadow) var(--foreground);
+  margin-bottom: var(--b-shadow);
+  margin-right: var(--b-shadow);
+  display: flex;
+  flex-direction: column;
+  padding: var(--m-gap);
+  gap: var(--m-gap);
+  overflow: hidden;
+}
+
+.small-shadow {
+  border-width: var(--border-width);
+  border-color: var(--foreground);
+  box-shadow: var(--s-shadow) var(--s-shadow) var(--foreground);
+  margin-right: var(--s-shadow);
+  margin-bottom: var(--s-shadow);
+}
+
+.big-button {
+  font-family: var(--font-fixedsys);
+  font-size: 32px;
+  line-height: 1;
+  padding: 10px 20px 12px;
+}
+
+.big-button:hover, .big-button:focus, .small-button:hover, .small-button:focus {
+  background-color: var(--focus);
+}
+
+.big-button:active {
+  color: var(--background);
+  background-color: var(--foreground);
+  margin: var(--b-shadow) 0 0 var(--b-shadow);
+  box-shadow: none;
+}
+
+.small-button {
+  font-family: var(--font-fixedsys);
+  font-size: 24px;
+  line-height: 1;
+  padding: 8px 18px;
+}
+
+.small-button:active {
+  color: var(--background);
+  background-color: var(--foreground);
+  margin: var(--s-shadow) 0 0 var(--s-shadow);
+  box-shadow: none;
+}
+
+.content {
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  padding: var(--s-gap);
+  row-gap: var(--s-gap);
+}
+
+@media (prefers-color-scheme: dark) {
+  h1 strong, h2 strong {
+    color: rgb(140, 140, 140);
+  }
+
+  p code {
+    background-color: rgb(38, 38, 38);
+  }
+}
+
+@media (max-width: 639px) {
+  :root {
+    --l-gap: 12px;
+    --m-gap: 12px;
+    --s-gap: 8px;
+    --b-shadow: 4px;
+    --s-shadow: 4px;
+  }
+
+  h2, .content h1 {
+    font-size: 24px;
+    line-height: 1.2;
+  }
+
+  .big-button {
+    font-size: 24px;
+    padding: 8px 18px;
+  }
+}

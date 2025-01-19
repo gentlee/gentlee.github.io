@@ -1,0 +1,37 @@
+{
+  "en": "англ",
+  "ru": "ру",
+
+  "email": "email",
+  "github": "github",
+  "habr": "habr",
+  "instagram": "instagram",
+  "linkedin": "linkedin",
+
+  "btc": "BTC",
+  "eth": "ETH",
+  "usdt-tron": "USDT(Tron)",
+  "ton": "Ton",
+  "doge": "Doge",
+
+  "full-name": "Александр Данилов",
+  "full-name-sm": "Данилов А.",
+  "full-name-xs": "Данилов",
+  
+  "home-title": "Блог Александра Данилова",
+  "dev-blog": "dev-блог",
+  "donate": "Поддержать",
+  "click-to-select-and-copy": "нажмите чтобы выбрать/скопировать",
+  "copied": "Скопировано",
+  "close": "закрыть",
+  "qr-code-for": "QR код для",
+  "crypto-address-for": "Криптоадрес для",
+  "open-donate-modal": "Открыть диалоговое окно для донатов",
+  "open-home-page": "Открыть домашнюю страницу",
+  "change-language-to": "Поменять язык на ",
+  "discuss": "обсудить",
+  "discuss-on": "Обсудить на",
+  "like": "Нравится",
+  "like-by-donating": "Поддержать за хорошую статью",
+  "heart": "Сердце"
+}

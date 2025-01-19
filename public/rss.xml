@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+        <title>Alexander Danilov's blog</title>
+        <link>https://alexander-danilov.dev</link>
+        <description>undefined</description>
+        <lastBuildDate>Tue, 14 Jan 2025 16:53:10 GMT</lastBuildDate>
+        <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
+        <generator>https://github.com/jpmonette/feed</generator>
+        <language>en</language>
+        <image>
+            <title>Alexander Danilov's blog</title>
+            <url>https://github.com/gentlee.png</url>
+            <link>https://alexander-danilov.dev</link>
+        </image>
+        <copyright>Alexander Danilov (c)</copyright>
+        <atom:link href="https://alexander-danilov.dev/rss.xml" rel="self" type="application/rss+xml"/>
+        <item>
+            <title><![CDATA[Styles, themes, and adaptive layout in React Native]]></title>
+            <link>https://alexander-danilov.dev/en/articles/react-native-styles-and-adaptive-ui/</link>
+            <guid>react-native-styles-and-adaptive-ui</guid>
+            <pubDate>Thu, 21 Nov 2024 00:00:00 GMT</pubDate>
+            <description><![CDATA[This article will teach you how to effectively organize a crucial part of React Native development: managing styles and resources to create adaptive and accessible interfaces for three platforms: iOS, Android, and Web. We’ll also discuss whether libraries are necessary and explore the peculiarities of layouts and performance issues within the framework.]]></description>
+            <enclosure url="https://alexander-danilov.dev/images/2024-11-21-react-native-styles-and-adaptive-ui/cover.jpeg" length="0" type="image/jpeg"/>
+        </item>
+        <item>
+            <title><![CDATA[RRC library for request and cache management based on Redux: [better] alternative to RTK-Query and other solutions]]></title>
+            <link>https://alexander-danilov.dev/en/articles/react-redux-cache/</link>
+            <guid>react-redux-cache</guid>
+            <pubDate>Sat, 14 Sep 2024 00:00:00 GMT</pubDate>
+            <description><![CDATA[Introducing react-redux-cache (RRC) - a lightweight library for data fetching and caching in React applications that supports normalization, unlike React Query and RTK Query, while featuring a similar but much simpler interface. Built on Redux, it is fully tested, completely typed, and written in TypeScript.]]></description>
+            <enclosure url="https://alexander-danilov.dev/images/2024-09-14-react-redux-cache/cover.png" length="0" type="image/png"/>
+        </item>
+        <item>
+            <title><![CDATA[Hidden knowledge: synchronization, multithreading, queues]]></title>
+            <link>https://alexander-danilov.dev/en/articles/serial-queues/</link>
+            <guid>serial-queues</guid>
+            <pubDate>Wed, 27 Mar 2024 00:00:00 GMT</pubDate>
+            <description><![CDATA[Is it possible that most popular programming languages lack the most efficient synchronization mechanism? Could it be that engineers at Microsoft, Oracle, and many others, not to mention everyone else, have not figured out the most effective way to synchronize data access even by 2024? Is most of what programmers, including those in top IT companies (except for rare Apple platform developers), know about synchronization — wrong? Today, we will explore this in detail.This article assumes that you already have a basic understanding of synchronization mechanisms. The code is written in C#, but the specific language is not of particular importance.]]></description>
+            <enclosure url="https://alexander-danilov.dev/images/2024-03-27-serial-queues/graph-1.png" length="0" type="image/png"/>
+        </item>
+    </channel>
+</rss>

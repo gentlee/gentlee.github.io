@@ -1,0 +1,37 @@
+{
+  "en": "en",
+  "ru": "ru",
+  
+  "email": "email",
+  "github": "github",
+  "habr": "habr",
+  "instagram": "instagram",
+  "linkedin": "linkedin",
+
+  "btc": "BTC",
+  "eth": "ETH",
+  "usdt-tron": "USDT(Tron)",
+  "ton": "Ton",
+  "doge": "Doge",
+
+  "full-name": "Alexander Danilov",
+  "full-name-sm": "Alex Danilov",
+  "full-name-xs": "Alex D.",
+
+  "home-title": "Alexander Danilov's blog",
+  "dev-blog": "dev-blog",
+  "donate": "Donate",
+  "click-to-select-and-copy": "click to select/copy",
+  "copied": "Copied",
+  "close": "dismiss",
+  "qr-code-for": "QR code for",
+  "crypto-address-for": "Crypto adresss for",
+  "open-donate-modal": "Open donate modal",
+  "open-home-page": "Open home page",
+  "change-language-to": "Change language to ",
+  "discuss": "discuss",
+  "discuss-on": "Discuss on",
+  "like": "Like",
+  "like-by-donating": "Like by donating",
+  "heart": "Heart"
+}

@@ -1,0 +1,15 @@
+{
+  "baseurl": "https://gentlee.github.io/",
+  "email": "dienes_gainful_3p@icloud.com",
+  "coins": ["btc", "eth", "usdt-tron", "ton", "doge"],
+  "btc1": "bc1qs0sq7agz5j30qnqz9",
+  "btc2": "m60xj4tt8th6aazgw7kxr",
+  "eth1": "0x1D834755b5e88970393",
+  "eth2": "0AC9b784CB625B3cd833E",
+  "usdt-tron1": "TPrCq8LxGykQ4as3o",
+  "usdt-tron2": "1oB8V7x1w2YPU2o5n",
+  "ton1": "UQAtBuFWI3H_LpHfEToil4iY",
+  "ton2": "emtfmyzlaJpahM3tFSoxomYQ",
+  "doge1": "D7GMQdKhKC9ymbT9P",
+  "doge2": "tcetSFTQjyPRRfkwT"
+}

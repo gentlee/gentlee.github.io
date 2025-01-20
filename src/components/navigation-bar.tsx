@@ -48,7 +48,7 @@ export const NavigationBar = ({
         </h1>
       </Link>
 
-      <div className="flex flex-1 gap-2 sm:gap-4 justify-end">
+      <div className="flex flex-1 gap-1 sm:gap-4 justify-end">
         <DonateButton lang={lang} />
         <DonateModal lang={lang} />
 

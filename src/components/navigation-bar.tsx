@@ -40,7 +40,7 @@ export const NavigationBar = ({
         hrefLang={lang}
       >
         <h1
-          className={`${fixedsysFont.className} text-[24px] xs:text-[28px] sm:text-[38px] lg:text-[48px] leading-[1] text-nowrap`}
+          className={`${fixedsysFont.className} text-[22px] xs:text-[28px] sm:text-[38px] lg:text-[48px] leading-[1] text-nowrap`}
         >
           <span className="hidden sm:inline">{s(lang, 'full-name')}</span>
           <span className="hidden xs:inline sm:hidden">{s(lang, 'full-name-sm')}</span>

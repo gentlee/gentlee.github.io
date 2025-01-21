@@ -2,9 +2,11 @@
   "en": "англ",
   "ru": "ру",
 
+  "npm": "npm",
   "email": "email",
   "github": "github",
-  "habr": "habr",
+  "discuss-github": "обсудить: github",
+  "discuss-habr": "обсудить: хабр",
   "instagram": "instagram",
   "linkedin": "linkedin",
 
@@ -29,8 +31,6 @@
   "open-donate-modal": "Открыть диалоговое окно для донатов",
   "open-home-page": "Открыть домашнюю страницу",
   "change-language-to": "Поменять язык на ",
-  "discuss": "обсудить",
-  "discuss-on": "Обсудить на",
   "like": "Нравится",
   "like-by-donating": "Поддержать за хорошую статью",
   "heart": "Сердце"

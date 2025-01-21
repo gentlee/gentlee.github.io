@@ -7,6 +7,7 @@ spoiler: 'Introducing <code>react-redux-cache</code> (RRC) - a lightweight libra
 links:
 - npm: https://www.npmjs.com/package/react-redux-cache
 - github: https://github.com/gentlee/react-redux-cache
+- discuss-github: https://github.com/gentlee/gentlee.github.io/discussions/2
 ---
 
 Introducing [react-redux-cache](https://github.com/gentlee/react-redux-cache) (RRC) - a lightweight library for data fetching and caching in React applications that supports normalization, unlike **React Query** and **RTK Query**, while featuring a similar but much simpler interface. Built on Redux, it is fully tested, completely typed, and written in TypeScript.

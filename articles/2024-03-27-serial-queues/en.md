@@ -6,6 +6,7 @@ cover-alt: The performance graph of synchronization methods from the article
 spoiler: 'Is it possible that most popular programming languages lack the most efficient synchronization mechanism? Could it be that engineers at Microsoft, Oracle, and many others, not to mention everyone else, have not figured out the most effective way to synchronize data access even by 2024? Is most of what programmers, including those in top IT companies (except for rare Apple platform developers), know about synchronization — wrong? Today, we will explore this in detail.<br><br>This article assumes that you already have a basic understanding of synchronization mechanisms. The code is written in C#, but the specific language is not of particular importance.'
 links:
 - github: https://github.com/gentlee/SerialQueue
+- discuss-github: https://github.com/gentlee/gentlee.github.io/discussions/1
 ---
 
 Is it possible that most popular programming languages lack the most efficient synchronization mechanism? Could it be that engineers at Microsoft, Oracle, and many others, not to mention everyone else, have not figured out the most effective way to synchronize data access even by 2024? Is most of what programmers, including those in top IT companies (except for rare Apple platform developers), know about synchronization — wrong? Today, we will explore this in detail.

@@ -100,6 +100,7 @@ export const DonateModal = ({lang}: {lang: Language}) => {
               ) : (
                 <>
                   <span className="overflow-hidden text-ellipsis">{info[`${coin}1`]}</span>
+                  {/* rtl for ellipsis in the middle */}
                   <span dir="rtl" className="overflow-hidden">
                     {info[`${coin}2`]}
                   </span>

@@ -44,19 +44,18 @@ const ArticlePage = async (props: Props) => {
               const name = Object.keys(x)[0] as Source
               const link = x[name]
 
-              // HACK to make dynamic styles work:
-              // bg-npm bg-github bg-instagram bg-linkedin bg-habr
+              // HACK to make dynamic styles work: bg-npm bg-github bg-instagram bg-linkedin bg-habr
               return (
                 <Link
-                  className={`${fixedsysFont.className} bg-${[name]} big-button big-shadow w-fi ${name === 'npm' ? 'text-white' : ''}`}
+                  className={`${fixedsysFont.className} bg-${[name.replace('discuss-', '')]} big-button big-shadow w-fi ${name === 'npm' ? 'text-white' : ''}`}
                   key={name}
                   href={link}
                   lang={lang}
-                  hrefLang={lang}
+                  hrefLang={name === 'discuss-habr' ? 'ru' : 'en'}
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  {name === 'npm' || name === 'github' ? name : `${s(lang, 'discuss')}: ${name}`}
+                  {s(lang, name)}
                 </Link>
               )
             })}

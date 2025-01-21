@@ -7,7 +7,8 @@ spoiler: 'Вашему вниманию представляется <code>react
 links:
 - npm: https://www.npmjs.com/package/react-redux-cache
 - github: https://github.com/gentlee/react-redux-cache
-- habr: https://habr.com/ru/articles/842940/
+- discuss-github: https://github.com/gentlee/gentlee.github.io/discussions/2
+- discuss-habr: https://habr.com/ru/articles/842940/comments/
 ---
 
 Вашему вниманию представляется  [react-redux-cache](https://github.com/gentlee/react-redux-cache)  (RRC) - легковесная библиотека для загрузки и кэширования данных в React приложениях, которая поддерживает нормализацию, в отличие от  **React Query**  и  **RTK Query**, при этом имеет похожий, но очень простой интерфейс. Построена на базе Redux, покрыта тестами, полностью типизирована и написана на Typescript.

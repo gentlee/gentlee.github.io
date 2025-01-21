@@ -4,6 +4,8 @@ date: '2024-11-21'
 cover: 'cover.webp'
 cover-alt: 'An image of adaptive layouts on various devices - from smartphones to computer screens, featuring a contented cat'
 spoiler: 'This article will teach you how to effectively organize a crucial part of React Native development: managing styles and resources to create adaptive and accessible interfaces for three platforms: <b>iOS</b>, <b>Android</b>, and <b>Web</b>. We’ll also discuss whether libraries are necessary and explore the peculiarities of layouts and performance issues within the framework.'
+links:
+- discuss-github: https://github.com/gentlee/gentlee.github.io/discussions/3
 ---
 
 ![An image of adaptive layouts on various devices - from smartphones to computer screens, featuring a contented cat](/articles/2024-11-21-react-native-styles-and-adaptive-ui/cover.webp)

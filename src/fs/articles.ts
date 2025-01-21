@@ -11,7 +11,7 @@ import yaml from 'yaml'
 
 import {Language} from '~/utils/constants'
 
-export type Source = 'npm' | 'github' | 'habr' | 'instagram' | 'linkedin'
+export type Source = 'npm' | 'github' | 'discuss-github' | 'discuss-habr'
 
 export const getArticleSlugs = async () => {
   const folderNames = (await fs.readdir('articles', {withFileTypes: true}))

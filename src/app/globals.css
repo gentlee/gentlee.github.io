@@ -2,6 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Variables */
+
 :root {
   --background: white;
   --foreground: black;
@@ -39,6 +41,18 @@
     --border-width: 2px;
   }
 }
+
+@media (max-width: 639px) {
+  :root {
+    --l-gap: 12px;
+    --m-gap: 12px;
+    --s-gap: 8px;
+    --b-shadow: 4px;
+    --s-shadow: 4px;
+  }
+}
+
+/* Styles */
 
 html {
   height: 100%;
@@ -162,14 +176,6 @@ p:has(> img) {
 }
 
 @media (max-width: 639px) {
-  :root {
-    --l-gap: 12px;
-    --m-gap: 12px;
-    --s-gap: 8px;
-    --b-shadow: 4px;
-    --s-shadow: 4px;
-  }
-
   h2, .content h1 {
     font-size: 24px;
     line-height: 1.2;

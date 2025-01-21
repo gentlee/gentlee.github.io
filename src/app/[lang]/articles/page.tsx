@@ -8,7 +8,6 @@ import {s} from '~/localization'
 import {Language, LANGUAGES} from '~/utils/constants'
 
 // check translation
-// comments
 // two modes - list with & without images
 
 type Props = {

@@ -30,7 +30,7 @@ links:
 
 1.  Многие начинающие разработчики возьмутся  **хардкодить**  всевозможные  **глобальные константы**  типа  `isLargeScreen`,  `isPhone`,  `isTablet`  и т.д. и т.п., и повсеместно использовать их для вычисления стилей, превращая код в такую кашу, в которой можно годами править баги верстки разных экранов и платформ, и так и не поправить. В случае со статическими стилями конечно же ни о какой адаптивной верстке не может быть и речи - изменение ориентаций, размеров окон и масштабирование в браузере поддерживаться не будут. В дальнейшем виноват будет фреймворк React Native, потому что разработчик, и тем более его руководитель - не виноваты (если их спросить).
     
-2.  Самые  одаренные  неопытные бросятся  **умножать размеры**  шрифтов, отступов и элементов на какой нибудь scale, полученный исходя из деления размера экрана на магическое число. Такую верстку, да вкупе с предыдущим пунктом, можно смело выкидывать на помойку целиком. Запомните -  **размер пальцев и глаз людей не зависит от размера и разрешения экрана**, а значит и размеры кнопок и шрифтов не должны от него зависеть. Также, по требованиям доступности нажимаемые элементы не должны быть меньше 44 пикселей, и у шрифтов тоже есть свои ограничения. Отступы уменьшать допустимо, но об этом позже. Также важно понимать, что в React Native все размеры указываются  **не в пикселях, а в логических пикселях**  (или по другому - масштабируемых пикселях), не зависящих от плотности пикселей экрана, и также не нуждаются в дополнительном масштабировании.
+2.  Самые одаренные и неопытные бросятся  **умножать размеры**  шрифтов, отступов и элементов на какой нибудь scale, полученный исходя из деления размера экрана на магическое число. Такую верстку, да вкупе с предыдущим пунктом, можно смело выкидывать на помойку целиком. Запомните -  **размер пальцев и глаз людей не зависит от размера и разрешения экрана**, а значит и размеры кнопок и шрифтов не должны от него зависеть. Также, по требованиям доступности нажимаемые элементы не должны быть меньше 44 пикселей, и у шрифтов тоже есть свои ограничения. Отступы уменьшать допустимо, но об этом позже. Также важно понимать, что в React Native все размеры указываются  **не в пикселях, а в логических пикселях**  (или по другому - масштабируемых пикселях), не зависящих от плотности пикселей экрана, и также не нуждаются в дополнительном масштабировании.
     
 3.  Другая часть выберет путь использования  **сторонних библиотек**  для стилизации, чем поставят крест на высокой производительности приложения, помножат количество багов и увеличат кривую онбординга на проект очередной криво написанной документацией. В дальнейшем для оптимизации и исправления багов придется переписывать все компоненты.
     
@@ -77,10 +77,10 @@ const getStyles = memoizeStyles((isSmallLayout: boolean, theme: Theme) => {
   return StyleSheet.create({
     list: {
       flex: 1,
-      backgroundColor: theme.colors.backgroundColor
+      backgroundColor: theme.colors.backgroundColor,
     },
     listContentContainer: {
-      padding: isSmallLayout ? 8 : 16
+      padding: isSmallLayout ? 8 : 16,
     },
   })
 })
@@ -118,26 +118,26 @@ const shallowEqualArrays = (
   arrB: unknown[]
 ): boolean => {
   if (arrA === arrB) {
-    return true;
+    return true
   }
 
   if (!arrA || !arrB) {
-    return false;
+    return false
   }
 
-  const length = arrA.length;
+  const length = arrA.length
 
   if (arrB.length !== length) {
-    return false;
+    return false
   }
 
   for (let i = 0; i < length; i += 1) {
     if (arrA[i] !== arrB[i]) {
-      return false;
+      return false
     }
   }
 
-  return true;
+  return true
 }
 ```
 </details>
@@ -197,7 +197,7 @@ export const withSmallLayoutContext = <P extends PropsWithChildren>(
 // Хук
 
 // Версия с useWindowDimensions перерендерит при любом изменении размера
-// экрана, тогда как данная версия только при изменении значения isSmallLayout.
+// окна, тогда как данная версия только при изменении значения isSmallLayout.
 
 // Версия с useState при изменении threshold
 // вызывала бы дополнительную перерисовку и возвращала бы правильное
@@ -221,9 +221,9 @@ export const useIsSmallLayout = (threshold = 785) => {
           forceUpdate()
         }
       },
-    );
-    return () => subscription.remove();
-  }, EMPTY_ARRAY);
+    )
+    return () => subscription.remove()
+  }, EMPTY_ARRAY)
 
   return isSmallLayout
 }
@@ -234,7 +234,7 @@ const EMPTY_ARRAY: any[] = []
 
 const forceUpdateReducer = (i: number) => i + 1
 
-/** Возвращает функцию для принудительного рендеринга компоненты. */
+/** Возвращает функцию для принудительного рендеринга компонента. */
 export const useForceUpdate = () => {
   return useReducer(forceUpdateReducer, 0)[1]
 }
@@ -243,7 +243,7 @@ export const useForceUpdate = () => {
 
 -   Почему контекст для  `isSmallLayout`? Если использовать хук  `useIsSmallLayout`  напрямую из дочерних и родительских компонентов, то могут появиться баги из за разной очередности обновления и перерисовки, когда дочерний компонент обновляется раньше родительского, либо они могут использовать разные значения threshold.
     
--   Если нужно поддерживать больше размеров, можно возвращать не  `boolean`, а, например, тип  `'small' | 'medium' | 'large'`  или enum. Также можно добавить эти значения напрямую в Theme, без отдельного контекста. Адаптируйте подходы исходя из ситуации.
+-   Если нужно поддерживать больше размеров, можно возвращать не  `boolean`, а, например, тип  `'small' | 'medium' | 'large'`  или enum. Также можно добавить эти значения напрямую в `Theme`, без отдельного контекста. Адаптируйте подходы исходя из ситуации.
     
 -   Реализацию  `useTheme`, возвращающую цветовую схему (dark / light) и палитру цветов, оставлю на читателе - она элементарна, и в общем то не всегда даже нужна. Вместо нее может быть  [useColorScheme](https://reactnative.dev/docs/usecolorscheme)  или ничего, если темная тема не поддерживается. Мой совет - использовать для подобных вещей  `React.Context`.
     
@@ -267,10 +267,10 @@ const useStyles = makeUseStyles((isSmallLayout, theme) => {
   return StyleSheet.create({
     list: {
       flex: 1,
-      backgroundColor: theme.colors.backgroundColor
+      backgroundColor: theme.colors.backgroundColor,
     },
     listContentContainer: {
-      padding: isSmallLayout ? 8 : 16
+      padding: isSmallLayout ? 8 : 16,
     },
   })
 })
@@ -325,12 +325,12 @@ const useStyles = makeUseStyles((_, {font, shadow, textShadow, colors}: Theme) =
 
 ```typescript
 const FONT_WEIGHT_TO_FONT: {
-  [key in NonNullable<TextStyle['fontWeight']>]: TextStyle['fontFamily'];
+  [key in NonNullable<TextStyle['fontWeight']>]: TextStyle['fontFamily']
 } = {
   normal: 'Inter-Regular',
   bold: 'Inter-Bold',
   // ...и т.д.
-};
+}
 
 export const font = (
   fontSize: number,
@@ -399,7 +399,7 @@ export const textShadow = (
 
 #### 3.1. Web
 
-Как известно, на мобильных устройствах нужно предоставить картинки двух размеров - с суффиксами @2x и @3x. Картинки без суффикса использовались на очень старых устройствах с до-retina экранами, и сегодня нигде не используются. Нигде, кроме веба. Да, по умолчанию веб использует картинки без суффиксов, и даже в примере от expo при инициализации проекта есть такой "баг", из за которого в вебе плохое качество картинок.
+Как известно, на мобильных устройствах нужно предоставить картинки двух размеров - с суффиксами @2x и @3x. Картинки без суффикса использовались на очень старых устройствах с до-retina экранами, и сегодня нигде не используются. Нигде, кроме веба. Да, по умолчанию там используются картинки без суффиксов, и даже в примере от expo при инициализации проекта есть такой "баг", из за которого в вебе плохое качество картинок.
 
 Самое простое решение - класть картинку без суффикса такого размера, который вы хотите видеть в вебе. Например, можно скопировать @3x. Если веб не поддерживается - то картинки без суффикса не нужны.
 
@@ -424,10 +424,10 @@ export const textShadow = (
 ```typescript
 // Генерирует код доступа для картинок в папке assets/images.
 
-import fs from 'fs';
-import path from 'path';
+import fs from 'fs'
+import path from 'path'
 
-const ROOT_DIRECTORY = path.join(__dirname, '..');
+const ROOT_DIRECTORY = path.join(__dirname, '..')
 
 // Генератор
 
@@ -441,16 +441,16 @@ const generateIndexFile = (
 
 export const ${capitalize(path.basename(directory))} = {
 `,
-  ];
-  appendLinesFromDirectory(lines, directory, directory, extensions, ignore);
-  lines.push('} as const;\n');
+  ]
+  appendLinesFromDirectory(lines, directory, directory, extensions, ignore)
+  lines.push('} as const;\n')
 
-  const destination = path.join(directory, 'index.ts');
-  const content = lines.join('');
+  const destination = path.join(directory, 'index.ts')
+  const content = lines.join('')
   fs.writeFile(destination, content, (error) =>
     console.log(error ?? `${path.relative(ROOT_DIRECTORY, directory)} generated successfully!`),
-  );
-};
+  )
+}
 
 // Утилиты
 
@@ -463,35 +463,35 @@ const appendLinesFromDirectory = (
   level = 1,
 ) => {
   fs.readdirSync(subDirectory).forEach((basename: string) => {
-    const fullPath: string = path.join(subDirectory, basename);
-    const stat = fs.statSync(fullPath);
-    const { name, ext } = path.parse(basename);
-    const indent = '  '.repeat(level);
+    const fullPath: string = path.join(subDirectory, basename)
+    const stat = fs.statSync(fullPath)
+    const { name, ext } = path.parse(basename)
+    const indent = '  '.repeat(level)
 
     if (stat.isDirectory()) {
-      result.push(`${indent}${formatName(basename)}: {\n`);
-      appendLinesFromDirectory(result, rootDirectory, fullPath, extensions, ignore, level + 1);
-      result.push(`${indent}},\n`);
-      return;
+      result.push(`${indent}${formatName(basename)}: {\n`)
+      appendLinesFromDirectory(result, rootDirectory, fullPath, extensions, ignore, level + 1)
+      result.push(`${indent}},\n`)
+      return
     }
 
     if (stat.isFile() && extensions.includes(ext) && (!ignore || !ignore(name))) {
-      const propName = formatName(name);
-      const relativePath = path.relative(rootDirectory, fullPath);
-      result.push(`${indent}${propName}: require('./${relativePath}'),\n`);
+      const propName = formatName(name)
+      const relativePath = path.relative(rootDirectory, fullPath)
+      result.push(`${indent}${propName}: require('./${relativePath}'),\n`)
     }
-  });
-};
+  })
+}
 
-const formatName = (name: string) => (isCapitalized(name) ? name : camelCase(name));
+const formatName = (name: string) => (isCapitalized(name) ? name : camelCase(name))
 
-const isCapitalized = (input: string) => input.toUpperCase() === input;
+const isCapitalized = (input: string) => input.toUpperCase() === input
 
 const camelCase = (input: string) =>
   input
     .split('-')
     .map((x, i) => (i ? capitalize(x) : x))
-    .join('');
+    .join('')
 
 const capitalize = (str: string) => str[0].toUpperCase() + str.slice(1).toLowerCase()
 
@@ -501,7 +501,7 @@ generateIndexFile(
   path.join(ROOT_DIRECTORY, 'assets', 'images'),
   ['.png', '.jpg'],
   (filename) => filename.endsWith('@2x') || filename.endsWith('@3x'), // Используем только файлы без суффиксов
-);
+)
 ```
 </details>
 

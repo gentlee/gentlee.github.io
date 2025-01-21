@@ -7,14 +7,9 @@ import {getArticleHtmlAndFrontmatter, getArticleSlugs} from '~/fs/articles'
 import {s} from '~/localization'
 import {Language, LANGUAGES} from '~/utils/constants'
 
-// HIGH
 // check translation
-// domain
-
-// LOW
-// SEO & a11y optimization
-// two modes - list with & without images
 // comments
+// two modes - list with & without images
 
 type Props = {
   params: Promise<{lang: Language}>

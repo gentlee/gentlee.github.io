@@ -88,7 +88,7 @@ export const DonateModal = ({lang}: {lang: Language}) => {
               id={coin}
               key={coin + isSelected}
               onClick={() => onCoinClick(coin)}
-              className="flex text-start w-full leading-none whitespace-pre"
+              className="flex text-start w-full leading-none whitespace-pre pr-[18px]"
               aria-label={`${s(lang, 'crypto-address-for')} ${s(lang, coin)}`}
               aria-describedby={HINT_ID}
               aria-checked={isSelected}

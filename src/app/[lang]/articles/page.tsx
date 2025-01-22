@@ -7,9 +7,6 @@ import {getArticleHtmlAndFrontmatter, getArticleSlugs} from '~/fs/articles'
 import {s} from '~/localization'
 import {Language, LANGUAGES} from '~/utils/constants'
 
-// check translation
-// two modes - list with & without images
-
 type Props = {
   params: Promise<{lang: Language}>
 }

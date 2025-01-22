@@ -92,7 +92,7 @@ const getStyles = memoizeStyles((isSmallLayout: boolean, theme: Theme) => {
 ```typescript
 /**
  * Возвращает функцию, которая возвращает мемоизированные стили для
- * последних неглубоко равных (shallowly equal) аргументов.
+ * последних поверхностно равных (shallowly equal) аргументов.
  * Eсли еще не мемоизированы - создает с помощью функции styleCreator.
  * Работает аналогично memoizeOne, но код проще, и лучше типизирована.
  */

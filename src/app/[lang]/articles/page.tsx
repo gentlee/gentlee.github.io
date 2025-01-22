@@ -75,8 +75,14 @@ export const generateStaticParams = () => LANGUAGES.map((lang) => ({lang}))
 export async function generateMetadata(props: Props): Promise<Metadata> {
   const {lang} = await props.params
 
+  const title = s(lang, 'home-title')
   return {
-    title: s(lang, 'home-title'),
+    title,
+    openGraph: {
+      type: 'website',
+      title,
+      locale: lang,
+    },
   }
 }
 

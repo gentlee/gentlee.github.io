@@ -3,7 +3,7 @@ import fs from 'fs/promises'
 import path from 'path'
 
 import {baseurl, email} from '~/assets/info.json'
-import {getArticleHtmlAndFrontmatter, getArticleSlugs} from '~/fs/articles'
+import {getArticleHtmlAndFrontmatter, getArticleSlugs, getUrlForArticleImage} from '~/fs/articles'
 import {s} from '~/localization'
 
 const FEED_SIZE_LIMIT = 30
@@ -38,7 +38,7 @@ const generateRssAtom = async () => {
       title: article.frontmatter.titlePlain,
       description: article.frontmatter.spoilerPlain,
       date: new Date(article.frontmatter.date),
-      image: `${baseurl}articles/${article.folderName}/${article.frontmatter.cover}`,
+      image: getUrlForArticleImage(article.frontmatter.cover, article.folderName),
     })
   }
 

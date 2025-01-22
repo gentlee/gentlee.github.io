@@ -5,7 +5,7 @@ import Link from 'next/link'
 
 import {LikeButton} from '~/components/like-button'
 import {NavigationBar} from '~/components/navigation-bar'
-import {getArticleHtmlAndFrontmatter, getArticleSlugs} from '~/fs/articles'
+import {getArticleHtmlAndFrontmatter, getArticleSlugs, getUrlForArticleImage} from '~/fs/articles'
 import {Source} from '~/fs/articles'
 import {s} from '~/localization'
 import {Language, LANGUAGES} from '~/utils/constants'
@@ -81,11 +81,23 @@ export const generateStaticParams = async () => {
 export async function generateMetadata(props: Props): Promise<Metadata> {
   const {slug, lang} = await props.params
 
-  const {frontmatter} = await getArticleHtmlAndFrontmatter(slug, lang)
+  const {frontmatter, folderName} = await getArticleHtmlAndFrontmatter(slug, lang)
 
   return {
     title: frontmatter.titlePlain,
     description: frontmatter.spoilerPlain,
+    openGraph: {
+      type: 'article',
+      title: frontmatter.titlePlain,
+      locale: lang,
+      siteName: s(lang, 'home-title'),
+      authors: s(lang, 'full-name'),
+      publishedTime: frontmatter.date,
+      images: {
+        url: getUrlForArticleImage(frontmatter.cover, folderName),
+        alt: frontmatter['cover-alt'],
+      },
+    },
   }
 }
 

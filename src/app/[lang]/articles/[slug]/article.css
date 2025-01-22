@@ -1,36 +1,36 @@
-.article {
+article {
   display: flex;
   flex-direction: column;
   row-gap: var(--m-gap);
 }
 
-.article a {
+article a {
   color: rgb(22, 121, 171);
   text-decoration: underline;
 }
 
-.article h2, .article h3, .article h4 {
+article h2, article h3, article h4 {
   font-family: var(--fira-sans);
   font-weight: 700;
 }
 
-.article h3, .article h4 {
+article h3, article h4 {
   margin-bottom: calc(var(--s-gap)/-2);
 }
 
-.article h2 {
+article h2 {
   font-size: 22px;
 }
 
-.article h3 {
+article h3 {
   font-size: 20px;
 }
 
-.article h4 {
+article h4 {
   font-size: 18px;
 }
 
-.article ol {
+article ol {
   display: flex;
   flex-direction: column;
   row-gap: var(--s-gap);
@@ -38,7 +38,7 @@
   list-style-type: decimal;
 }
 
-.article ul {
+article ul {
   display: flex;
   flex-direction: column;
   row-gap: var(--s-gap);
@@ -46,11 +46,11 @@
   list-style-type: disc;
 }
 
-.article ul ul {
+article ul ul {
   list-style-type: circle;
 }
 
-.article img {
+article img {
   /* .small-shadow */
   border-width: var(--border-width);
   border-color: var(--foreground);
@@ -59,7 +59,7 @@
   margin-bottom: var(--s-shadow);
 }
 
-.article blockquote {
+article blockquote {
   font-family: var(--fixedsys);
   font-size: 19px;
   line-height: 1;
@@ -71,12 +71,12 @@
   row-gap: var(--s-gap);
 }
 
-.article table {
+article table {
   width: 100%;
   overflow-x: auto;
 }
 
-.article details table {
+article details table {
   display: block; /* To make overflow-x work. */
   border-width: 0;
   width: fit-content;
@@ -84,23 +84,23 @@
   overflow-x: auto;
 }
 
-.article table, .article th, .article td {
+article table, article th, article td {
   border: 1px solid rgb(192, 192, 192);
 }
 
-.article th, .article td {
+article th, article td {
   padding: 8px;
 }
 
-.article th {
+article th {
   font-weight: 700;
 }
 
-.article td {
+article td {
   background-color: var(--background);
 }
 
-.article details {
+article details {
   width: fit-content;
   max-width: calc(100% - var(--s-shadow));
 
@@ -112,7 +112,7 @@
   margin-bottom: var(--s-shadow);
 }
 
-.article summary {
+article summary {
   font-family: var(--fixedsys);
   font-size: 22px;
   padding: 8px 16px;
@@ -120,12 +120,12 @@
   cursor: pointer;
 }
 
-.article details[open] > summary {
+article details[open] > summary {
   border-bottom-width: var(--border-width);
   border-bottom-color: var(--foreground);
 }
 
-.article pre {
+article pre {
   font-size: 14px;
   font-family: var(--fira-code);
   background: white;
@@ -140,29 +140,29 @@
   margin-bottom: var(--s-shadow);
 }
 
-.article details pre {
+article details pre {
   border-width: 0;
   box-shadow: none;
 }
 
 @media (prefers-color-scheme: dark) {
-  .article details {
+  article details {
     border-width: 2px;
   }
 
-  .article summary {
+  article summary {
     background-color: rgb(53, 52, 52);
   }
 
-  .article details[open] > summary {
+  article details[open] > summary {
     border-bottom-width: 2px;
   }
 
-  .article a {
+  article a {
     color: rgb(83, 170, 214);
   }
 
-  .article pre {
+  article pre {
     background: black;
   }
 }

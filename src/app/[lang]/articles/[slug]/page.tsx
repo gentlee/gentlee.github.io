@@ -27,16 +27,16 @@ const ArticlePage = async (props: Props) => {
     <>
       <NavigationBar lang={lang} subpath={`articles/${slug}` as 'articles/${slug}'} />
       <div className="content">
-        <article className="big-shadow bg-background">
+        <main className="big-shadow bg-background">
           <h1
             dangerouslySetInnerHTML={{
               __html: `${frontmatter.title} [${new Date(frontmatter.date).toLocaleDateString([lang])}]`,
             }}
           />
-          <main className={`article`} dangerouslySetInnerHTML={{__html: htmlWithHighlightedCode}} />
+          <article dangerouslySetInnerHTML={{__html: htmlWithHighlightedCode}} />
 
           <LikeButton lang={lang} />
-        </article>
+        </main>
 
         {!!frontmatter.links && (
           <div className={`flex flex-row flex-wrap justify-end gap-[var(--b-shadow)]`}>

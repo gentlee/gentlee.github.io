@@ -11,7 +11,7 @@ const ICON_SIZE = 44
 export const Footer = ({lang}: {lang: Language}) => {
   return (
     <footer
-      className={`${fixedsysFont.className} flex flex-wrap items-center justify-center p-[16px] gap-[16px] text-center bg-background border-t-2 border-foreground min-h-[44px] text-[19px] leading-none`}
+      className={`${fixedsysFont.className} flex flex-wrap items-center justify-center p-[16px] gap-[16px] text-center bg-background border-t-2 border-foreground min-h-[44px] text-[19px] leading-none mt-auto`}
     >
       <div className="flex items-center gap-[16px]">
         <Link className="active:scale-90" lang={lang} href={'mailto:' + info.email}>

@@ -1,13 +1,6 @@
-const NotFound = () => {
-  return (
-    <html>
-      <head lang="en">
-        <meta http-equiv="refresh" content="0; url=/en/articles" />
-        <title>Redirecting...</title>
-      </head>
-      <body />
-    </html>
-  )
-}
+import RedirectToArticles from '~/app/page'
+import {generateMetadata as generateRedirectMetadata} from '~/app/page'
 
-export default NotFound
+export const generateMetadata = generateRedirectMetadata
+
+export default RedirectToArticles

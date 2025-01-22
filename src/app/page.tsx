@@ -1,4 +1,15 @@
-import NotFound from '~/app/not-found'
+import {redirect} from 'next/navigation'
 
-// Behave similar to not-found error - redirect
-export default NotFound
+import {s} from '~/localization'
+
+const RedirectToArticles = () => {
+  redirect(`/en/articles`)
+}
+
+export const generateMetadata = () => {
+  return {
+    title: s('en', 'redirecting'),
+  }
+}
+
+export default RedirectToArticles

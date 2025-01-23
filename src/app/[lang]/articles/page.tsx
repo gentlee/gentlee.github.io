@@ -59,7 +59,7 @@ const ArticlesPage = async ({params}: Props) => {
                   </p>
                   <p id={descriptionId} dangerouslySetInnerHTML={{__html: frontmatter.spoiler}} />
                   <span
-                    className={`${fixedsysFont.className} touchscreen-only self-center mt-[-10px] leading-none opacity-75 dark:opacity-100 font-bold text-[17px]`}
+                    className={`${fixedsysFont.className} touchscreen-only self-center mt-[-8px] leading-none opacity-75 dark:opacity-100 font-bold text-[17px]`}
                   >
                     {`>> ${s(lang, 'tap-to-open')} <<`}
                   </span>

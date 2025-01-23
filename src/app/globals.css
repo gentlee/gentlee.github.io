@@ -186,3 +186,9 @@ p:has(> img) {
     padding: 8px 14px;
   }
 }
+
+@media (hover: hover) {
+  .touchscreen-only {
+    display: none;
+  }
+}

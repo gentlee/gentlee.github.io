@@ -3,17 +3,17 @@ title: 'Hidden knowledge: synchronization, multithreading, <strong>queues</stron
 date: '2024-03-27'
 cover: 'graph-1.webp'
 cover-alt: The performance graph of synchronization methods from the article
-spoiler: 'Is it possible that most popular programming languages lack the most efficient synchronization mechanism? Could it be that engineers at Microsoft, Oracle, and many others, not to mention everyone else, have not figured out the most effective way to synchronize data access even by 2024? Is most of what programmers, including those in top IT companies (except for rare Apple platform developers), know about synchronization — wrong? Today, we will explore this in detail.<br><br>This article assumes that you already have a basic understanding of synchronization mechanisms. The code is written in C#, but the specific language is not of particular importance.'
+spoiler: 'Is it possible that most popular programming languages lack the most efficient synchronization mechanism? Could it be that engineers at Microsoft, Oracle, and many other major companies — not to mention everyone else — have not figured out the most effective way to synchronize data access even by 2025? Is most of what programmers, including those in top IT companies (except for rare Apple platform developers), know about synchronization — wrong? Today, we will explore this in detail. <br><br>This article assumes that you already have a basic understanding of synchronization mechanisms. The code is written in C#, but the specific language is not of particular importance.'
 links:
 - github: https://github.com/gentlee/SerialQueue
 - discuss-github: https://github.com/gentlee/gentlee.github.io/discussions/1
 ---
 
-Is it possible that most popular programming languages lack the most efficient synchronization mechanism? Could it be that engineers at Microsoft, Oracle, and many others, not to mention everyone else, have not figured out the most effective way to synchronize data access even by 2024? Is most of what programmers, including those in top IT companies (except for rare Apple platform developers), know about synchronization — wrong? Today, we will explore this in detail.
+Is it possible that most popular programming languages lack the most efficient synchronization mechanism? Could it be that engineers at Microsoft, Oracle, and many other major companies — not to mention everyone else — have not figured out the most effective way to synchronize data access even by 2025? Is most of what programmers, including those in top IT companies (except for rare Apple platform developers), know about synchronization — wrong? Today, we will explore this in detail.
 
 This article assumes that you already have a basic understanding of synchronization mechanisms. The code is written in C#, but the specific language is not of particular importance.
 
-#### Introduction
+#### Background
 
 I haven’t written in C# for a long time, but about 12 years ago, I began working on cross-platform mobile development using Xamarin. Tasks often required implementing various synchronization mechanisms to handle access to the state from the main and background threads, as well as synchronization for working with the SQLite database. At that time, Xamarin offered both tools from native development — such as Grand Central Dispatch with parallel and serial queues and NSOperationQueue based on them — and tools from C# — Monitor, SpinLock, Mutex, Semaphore, TPL Dataflow, Thread, thread-safe collections, RxUI, and much more. With such a vast variety of tools, developers used "what they could" and what they could find faster through search engines or on StackOverflow: blocking all calls from the main thread or thread pool primitives, creating separate threads, synchronization via the main thread, and the whole zoo of mechanisms I listed earlier. This occasionally led to errors like UI freezes, race conditions, or deadlocks.
 

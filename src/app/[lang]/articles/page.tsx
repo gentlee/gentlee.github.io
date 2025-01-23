@@ -6,6 +6,7 @@ import {NavigationBar} from '~/components/navigation-bar'
 import {getArticleHtmlAndFrontmatter, getArticleSlugs} from '~/fs/articles'
 import {s} from '~/localization'
 import {Language, LANGUAGES} from '~/utils/constants'
+import {fixedsysFont} from '~/utils/fonts'
 
 type Props = {
   params: Promise<{lang: Language}>
@@ -57,6 +58,11 @@ const ArticlesPage = async ({params}: Props) => {
                     />
                   </p>
                   <p id={descriptionId} dangerouslySetInnerHTML={{__html: frontmatter.spoiler}} />
+                  <span
+                    className={`${fixedsysFont.className} touchscreen-only self-center mt-[-10px] leading-none opacity-75 dark:opacity-100 font-bold text-[17px]`}
+                  >
+                    {`>> ${s(lang, 'tap-to-open')} <<`}
+                  </span>
                 </Link>
               </li>
             )

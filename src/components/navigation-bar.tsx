@@ -21,7 +21,7 @@ export const NavigationBar = ({
     <nav
       className={`${fixedsysFont.className} bg-background border-b-[4px] sm:border-b-[13px] dark:border-b-[2px] border-foreground flex flex-row items-start gap-y-2 gap-x-1 p-2 sm:gap-4 sm:p-4`}
     >
-      <div className="hidden lg:flex flex-1 gap-2 sm:gap-4">
+      <div className="hidden lg:flex flex-1 gap-2 sm:gap-4 items-center">
         {renderLink({
           'aria-label': s(lang, 'open-home-page'),
           href: `/${lang}/articles`,
@@ -48,7 +48,7 @@ export const NavigationBar = ({
         </h1>
       </Link>
 
-      <div className="flex flex-1 gap-1 sm:gap-4 justify-end">
+      <div className="flex flex-1 gap-1 sm:gap-4 justify-end items-center">
         <DonateButton lang={lang} />
         <DonateModal lang={lang} />
 

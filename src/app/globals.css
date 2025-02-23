@@ -98,6 +98,10 @@ p code {
   padding: 1px 4px;
 }
 
+li ul {
+  margin-top: var(--s-gap);
+}
+
 p:has(> img) {
   margin-right: var(--s-shadow); /* Fix not working margin of img. */
 }

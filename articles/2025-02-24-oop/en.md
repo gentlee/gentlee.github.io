@@ -215,7 +215,7 @@ It turns out that methods lose to functions in every way, except for one small t
 
 Regarding this feature, even among OOP developers, there’s a well-established rule — inheritance is an anti-pattern, and delegation should be preferred.
 
-Why? Because, first of all, you can’t inherit specific fields or methods — only the whole class. This problem even has its own name — **The banana and gorilla problem** by Joe Armstrong: you wanted a banana, but it gave you a gorilla holding the banana and the entire jungle.
+Why? Because, first of all, you can’t inherit specific fields or methods — only the whole class. This problem even has its own name — **The banana and monkey problem** by Joe Armstrong: you wanted a banana, but it gave you a monkey holding the banana and the entire jungle.
 
 Secondly — in most languages, you can only inherit from one class.
 

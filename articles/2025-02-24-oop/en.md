@@ -4,6 +4,8 @@ date: '2025-02-24'
 cover: 'cover.webp'
 cover-alt: 'The image shows what it would be like if buildings were constructed the same way code is written. Elderly people ask their grandson to build a toilet, and end up with an ugly, monstrous construction, while the grandson is pondering that perhaps the classes should have been inherited differently. In his hands, he holds a banana, surrounded by jungle and several monkeys. The Java logo is on the building.'
 spoiler: 'In this article, we will try to understand why OOP is the worst thing that happened to programming, how it became so popular, why experienced Java (C#, C++, etc.) programmers can’t really be considered great engineers, and why code in Java cannot be considered good.'
+links:
+- discuss-github: https://github.com/gentlee/gentlee.github.io/discussions/4
 ---
 
 ![The image shows what it would be like if buildings were constructed the same way code is written. Elderly people ask their grandson to build a toilet, and end up with an ugly, monstrous construction, while the grandson is pondering that perhaps the classes should have been inherited differently. In his hands, he holds a banana, surrounded by jungle and several monkeys. The Java logo is on the building.](/articles/2025-02-24-oop/cover.webp)

@@ -670,7 +670,7 @@ We could also discuss method calls with dot notation, which first appeared in Sm
 
 The very fact of having two ways to do the same thing is already a sign of poor architecture and additional headaches for the developer, creating room for bad decisions.
 
-The same applies to parentheses — initially, it was a rather poor decision, as multiple calls in a row are hard to read:
+The same applies to parentheses — initially, it was a rather poor decision, as multiple calls in a row are hard to read, and it's precisely these that make autocompletion for arguments in functional programming inconvenient, without the dot notation.
 
 ```typescript
 thirdCall(c, secondCall(b, firstCall(a)))

@@ -421,6 +421,7 @@ type Shape = Circle | Rectangle
 
 const getArea = (shape: Shape): number => {
   // Убедитесь, что правило ESLint @typescript-eslint/switch-exhaustiveness-check, требующее исчерпывающие блоки switch, включено.
+  // Данный код полностью типизирован и проверяется компилятором.
   switch (shape.type) {
     case "circle":
       return Math.PI * shape.radius * shape.radius
@@ -440,7 +441,8 @@ logShapes([
   { type: "rectangle", width: 4, height: 6 },
 ])
 
-// В библиотеке можно сделать более гибко, использовав обобщения и аргумент getArea (можно опциональный, с реализацией по умолчанию).
+// В библиотеке функцию можно сделать более гибкой, использовав обобщения и аргумент getArea (можно опциональный,
+// с реализацией по умолчанию), которой вообще все равно, какой тип предоставляется.
 const logShapes = <T,>(shapes: T[], getArea: (shape: T) => number) => {
   shapes.forEach(shape => console.log(`Площадь: ${getArea(shape)}`))
 }
@@ -449,7 +451,7 @@ logShapes(
   [
     { type: "circle", radius: 5 },
     { type: "rectangle", width: 4, height: 6 },
-    { type: "triangle" }, // Ошибка: данный тип не поддерживается getArea.
+    { type: "triangle" }, // Ошибка компиляции: данный тип не поддерживается getArea.
   ],
   getArea
 )

@@ -420,7 +420,8 @@ type Rectangle = { type: "rectangle"; width: number; height: number }
 type Shape = Circle | Rectangle
 
 const getArea = (shape: Shape): number => {
-  // Make sure ESLint rule @typescript-eslint/switch-exhaustiveness-check, requiring exhaustive switch blocks, is enabled.
+  // Make sure the ESLint rule @typescript-eslint/switch-exhaustiveness-check, requiring exhaustive switch blocks, is enabled.
+  // This code is fully typed and checked by the compiler.
   switch (shape.type) {
     case "circle":
       return Math.PI * shape.radius * shape.radius
@@ -434,13 +435,14 @@ const logShapes = (shapes: Shape[]) => {
   shapes.forEach(shape => console.log(`Area: ${getArea(shape)}`))
 }
 
-// Use raw data without unnecessary conversions.
+// Using raw data without unnecessary transformations.
 logShapes([
   { type: "circle", radius: 5 },
   { type: "rectangle", width: 4, height: 6 },
 ])
 
-// In a library, it can be made more flexible using generics and a getArea argument (it can be optional, with a default implementation).
+// In a library, the function can be made more flexible by using generics and a getArea argument (which can be
+// optional with a default implementation), and it doesn't care what type is provided.
 const logShapes = <T,>(shapes: T[], getArea: (shape: T) => number) => {
   shapes.forEach(shape => console.log(`Area: ${getArea(shape)}`))
 }
@@ -449,7 +451,7 @@ logShapes(
   [
     { type: "circle", radius: 5 },
     { type: "rectangle", width: 4, height: 6 },
-    { type: "triangle" }, // Error: this type is not supported by getArea.
+    { type: "triangle" }, // Compilation error: this type is not supported by getArea.
   ],
   getArea
 )

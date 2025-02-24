@@ -504,7 +504,7 @@ const freezedArray = Object.freeze(["John"])
 freezedArray[0] = "Peter" // Compilation error. If executed, it will also fail at runtime.
 ```
 
-### Encapsulation
+#### Encapsulation
 
 As we can see, there are no problems with encapsulation in FP, and all scenarios are quite simply implemented without the need for additional symbols like access modifiers. However, it is worth noting that encapsulation is often not only unnecessary but can even be harmful — it increases the amount of code, complicates testing, and slows application performance.
 
@@ -514,13 +514,13 @@ As we can see, there are no problems with encapsulation in FP, and all scenarios
 
 With the main differences covered, let's take a look at some typical problems that often arise from using OOP:
 
-### Design Patterns
+#### Design Patterns
 
 In OOP, a large number of patterns with fancy names were invented, many books have been written about them, and they are frequently asked about in interviews. But, in reality, OOP design patterns are just workarounds that "heroically" solve one of the problems inherent in OOP (for example, the _Decorator_ pattern extends a class when inheritance is not available), and even then, only partially, as it is impossible to fully solve the architectural problems OOP introduces.
 
 In FP, knowing these two techniques — 1. add an argument to a function; 2. wrap a function in another — you already know all the main patterns.
 
-### Constructors
+#### Constructors
 
 In most OOP languages, you are constantly required to implement constructors with typical boilerplate code. In FP, this is a rare occurrence because data is separated from logic, and in most cases, creating an entity of any type is simply creating standard data structures like strings, arrays, or associative arrays:
 
@@ -576,7 +576,7 @@ const main = () => {
 
 Testability is not an issue here — any import in TypeScript can be easily replaced in tests without any problems.
 
-### Serialization and Copying
+#### Serialization and Copying
 
 Since in FP data is separated from logic and is primarily either primitive type or composed of primitives, it is usually serializable by default. It can also be shallowly or deeply copied without any extra code:
 
@@ -588,11 +588,11 @@ const user: User = {
   friendIds: ["2"]
 }
 
-// Shallow copy with update and added fields.
+// Shallow copy with updated and added fields.
 const updatedUser: User = {
   ...user,
   firstName: "Alex",
-  middleName: "Alexandrovich", // Adding an optional field.
+  middleName: "Alexandrovich", // Providing an optional field.
 }
 
 // Deep copy.
@@ -605,11 +605,9 @@ const userJson: string = JSON.stringify(user)
 const parsedUser: User = JSON.parse(user)
 ```
 
-### Serialization and Cloning
-
 In OOP languages, it is often necessary to implement serialization and cloning functions in each individual class, which affects both the development speed and the bug-proneness of the code.
 
-### Working with Arrays
+#### Working with Arrays
 
 A class contains both data and methods to manipulate it. Following this logic, developers often write methods for working with, for example, `User` inside the `User` class, which may seem logical. But what if, in the future, we need to work with multiple users?
 
@@ -639,13 +637,17 @@ const updateUsers = (data: User | User[]) => {
 }
 ```
 
-### Multiple Models
+#### Multiple Models
 
 This problem can be observed in the section about polymorphism — OOP encourages creating a separate domain model, different from the one used for data transfer, such as from the backend. The data comes serialized in a specific format, while in OOP, everything must be contained within classes with methods.
 
 In FP, it is also possible to use a custom model, but in many cases, transforming data is either unnecessary or minimal because the data is "dumb" and serializable in both cases. The need for a separate domain model for the application rarely arises, and the backend model is often used directly up to the UI layer, ideally auto-generated.
 
 Someone might argue that this isn't flexible and that changes in the backend model would require rewriting the application code. But in reality, it would need to be rewritten in both cases, and with a separate model, technical debt starts to accumulate if not addressed immediately. What OOP developers do is essentially overengineering. Moreover, changing several fields in the application code is done through refactoring in an IDE in seconds, compared to writing thousands of lines of unnecessary code.
+
+#### Concurrency and Multithreading
+
+A huge advantage of the mathematical style of FP is the support for concurrency without additional effort and synchronization. In OOP, it's common to work in a mutable style, which leads to the need to write very complex and error-prone synchronization code for data access. In a [recent article](/en/articles/serial-queues), I even wrote that, to this day, most programmers, including creators of popular programming languages, still struggle with this.
 
 ### Conclusions
 
@@ -691,6 +693,8 @@ Which language would I like to highlight from the modern and popular ones, in wh
 - **Go** completely lacks classes, although it has interface methods that can be called using a dot. I believe the creators of the language wanted it to become as popular as possible, so they decided to leave this flaw to not scare off all the Java developers right away.
 - **TypeScript** — today, you can write large applications in it without using classes at all, and almost all the unnecessary stuff can be turned off via a linter. It is one of the most convenient languages for FP, including in terms of typing capabilities — one of the most flexible and strict, leaving Java, C#, and others a decade behind.
 - Of course, **C** — the father of all C-like languages, free from the flaws of its maimed OOP descendant, is still relevant today.
+
+---
 
 ### Conclusion
 

@@ -42,3 +42,5 @@ next-env.d.ts
 
 # my
 /public/articles
+/public/atom.xml
+/public/rss.xml

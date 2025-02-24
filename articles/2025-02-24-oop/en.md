@@ -649,7 +649,7 @@ Someone might argue that this isn't flexible and that changes in the backend mod
 
 #### Concurrency and Multithreading
 
-A huge advantage of the mathematical style of FP is the support for concurrency without additional effort and synchronization. In OOP, it's common to work in a mutable style, which leads to the need to write very complex and error-prone synchronization code for data access. In a [recent article](/en/articles/serial-queues), I even wrote that, to this day, most programmers, including creators of popular programming languages, still struggle with this.
+A huge advantage of the _math-functional_ style of FP is the support for concurrency without additional effort and synchronization. In OOP, it's common to work in a mutable style, which leads to the need to write very complex and error-prone synchronization code for data access. In a [recent article](/en/articles/serial-queues), I even wrote that, to this day, most programmers, including creators of popular programming languages, still struggle with this.
 
 ### Conclusions
 

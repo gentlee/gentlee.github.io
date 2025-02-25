@@ -85,15 +85,11 @@ But that was just the beginning — next could have followed questions about the
 
 At the time, though, I took it all with the mindset of "maybe it’s needed for some reason," and I didn’t have the competence to stop studying C# just yet. After failing the interview, I began delving deeper into the OOP jungle, gradually getting closer to the thought that "no, not needed."
 
-By the way, here's the equivalent of the previous code in FP with TypeScript:
-
-```typescript
-console.log("Main")
-```
+---
 
 To understand how good of an idea OOP really is, it's enough to analyze all the points that differentiate it from FP and compare their pros and cons. But in the end, the main difference is one — classes. So, let’s start the analysis with the features of classes.
 
-The following OOP examples will be written in either C# or TypeScript. The FP example will be in TypeScript.
+The following OOP examples will be written in either C# or TypeScript, while the FP examples will be in TypeScript. All statements refer to the classical approach, not various imitations of FP in OOP and vice versa.
 
 #### Methods
 
@@ -141,9 +137,9 @@ const getDisplayName = (firstName: string, lastName?: string, middleName?: strin
 How do the method and function `getDisplayName` differ?
 
 **First**, the method is tightly coupled with the type of its hidden argument — `this`, which is `User`. It depends not on the interface, but on the specific class. This leads to several problems:
+- **Reuse with other types**: The method requires not only the data it needs to work with, but also everything else that's part of the `User` class, even if they are not necessary — that is, all fields and methods of the class, including private ones. This means that anyone reusing the method must also include all of these unnecessary data and methods, and the only available way to do that is inheritance, which is a huge drawback itself (more on this later). Without inheritance, reusing the method in another type is not possible.
 - **The necessity of using classes**: You can't use the method without creating an instance of the class via `new`, for example, by creating a dictionary with the same fields.
-- **Reuse with other types**: The method requires not just the data it needs to work with, but also everything else that's part of the `User` class — all the fields and methods. To use this method with a type other than `User`, the only way is inheritance, which is a huge drawback (more on this later). Without inheritance, you can't reuse the method.
-- **Inability to handle situations where user is `null` or `undefined`**.
+- **Inability to handle situations where user is `null` or `undefined`** from withing the method.
 
 In JS/TS, you could of course hack this through `call`/`apply`, but these are hacks specific to the language, go against KISS, and are themselves a sign of bad code.
 
@@ -522,7 +518,7 @@ With the main differences covered, let's take a look at some typical problems th
 
 In OOP, a large number of patterns with fancy names were invented, many books have been written about them, and they are frequently asked about in interviews. But, in reality, OOP design patterns are just workarounds that "heroically" solve one of the problems inherent in OOP (for example, the _Decorator_ pattern extends a class when inheritance is not available), and even then, only partially, as it is impossible to fully solve the architectural problems OOP introduces.
 
-In FP, knowing these two techniques — 1. add an argument to a function; 2. wrap a function in another — you already know all the main patterns.
+In functional programming, knowing these techniques — 1. adding an argument to a function; 2. using closures; 3. wrapping a function in another — you already know all the main patterns.
 
 #### Constructors
 
@@ -606,7 +602,7 @@ const clonedUser: User = structuredClone(user)
 const userJson: string = JSON.stringify(user)
 
 // Deserialization from JSON.
-const parsedUser: User = JSON.parse(user)
+const parsedUser: User = JSON.parse(userJson)
 ```
 
 In OOP languages, it is often necessary to implement serialization and cloning functions in each individual class, which affects both the development speed and the bug-proneness of the code.
@@ -662,7 +658,7 @@ As we can see, OOP not only fails to solve any problem better than FP, but it al
 - Many programming giants, like Linus Torvalds, quickly came to a similar conclusion, and the latter banned the use of C++ in the Linux kernel.
 - Even the creator of Java later admitted that adding classes was a mistake.
 
-However, there were those who gained incredible popularity by describing the principles and patterns of OOP. One of the most famous programmers, who is also an exceptionally poor coder, is Robert Martin with his SOLID principles and the book *Clean Code*. [In this article](https://habr.com/ru/articles/875426/), you can evaluate how bad "clean" code by this "guru" of Java looks compared to a simple function in TypeScript and draw clear conclusions.
+However, there were those who gained incredible popularity by describing the principles and patterns of OOP. One of the most famous programmers, who is also an exceptionally poor coder, is Robert Martin with his SOLID OOP principles and the book *Clean Code*. [In this article](https://habr.com/ru/articles/875426/), you can evaluate how bad "clean" code by this "guru" of Java looks compared to a simple function in TypeScript and draw clear conclusions.
 
 ### Why Is It So Popular?
 
@@ -704,7 +700,7 @@ Which language would I like to highlight from the modern and popular ones, in wh
 
 I am absolutely sure that a person writing commercial code in a purely OOP language for more than 3-4 years, who hasn't noticed many of its problems and hasn't started thinking about transitioning or switching to FP — cannot be considered a skilled engineer. A true engineer always thinks about the simplest solutions, notices flaws and complexities, and cannot miss such a log in the eye.
 
-Development environments, unfortunately, even today, in 2025, are heavily tuned for OOP and do not encourage FP, and for several decades have been provoking the worst programming practices. The culprits are companies like Microsoft and JvmBrains — some of the creators of those very maimed OOP languages and development environments. Also, these companies, along with Apple and Google, continue to create OOP languages like Swift, Dart, Kotlin. And it's not only that modern programming is far from being a science — the creation of modern languages is done by people who are far from it, so the situation won't improve anytime soon.
+Development environments, unfortunately, even today, in 2025, are heavily tuned for OOP and do not encourage FP, and for several decades have been provoking the worst programming practices. The culprits are companies like Microsoft and JvmBrains — some of the creators of those very maimed OOP languages and development environments. Also, these companies, along with Apple and Google, continue to create OOP languages like Swift, Dart, Kotlin, so it's not only that modern programming is far from being a science — the creation of modern languages is done by people who are far from it. That is why the situation won't improve anytime soon.
 
 But there is progress, and even OOP languages are gradually incorporating functional practices, and there are already languages that are almost free from the listed problems.
 

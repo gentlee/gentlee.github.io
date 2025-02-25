@@ -514,11 +514,19 @@ As we can see, there are no problems with encapsulation in FP, and all scenarios
 
 With the main differences covered, let's take a look at some typical problems that often arise from using OOP:
 
+#### Language Syntax
+
+OOP languages are heavily overloaded with various syntax constructs that emerged as attempts by language developers to address inherent OOP problems. These attempts only provide partial solutions since it is impossible to fully resolve architecturally embedded issues. Classes, abstract classes, static classes and methods, constructors, inheritance, interfaces, various method overloading, annotations/attributes, access modifiers, getters/setters, default method implementations in interfaces, and much more — OOP languages have a steep learning curve. 
+
+At the same time, all these complexities bring no real benefit, and a significant portion of development time is spent not on solving business problems but on struggling with the language and its constraints.
+
+The syntax of functional programming (FP) languages is much simpler (especially if it's not in a radically mathematical style), with almost all of the aforementioned complexities absent.
+
 #### Design Patterns
 
-In OOP, a large number of patterns with fancy names were invented, many books have been written about them, and they are frequently asked about in interviews. But, in reality, OOP design patterns are just workarounds that "heroically" solve one of the problems inherent in OOP (for example, the _Decorator_ pattern extends a class when inheritance is not available), and even then, only partially, as it is impossible to fully solve the architectural problems OOP introduces.
+The same applies to the vast number of design patterns with fancy names—many books have been written about them, and they are commonly asked about in job interviews. But in reality, OOP design patterns are just workarounds that "heroically" provide partial solutions to inherent OOP problems (for example, the _Decorator_ pattern extends a class when inheritance is unavailable).
 
-In functional programming, knowing these techniques — 1. adding an argument to a function; 2. using closures; 3. wrapping a function in another — you already know all the main patterns.
+In FP, knowing just these three techniques—1. adding an argument to a function; 2. using closures; 3. wrapping a function inside another—you already understand all the core patterns.
 
 #### Constructors
 

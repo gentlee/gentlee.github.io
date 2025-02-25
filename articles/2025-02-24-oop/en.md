@@ -30,10 +30,13 @@ Unfortunately, programming is quite far from being a science (just like me), so 
 
 #### Common Objections
 
-1. OOP was originally designed as <something else>.
-    - I don't see any point in discussing someone's long-forgotten fantasies; I base my argument on where we've ended up.
-2. Functional and procedural programming are different things.
-    - I often see FP being used when people actually mean PP, and I rarely encounter PP itself. The concept of a procedure is almost never used anymore, whereas the function is constantly used, likely due to keywords in popular languages like `function` or `func`. At the same time, I frequently encounter the term "functional style," so I decided to separate the concepts of paradigms and programming styles. I also try to avoid unnecessary concepts in this article, such as imperative and declarative styles.
+1\. OOP was originally designed as <something else>.
+
+I don't see any point in discussing someone's long-forgotten fantasies; I base my argument on where we've ended up.
+
+2\. Functional and procedural programming are different things.
+
+I often see FP being used when people actually mean PP, and I rarely encounter PP itself. The concept of a procedure is almost never used anymore, whereas the function is constantly used, likely due to keywords in popular languages like `function` or `func`. At the same time, I frequently encounter the term "functional style," so I decided to separate the concepts of paradigms and programming styles. I also try to avoid unnecessary concepts in this article, such as imperative and declarative styles.
 
 ### Drawbacks
 
@@ -93,15 +96,14 @@ The following OOP examples will be written in either C# or TypeScript, while the
 
 #### Methods
 
-A simple example:
+The discussion will focus on instance methods, as static methods are essentially an imitation of FP. A simple example:
 
 ```typescript
-// Class
 class User {
   firstName: string
   lastName?: string
   middleName?: string
-  ... // other fields not needed for getDisplayName
+  ... // Other fields not needed for getDisplayName.
 
   constructor(firstName: string, lastName?: string, middleName?: string) {
     this.firstName = firstName
@@ -109,17 +111,17 @@ class User {
     this.middleName = middleName
   }
 
-  // Method
+  // Method.
   getDisplayName() {
     return [this.firstName, this.middleName, this.lastName]
       .filter(Boolean)
       .join(" ")
   }
   
-  ... // other methods not needed for getDisplayName
+  ... // Other methods not needed for getDisplayName.
 }
 
-// Function
+// Function.
 const getDisplayName = (user: {firstName: string, lastName?: string, middleName?: string} | null | undefined) => {
   if (!user) return undefined
 
@@ -128,7 +130,7 @@ const getDisplayName = (user: {firstName: string, lastName?: string, middleName?
     .join(" ")
 }
 
-// Even more flexible, but may be less convenient
+// Even more flexible, but may be less convenient.
 const getDisplayName = (firstName: string, lastName?: string, middleName?: string) => {
   ...
 }
@@ -137,8 +139,8 @@ const getDisplayName = (firstName: string, lastName?: string, middleName?: strin
 How do the method and function `getDisplayName` differ?
 
 **First**, the method is tightly coupled with the type of its hidden argument — `this`, which is `User`. It depends not on the interface, but on the specific class. This leads to several problems:
-- **Reuse with other types**: The method requires not only the data it needs to work with, but also everything else that's part of the `User` class, even if they are not necessary — that is, all fields and methods of the class, including private ones. This means that anyone reusing the method must also include all of these unnecessary data and methods, and the only available way to do that is inheritance, which is a huge drawback itself (more on this later). Without inheritance, reusing the method in another type is not possible.
-- **The necessity of using classes**: You can't use the method without creating an instance of the class via `new`, for example, by creating a dictionary with the same fields.
+- **Reusability with other types**: The method requires not only the data and methods it actually needs to function but also those it doesn't need, simply because they exist in the `User` class — including all fields and methods of this class, even private ones. This means that anyone reusing the method must also include them, whether through inheritance (which is a major drawback — more on that later) or delegation. As a result, reusing the method with a different type while providing only the data and methods it actually uses is impossible.
+- **Dependence on classes**: The method cannot be used without creating an instance of this class or its descendant. For example, it cannot be used for a dictionary with the same fields.
 - **Inability to handle situations where user is `null` or `undefined`** from withing the method.
 
 In JS/TS, you could of course hack this through `call`/`apply`, but these are hacks specific to the language, go against KISS, and are themselves a sign of bad code.
@@ -146,10 +148,17 @@ In JS/TS, you could of course hack this through `call`/`apply`, but these are ha
 ```typescript
 // OOP
 
-let user: User | null
-user.getDisplayName() // Error: null reference
+class Dog extends Animal {
+  firstName: string
+  lastName?: string
+  
+  // How to reuse getDisplayName from User class?
+}
 
 ({firstName: "Alexander"}).getDisplayName() // Error: object has no such method
+
+let user: User | null
+user.getDisplayName() // Error: null reference
 
 // FP
 
@@ -168,7 +177,7 @@ getDisplayName(undefined) // undefined
 
 Clearly, there are strong limitations when it comes to reuse, and it provokes bugs and worse programming practices.
 
-In FP, the function's argument type is an interface containing only the necessary fields.
+In FP, function signatures are minimalist, containing only the necessary fields, and argument types essentially act as interfaces without requiring their explicit implementation.
 
 **The second** difference — method overriding. In some languages, there are several ways to override a method in a derived class, and in general, to forbid overriding. The person who came up with this obviously thought that there weren't enough ways to shoot oneself in the foot in OOP. Here's an example in C#:
 
@@ -234,16 +243,16 @@ class User {
   hasFriend(id: string) { … }
 }
 
-// Bad: inheritance
-// Npc shouldn't have address, friends, and hasFriend
+// Bad: inheritance.
+// Npc shouldn't have address, friends, and hasFriend.
 
 class Npc extends User {
   constructor(name: string, surname: string) {
-    super(name, surname, "", []) // We are forced to provide fields we don't need
+    super(name, surname, "", []) // We are forced to provide fields we don't need.
   }
 }
 
-// Bad: modifying the original code and breaking it into smaller classes
+// Bad: modifying the original code and breaking it into smaller classes.
 
 class Nameable {
   name: string
@@ -259,7 +268,8 @@ class Friendable {
 
 // How to construct User without multiple inheritance? Delegation?
 // Which class to inherit from and which to embed (delegate)? Or should we avoid inheritance altogether and embed both?
-// Does anyone like this code? (rhetorical question)
+// What if these classes have some inaccessible private fields?
+// Does anyone like this code? (rhetorical question).
 class User {
   nameable: Nameable
   friendable: Friendable
@@ -295,8 +305,11 @@ type Npc = Pick<User, "id" | "name" | "surname">
 // We specify only what’s needed in the function, not even BaseUser, but only friendIds.
 const hasFriend = (friendIds: string[], friendId: string) => { … }
 
-hasFriend(user.friendIds, "123") // OK: user has the User type, which includes friendIds.
-hasFriend(npc.friendIds, "123") // Error: npc has the Npc type, which does not have friendIds.
+// Or require type with friendIds field.
+const hasFriend = (target: { friendIds: string[] }, friendId: string) => { … }
+
+hasFriend(user, "123") // OK
+hasFriend(npc, "123") // Compilation error: npc is of Npc type, which does not have friendIds.
 ```
 
 As we can see, the most correct option is to use not inheritance, and not even delegation, but composition of types (in TypeScript - union type, `Pick`, `Omit`, etc.). And if the structure contains all the fields necessary for calling a function, then there are no restrictions on calling that function.
@@ -516,17 +529,15 @@ With the main differences covered, let's take a look at some typical problems th
 
 #### Language Syntax
 
-OOP languages are heavily overloaded with various syntax constructs that emerged as attempts by language developers to address inherent OOP problems. These attempts only provide partial solutions since it is impossible to fully resolve architecturally embedded issues. Classes, abstract classes, static classes and methods, constructors, inheritance, interfaces, various method overloading, annotations/attributes, access modifiers, getters/setters, default method implementations in interfaces, and much more — OOP languages have a steep learning curve. 
+OOP languages are excessively complicated with redundant syntax that emerged as an attempt by language developers to address inherent OOP issues. Only partially, though, since it's impossible to fully resolve architectural flaws. Classes, abstract classes, static classes and methods, constructors, inheritance, interfaces, method overloading, getters/setters, default method implementations in interfaces, access modifiers, annotations/attributes, and much more — all of this makes the learning curve of OOP languages significantly steeper. Moreover, many of these features overlap, forcing developers to spend even more time choosing the least bad option. As a result, a substantial part of development is spent not on solving business problems but on battling the language and its limitations.
 
-At the same time, all these complexities bring no real benefit, and a significant portion of development time is spent not on solving business problems but on struggling with the language and its constraints.
-
-The syntax of functional programming (FP) languages is much simpler (especially if it's not in a radically mathematical style), with almost all of the aforementioned complexities absent.
+FP languages, in contrast, have a much simpler syntax (especially if they are not radically mathematical in style), omitting almost all of the aforementioned complexities.
 
 #### Design Patterns
 
-The same applies to the vast number of design patterns with fancy names—many books have been written about them, and they are commonly asked about in job interviews. But in reality, OOP design patterns are just workarounds that "heroically" provide partial solutions to inherent OOP problems (for example, the _Decorator_ pattern extends a class when inheritance is unavailable).
+The same can be said about the vast number of design patterns with fancy names. Many books have been written about them, and they are frequently asked about in interviews. But in reality, OOP design patterns are just workarounds that "heroically" attempt to partially fix one of OOP’s inherent issues. For example, the Decorator pattern extends a class when inheritance is not an option.
 
-In FP, knowing just these three techniques—1. adding an argument to a function; 2. using closures; 3. wrapping a function inside another—you already understand all the core patterns.
+In FP, once you understand these three techniques — 1. adding a function argument; 2. using a closure; 3. wrapping a function in another — you already know all the core patterns.
 
 #### Constructors
 

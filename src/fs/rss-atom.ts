@@ -45,13 +45,13 @@ const generateRssAtom = async () => {
   await Promise.all(
     (['rss', 'atom'] as const).map(async (type) => {
       const rssPath = path.join(__dirname, '..', '..', 'public', type + '.xml')
-      const oldData = await fs.readFile(rssPath, {encoding: 'utf-8'})
+      const oldData = await fs.readFile(rssPath, {encoding: 'utf-8'}).catch(() => null)
       const newData = type === 'rss' ? feed.rss2() : feed.atom1()
       const removeDateRegx =
         type === 'rss' ? /\<lastBuildDate\>[^\<]*\<\/lastBuildDate\>/ : /\<updated\>[^\<]*\<\/updated\>/
 
       // Skip if previous file is the same.
-      if (oldData.replace(removeDateRegx, '') === newData.replace(removeDateRegx, '')) {
+      if (oldData && oldData.replace(removeDateRegx, '') === newData.replace(removeDateRegx, '')) {
         console.log(`Writing ${type.toUpperCase()} skipped - data is equal.`)
         return
       }

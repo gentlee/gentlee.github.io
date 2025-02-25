@@ -30,13 +30,13 @@ Unfortunately, programming is quite far from being a science (just like me), so 
 
 #### Common Objections
 
-1\. OOP was originally designed as <something else>.
+1. OOP was originally designed as \<something else\>.
 
-I don't see any point in discussing someone's long-forgotten fantasies; I base my argument on where we've ended up.
+    I don't see any point in discussing someone's long-forgotten fantasies; I base my argument on where we've ended up.
 
-2\. Functional and procedural programming are different things.
+2. Functional and procedural programming are different things.
 
-I often see FP being used when people actually mean PP, and I rarely encounter PP itself. The concept of a procedure is almost never used anymore, whereas the function is constantly used, likely due to keywords in popular languages like `function` or `func`. At the same time, I frequently encounter the term "functional style," so I decided to separate the concepts of paradigms and programming styles. I also try to avoid unnecessary concepts in this article, such as imperative and declarative styles.
+    I often see FP being used when people actually mean PP, and I rarely encounter PP itself. The concept of a procedure is almost never used anymore, whereas the function is constantly used, likely due to keywords in popular languages like `function` or `func`. At the same time, I frequently encounter the term "functional style," so I decided to separate the concepts of paradigms and programming styles. I also try to avoid unnecessary concepts in this article, such as imperative and declarative styles.
 
 ### Drawbacks
 

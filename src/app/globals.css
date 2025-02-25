@@ -102,6 +102,11 @@ li ul {
   margin-top: var(--s-gap);
 }
 
+/* All starting from second. */
+li p:nth-child(n + 2) {
+  margin-top: var(--s-gap);
+}
+
 p:has(> img) {
   margin-right: var(--s-shadow); /* Fix not working margin of img. */
 }

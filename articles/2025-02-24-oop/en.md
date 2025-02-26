@@ -466,6 +466,10 @@ logShapes(
   ],
   getArea
 )
+
+// Example from Inheritance section is also polymorphism.
+// Here we handle any type with friendIds: string[].
+const hasFriend = (target: { friendIds: string[] }, friendId: string) => { … }
 ```
 
 **Conclusion:** As we can see, polymorphism in FP is perfectly implemented without classes and all their drawbacks, and the code is simpler and more concise, even in traditional OOP examples. In real projects, when it's much more complex, and as the codebase grows, the difference only becomes more pronounced.

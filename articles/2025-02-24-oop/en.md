@@ -486,7 +486,7 @@ const capitalize = () => …
 // Storing private data using closures.
 
 const makeAccount = () => {
-  const balance = 0
+  let balance = 0
   return {
     deposit: (amount: number) => {
       if (amount < 0) { throw … }

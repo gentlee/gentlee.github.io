@@ -175,9 +175,9 @@ getDisplayName(dog) // Charlie
 getDisplayName(undefined) // undefined
 ```
 
-Clearly, there are strong limitations when it comes to reuse, and it provokes bugs and worse programming practices.
+Clearly, there are **strong limitations when it comes to reuse**, and it provokes bugs and worse programming practices.
 
-In FP, function signatures are minimalist, containing only the necessary fields, and argument types essentially act as interfaces without requiring their explicit implementation.
+In FP, function signatures are minimalist, **containing only the necessary arguments**, and their types essentially act as interfaces without requiring explicit implementation.
 
 **The second** difference — method overriding. In some languages, there are several ways to override a method in a derived class, and in general, to forbid overriding. The person who came up with this obviously thought that there weren't enough ways to shoot oneself in the foot in OOP. Here's an example in C#:
 
@@ -503,6 +503,7 @@ type PrivateState = … // Private type.
 
 const reducer = (state: State) => {
   const privateState = state as PrivateState // PrivateState type contains private fields.
+  
   // Working with state using private fields.
 }
 

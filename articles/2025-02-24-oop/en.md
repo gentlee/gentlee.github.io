@@ -214,7 +214,7 @@ Everything is as simple as it can be.
 
 ##### Conclusion:
 
-It turns out that methods lose to functions in every way, except for one small thing related exclusively to development environments and the notation of their calls (we’ll discuss this at the very end), and they also provoke worse programming practices, adding more opportunities to "shoot yourself in the foot" for no good reason. So, methods are garbage. Let’s move on.
+It turns out that methods lose to functions in every way, except for one small thing related exclusively to development environments and the notation of their calls (we’ll discuss this at the very end), have strong limitations when it comes to reuse in other types, and they also provoke worse programming practices, adding more opportunities to "shoot yourself in the foot" for no good reason. So, methods are garbage. Let’s move on.
 
 #### Inheritance
 

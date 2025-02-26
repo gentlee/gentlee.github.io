@@ -676,7 +676,7 @@ As we can see, OOP not only fails to solve any problem better than FP, but it al
 ##### Did anyone notice these drawbacks in early years of OOP language development?
 
 - Many programming giants, like Linus Torvalds, quickly came to a similar conclusion, and the latter banned the use of C++ in the Linux kernel.
-- Even the creator of Java later admitted that adding classes was a mistake.
+- Even the creator of Java later admitted that adding classes was a mistake: “If you could do Java over again, what would you change?” “I’d leave out classes,” he replied. Later though softened to wording that the real problem was implementation inheritance.
 
 However, there were those who gained incredible popularity by describing the principles and patterns of OOP. One of the most famous programmers, who is also an exceptionally poor coder, is Robert Martin with his SOLID OOP principles and the book *Clean Code*. [In this article](https://habr.com/ru/articles/875426/), you can evaluate how bad "clean" code by this "guru" of Java looks compared to a simple function in TypeScript and draw clear conclusions.
 

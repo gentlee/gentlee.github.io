@@ -529,13 +529,13 @@ With the main differences covered, let's take a look at some typical problems th
 
 #### Language Syntax
 
-OOP languages are excessively complicated with redundant syntax that emerged as an attempt by language developers to address inherent OOP issues. Only partially, though, since it's impossible to fully resolve architectural flaws. Classes, abstract classes, static classes and methods, constructors, inheritance, interfaces, method overloading, getters/setters, default method implementations in interfaces, access modifiers, annotations/attributes, and much more — all of this makes the learning curve of OOP languages significantly steeper. Moreover, many of these features overlap, forcing developers to spend even more time choosing the least bad option. As a result, a substantial part of development is spent not on solving business problems but on battling the language and its limitations.
+OOP languages are excessively complicated with redundant syntax that emerged as an attempt by language developers to address inherent OOP issues. Only partially, though, since it's impossible to fully resolve architectural flaws. Classes, abstract classes, static classes and methods, constructors, inheritance, interfaces, various method overloading, getters/setters, default method implementations in interfaces, access modifiers, annotations/attributes, and much more — all of this makes the learning curve of OOP languages significantly steeper. Moreover, many of these features overlap, forcing developers to spend even more time choosing the least bad option. As a result, a substantial part of development is spent not on solving business problems but on battling the language and its limitations.
 
-FP languages, in contrast, have a much simpler syntax (especially if they are not radically mathematical in style), omitting almost all of the aforementioned complexities.
+FP languages, in contrast, have a much simpler syntax (especially if they are not in radically mathematical style), omitting almost all of the aforementioned complexities.
 
 #### Design Patterns
 
-The same can be said about the vast number of design patterns with fancy names. Many books have been written about them, and they are frequently asked about in interviews. But in reality, OOP design patterns are just workarounds that "heroically" attempt to partially fix one of OOP’s inherent issues. For example, the Decorator pattern extends a class when inheritance is not an option.
+The same can be said about the vast number of design patterns with fancy names. Many books have been written about them, and they are frequently asked about in interviews. But in reality, OOP design patterns are just workarounds that "heroically" attempt to partially fix one of OOP’s inherent issues. For example, the _Decorator_ pattern extends a class when inheritance is not an option.
 
 In FP, once you understand these three techniques — 1. adding a function argument; 2. using a closure; 3. wrapping a function in another — you already know all the core patterns.
 

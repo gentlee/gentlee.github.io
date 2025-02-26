@@ -13,7 +13,7 @@ const RedirectToArticles = () => {
 
 export const generateMetadata = () => {
   return {
-    title: s('en', 'redirecting'),
+    title: s('en', 'home-title'),
   }
 }
 

@@ -18,15 +18,15 @@ Unfortunately, programming is quite far from being a science (just like me), so 
 
 - **[Data] structure** — pure data that does not contain any processing logic (functions).
 - **Function** — a block of code that performs a specific logic. It can return a value.
-- **Procedure** — a block of code that performs a specific logic but does not return a value. I suggest we consider this concept a subset of a function and remove it from common usage, while adding the definition of procedural style.
+- **Procedure** — a block of code that performs a specific logic but does not return a value. I suggest we consider this concept a subset of a function and remove it from common usage.
 - **Object** — an entity that contains both data and functions to process them — methods. An object can be imitated in FP by placing data and functions in the same structure. In classical OOP, this is always an instance of a class.
 - **Class** — a blueprint for creating objects, defining their data and methods. The foundation of OOP.
 - **Method** — a function that is part of a class. Instance methods (non-static) have an implicit reference to the object itself (`this`, `self`), with all its data and methods, which is essentially a forced hidden first argument.
-- **Functional programming (FP)** — programming using structures and functions. Do not confuse with functional style.
+- **Functional programming (FP)** — programming using structures and functions. Do not confuse with functional (math) style.
 - **Object-oriented programming (OOP)** — programming using classes, objects, and all their features — inheritance, encapsulation, polymorphism, etc. If desired, one can mimic structures using classes [almost] without methods and functions with static methods in static classes.
 - **Mutable style** — a programming style where data is typically changed in place rather than copied. This can be used in both FP and OOP, but it is characteristic of OOP.
 - **Immutable style** — a programming style where data is typically NOT changed in place but new copies are created. This can be used in both FP and OOP, but it is not characteristic of OOP.
-- **Math-functional (often - just functional) style** — a style of FP that features immutable style and pure functions — functions that always return the same result for the same arguments (in simple terms — they do not use external state), which is typical for mathematical functions (do not confuse with functions in programming).
+- **Math (math-functional, often - just functional) style** — a style of FP that features immutable style and pure functions — functions that always return the same result for the same arguments (in simple terms — they do not use external state), which is typical for mathematical functions (do not confuse with functions in programming).
 
 #### Common Objections
 
@@ -423,7 +423,7 @@ class Program
 }
 ```
 
-In FP, parametric (true) polymorphism is used:
+In FP, parametric (true) polymorphism is used. In the next example union type, generics and interface are used for that:
 
 ```typescript
 type Circle = { type: "circle"; radius: number }
@@ -467,8 +467,8 @@ logShapes(
   getArea
 )
 
-// Example from Inheritance section is also polymorphism.
-// Here we handle any type with friendIds: string[].
+// Example from Inheritance section is also polymorphism using interface.
+// Here we handle any type which has friendIds: string[].
 const hasFriend = (target: { friendIds: string[] }, friendId: string) => { … }
 ```
 
@@ -598,9 +598,9 @@ const main = () => {
 
 Testability is not an issue here — any import in TypeScript can be easily replaced in tests without any problems.
 
-#### Serialization and Copying
+#### Serialization, Copying, Comparing
 
-Since in FP data is separated from logic and is primarily either primitive type or composed of primitives, it is usually serializable by default. It can also be shallowly or deeply copied without any extra code:
+Since in FP data is separated from logic and is primarily either primitive type or composed of primitives, it is usually serializable by default. It can also be shallowly or deeply copied and compared without any extra code:
 
 ```typescript
 const user: User = {
@@ -625,9 +625,15 @@ const userJson: string = JSON.stringify(user)
 
 // Deserialization from JSON.
 const parsedUser: User = JSON.parse(userJson)
+
+// Shallow comparison (function from 3rd-party library).
+const areShallowEqual = shallowEqual(x, y)
+
+// Deep comparison (function from 3rd-party library).
+const areDeepEqual = deepEqual(x, y)
 ```
 
-In OOP languages, it is often necessary to implement serialization and cloning functions in each individual class, which affects both the development speed and the bug-proneness of the code.
+In OOP languages, it is often necessary to implement serialization, copying and comparing functions in each individual class, which affects both the development speed and the bug-proneness of the code.
 
 #### Working with Arrays
 

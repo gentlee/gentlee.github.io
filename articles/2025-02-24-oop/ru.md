@@ -502,14 +502,12 @@ const makeAccount = () => {
 
 // Cкрываем поля с помощью приватного типа.
 
-export type State = … // Публичный тип, экспортируется.
-type PrivateState = … // Приватный тип.
-
-const reducer = (state: State) => {
-  const privateState = state as PrivateState // Тип PrivateState содержит приватные поля.
-  
-  // Работаем с состоянием используя приватные поля.
+const privateReducer = (state: PrivateState): PrivateState => {
+  // Внутри функции работаем с состоянием используя приватные поля.
 }
+
+// Экспортируем функцию с публичным типом.
+export const reducer = privateReducer as (state: State) => State
 
 // Делаем поля только для чтения с помощью приведения к типу для проверки во время компиляции.
 

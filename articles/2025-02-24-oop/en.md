@@ -502,14 +502,12 @@ const makeAccount = () => {
 
 // Hiding fields using a private type.
 
-export type State = … // Public type, exported.
-type PrivateState = … // Private type.
-
-const reducer = (state: State) => {
-  const privateState = state as PrivateState // PrivateState type contains private fields.
-  
-  // Working with state using private fields.
+const privateReducer = (state: PrivateState): PrivateState => {
+  // Inside the function we work with state using private fields.
 }
+ 
+// Export function with public type.
+export const reducer = privateReducer as (state: State) => State
 
 // Making fields read-only by casting to a type, ensuring compile-time checks.
 

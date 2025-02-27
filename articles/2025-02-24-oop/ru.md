@@ -625,7 +625,7 @@ const parsedUser: User = JSON.parse(userJson)
 // Поверхностное сравнение (функция из сторонней библиотеки).
 const areShallowEqual = shallowEqual(x, y)
 
-// Глубокое сравненние (функция из сторонней библиотеки).
+// Глубокое сравнение (функция из сторонней библиотеки).
 const areDeepEqual = deepEqual(x, y)
 ```
 

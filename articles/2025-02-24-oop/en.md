@@ -18,7 +18,6 @@ Unfortunately, programming is quite far from being a science (just like me), so 
 
 - **[Data] structure** — pure data that does not contain any processing logic (functions).
 - **Function** — a block of code that performs a specific logic. It can return a value.
-- **Procedure** — a block of code that performs a specific logic but does not return a value. I suggest we consider this concept a subset of a function and remove it from common usage.
 - **Object** — an entity that contains both data and functions to process them — methods. An object can be imitated in FP by placing data and functions in the same structure. In classical OOP, this is always an instance of a class.
 - **Class** — a blueprint for creating objects, defining their data and methods. The foundation of OOP.
 - **Method** — a function that is part of a class. Instance methods (non-static) have an implicit reference to the object itself (`this`, `self`), with all its data and methods, which is essentially a forced hidden first argument.
@@ -26,6 +25,7 @@ Unfortunately, programming is quite far from being a science (just like me), so 
 - **Object-oriented programming (OOP)** — programming using classes, objects, and all their features — inheritance, encapsulation, polymorphism, etc. If desired, one can mimic structures using classes [almost] without methods and functions with static methods in static classes.
 - **Mutable style** — a programming style where data is typically changed in place rather than copied. This can be used in both FP and OOP, but it is characteristic of OOP.
 - **Immutable style** — a programming style where data is typically NOT changed in place but new copies are created. This can be used in both FP and OOP, but it is not characteristic of OOP.
+- **Procedural style** — a style of FP in which functions, created statically (at compile time), operate on state in a mutable manner.
 - **Math (math-functional, often - just functional) style** — a style of FP that features immutable style and pure functions — functions that always return the same result for the same arguments (in simple terms — they do not use external state), which is typical for mathematical functions (do not confuse with functions in programming).
 
 #### Common Objections

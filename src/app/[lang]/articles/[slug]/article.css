@@ -50,6 +50,11 @@ article ul ul {
   list-style-type: circle;
 }
 
+/* All starting from second. */
+article li p:nth-child(n + 2) {
+  margin-top: var(--s-gap);
+}
+
 article img {
   /* .small-shadow */
   border-width: var(--border-width);

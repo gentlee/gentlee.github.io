@@ -25,7 +25,7 @@ Unfortunately, programming is quite far from being a science (just like me), so 
 - **Object-oriented programming (OOP)** — programming using classes, objects, and all their features — inheritance, encapsulation, polymorphism, etc. If desired, one can mimic structures using classes [almost] without methods and functions with static methods in static classes.
 - **Mutable style** — a programming style where data is typically changed in place rather than copied. This can be used in both FP and OOP, but it is characteristic of OOP.
 - **Immutable style** — a programming style where data is typically NOT changed in place but new copies are created. This can be used in both FP and OOP, but it is not characteristic of OOP.
-- **Procedural style** — a style of FP in which functions, created statically (at compile time), operate on state in a mutable manner.
+- **Procedural style** — a style of FP in which functions operate only on their arguments (without closures) in a mutable style, without returning values.
 - **Math (math-functional, often - just functional) style** — a style of FP that features immutable style and pure functions — functions that always return the same result for the same arguments (in simple terms — they do not use external state), which is typical for mathematical functions (do not confuse with functions in programming).
 
 #### Common Objections
@@ -630,7 +630,7 @@ const parsedUser: User = JSON.parse(userJson)
 const areShallowEqual = shallowEqual(x, y)
 
 // Deep comparison (function from 3rd-party library).
-const areDeepEqual = deepEqual(x, y)
+const areDeeplyEqual = deepEqual(x, y)
 ```
 
 In OOP languages, it is often necessary to implement serialization, copying and comparing functions in each individual class, which affects both the development speed and the bug-proneness of the code.

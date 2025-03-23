@@ -688,6 +688,8 @@ As we can see, OOP not only fails to solve any problem better than FP, but it al
 
 However, there were those who gained incredible popularity by describing the principles and patterns of OOP. One of the most famous programmers, who is also an exceptionally poor coder, is Robert Martin with his SOLID OOP principles and the book *Clean Code*. [In this article](https://habr.com/ru/articles/875426/), you can evaluate how bad "clean" code by this "guru" of Java looks compared to a simple function in TypeScript and draw clear conclusions.
 
+Of course, one cannot fail to mention the highly popular book on design patterns by the so-called "Gang of Four ~~Incompetents~~." Without delving into the fundamental problems of OOP and without finding a proper solution (such as abandoning classes), the authors focused on describing crutch-like patterns that often only partially and rather awkwardly address the architecturally inherent issues, thereby indirectly justifying and perpetuating the very concept of classes and OOP.
+
 ### Why Is It So Popular?
 
 There is still some sense, considering how many OOP languages there are today and how many developers use them, that the popularity of OOP isn't just based on Oracle's massive advertising campaign for Java in the past, or the fact that 99% of people ~~are idiots~~ have IQs below 140. And indeed, there is one "advantage" — **Autocomplete** — the ability to see which functions can be called with a specific data type is so convenient that most people are willing to tolerate all the other shortcomings (in most cases, not even realizing them — see the point about 99% of people).

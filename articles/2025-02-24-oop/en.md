@@ -20,7 +20,7 @@ Unfortunately, programming is quite far from being a science (just like me), so 
 - **Function** — a block of code that performs a specific logic. It can return a value.
 - **Object** — an entity that contains both data and functions to process them — methods. An object can be imitated in FP by placing data and functions in the same structure. In classical OOP, this is always an instance of a class.
 - **Class** — a blueprint for creating objects, defining their data and methods. The foundation of OOP.
-- **Method** — a function that is part of a class. Instance methods (non-static) have an implicit reference to the object itself (`this`, `self`), with all its data and methods, which is essentially a forced hidden first argument.
+- **Method** — a function that is part of a class. Instance methods (non-static) have a reference to the object itself (`this`, `self`), with all its data and methods, which is essentially a implicit first argument.
 - **Functional programming (FP)** — programming using structures and functions. Do not confuse with functional (math) style.
 - **Object-oriented programming (OOP)** — programming using classes, objects, and all their features — inheritance, encapsulation, polymorphism, etc. If desired, one can mimic structures using classes [almost] without methods and functions with static methods in static classes.
 - **Mutable style** — a programming style where data is typically changed in place rather than copied. This can be used in both FP and OOP, but it is characteristic of OOP.
@@ -138,7 +138,7 @@ const getDisplayName = (firstName: string, lastName?: string, middleName?: strin
 
 How do the method and function `getDisplayName` differ?
 
-**First**, the method is tightly coupled with the type of its hidden argument — `this`, which is `User`. It depends not on the interface, but on the specific class. This leads to several problems:
+**First**, the method is tightly coupled with the type of its implicit argument — `this`, which is `User`. It depends not on the interface, but on the specific class. This leads to several problems:
 - **Reusability with other types**: The method requires not only the data and methods it actually needs to function but also those it doesn't need, simply because they exist in the `User` class — including all fields and methods of this class, even private ones. This means that anyone reusing the method must also include them, whether through inheritance (which is a major drawback — more on that later) or delegation. As a result, reusing the method with a different type while providing only the data and methods it actually uses is impossible.
 - **Dependence on classes**: The method cannot be used without creating an instance of this class or its descendant. For example, it cannot be used for a dictionary with the same fields.
 - **Inability to handle situations where user is `null` or `undefined`** from withing the method.

@@ -698,7 +698,7 @@ But the thing is, autocomplete for dot notation is not a feature of the language
 
 Today, of course, there are VS Code plugins for Haskell and other languages that make it easy to search for functions by providing one or even several parameters from the function's signature. However, in the same VS Code, by default, this functionality is not available for JS or TS (together the most popular programming languages).
 
-We could also discuss method calls with dot notation, which first appeared in Smalltalk in the 1970s and was later adopted by most modern languages. It’s this notation that triggers two ways to call functions — with a dot, where the first argument is passed in a way different from the others, and without a dot, where all arguments are passed in the same way.
+We could also discuss method calls with dot notation, which first appeared in Simula 67 in the 1960s and was later adopted by most modern languages. It’s this notation that triggers two ways to call functions — with a dot, where the first argument is passed in a way different from the others, and without a dot, where all arguments are passed in the same way.
 
 The very fact of having two ways to do the same thing is already a sign of poor architecture and additional headaches for the developer, creating room for bad decisions.
 

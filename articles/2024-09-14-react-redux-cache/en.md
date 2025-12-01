@@ -1,5 +1,5 @@
 ---
-title: '<strong>RRC</strong> fetch and cache management library for <strong>Zustand/Redux</strong>: [better] <strong>alternative to RTK-Query</strong> and other solutions'
+title: '<strong>RRC</strong> - fetch and cache management library for <strong>Zustand/Redux</strong>: [better] <strong>alternative to RTK-Query</strong> and other solutions'
 date: '2024-09-14'
 cover: 'cover.webp'
 cover-alt: 'Example of normalized state'

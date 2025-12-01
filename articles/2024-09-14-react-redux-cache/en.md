@@ -1,20 +1,20 @@
 ---
-title: '<strong>RRC</strong> library for request and cache management based on <strong>Redux</strong>: [better] <strong>alternative to RTK-Query</strong> and other solutions'
+title: '<strong>RRC</strong> fetch and cache management library for <strong>Zustand/Redux</strong>: [better] <strong>alternative to RTK-Query</strong> and other solutions'
 date: '2024-09-14'
 cover: 'cover.webp'
 cover-alt: 'Example of normalized state'
-spoiler: 'Introducing <code>react-redux-cache</code> (RRC) - a lightweight library for data fetching and caching in React applications that supports normalization, unlike React Query and RTK Query, while featuring a similar but much simpler interface. Built on Redux, it is fully tested, completely typed, and written in TypeScript.'
+spoiler: 'Introducing <code>react-redux-cache</code> (RRC) - a lightweight library for data fetching and caching in React applications that supports normalization, unlike React Query and RTK Query, while featuring a similar but much simpler interface. Built for Zustand/Redux, it is fully tested, completely typed, and written in TypeScript.'
 links:
 - npm: https://www.npmjs.com/package/react-redux-cache
 - github: https://github.com/gentlee/react-redux-cache
 - discuss-github: https://github.com/gentlee/gentlee.github.io/discussions/2
 ---
 
-Introducing [react-redux-cache](https://github.com/gentlee/react-redux-cache) (RRC) - a lightweight library for data fetching and caching in React applications that supports normalization, unlike **React Query** and **RTK Query**, while featuring a similar but much simpler interface. Built on Redux, it is fully tested, completely typed, and written in TypeScript.
+Introducing [react-redux-cache](https://github.com/gentlee/react-redux-cache) (RRC) - a lightweight library for data fetching and caching in React applications that supports normalization, unlike **React Query** and **RTK Query**, while featuring a similar but much simpler interface. Built for Zustand/Redux, it is fully tested, completely typed, and written in TypeScript.
 
 Additionally, unlike **RTK Query**, it easily supports such basic functionality as infinite scrolling with pagination (see example below).
 
-RRC can be considered an ApolloClient for protocols other than GraphQL (though theoretically, it can work with GraphQL as well), but with a Redux store — enabling custom selectors (selectors), actions (actions), and reducers, with full control over cached state.
+RRC can be considered an ApolloClient for protocols other than GraphQL (though theoretically, it can work with GraphQL as well), but with your own store (Zustand/Redux) — enabling custom selectors (selectors), actions (actions), and reducers, with full control over cached state.
 
 Principles guiding the library's creation:
 
@@ -29,7 +29,7 @@ Below is a comparison with existing libraries for managing requests and state. W
 
 - Full control over the store not only provides more capabilities, simplifies debugging, and coding but also helps avoid **fewer hacks** when a task goes beyond the typical hello-world scenarios from documentation, saving time on struggling with dubious library interfaces and sifting through massive source codes.
 
-- Redux is an excellent, simple, and proven tool for storing "slow" data — that is, data that does not require updates every frame or every keypress. **Minimal learning curve** for those familiar with the library. The ecosystem provides **convenient debugging tools and numerous ready-made solutions**, such as state persistence (`redux-persist`). It is written in a **functional** style.
+- Zustand/Redux are excellent, simple, and proven tools for storing "slow" data — that is, data that does not require updates every frame or every keypress. **Minimal learning curve** for those familiar with the library. The ecosystem provides **convenient debugging tools and numerous ready-made solutions**, such as state persistence (`redux-persist`). It is written in a **functional** style.
 
 - Normalization is the best way to maintain consistent application state across different screens, **reduce the number of requests**, and seamlessly display cached data during navigation, greatly **improving user experience**. Alternatives supporting normalization are scarce — ApolloClient only supports GraphQL and is implemented in a rather questionable, overly complex OOP style.
 
@@ -73,7 +73,7 @@ These examples are the best demonstration of how significantly user experience a
 - Requests are constantly sent, even when the existing data is still fresh enough.
     
 
-#### Example of Redux State with Normalization
+#### Example of State with Normalization
 
 ```javascript
 {
@@ -117,7 +117,7 @@ These examples are the best demonstration of how significantly user experience a
 
 ```
 
-#### Example of Redux State Without Normalization
+#### Example of State Without Normalization
 
 ```javascript
 {
@@ -187,7 +187,7 @@ export const {
   reducer,
   hooks: {useClient, useMutation, useQuery},
 } = withTypenames<CacheTypenames>().createCache({
-  // Used as a prefix for actions and in the selector to choose the cache state from redux state
+  // Used as a prefix for actions and in the selector to choose the cache state from the root state
   name: 'cache',
   queries: {
     getUsers: { query: getUsers },
@@ -223,7 +223,7 @@ type EntityChanges<T extends Typenames> = {
 }
 ```
 
-#### `store.ts`
+#### `store.ts` (Redux)
 
 Create the Redux store as usual, passing the new cache reducer under the name of the cache. If a different Redux structure is needed, you should additionally pass a selector for the cache state when creating the cache.
 
@@ -287,7 +287,7 @@ export const removeUser = async (id: number, abortSignal: AbortSignal) => {
 export const UserScreen = () => {
   const {id} = useParams()
 
-  // `useQuery` connects to the Redux state, and if a user with such an ID is already cached,
+  // `useQuery` connects to the store's state, and if a user with such an ID is already cached,
   // the query will not be executed (default caching policy is 'cache-first')
   const [{result: userId, loading, error}] = useQuery({
     query: 'getUser',

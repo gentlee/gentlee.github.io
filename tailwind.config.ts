@@ -22,6 +22,8 @@ export default {
         linkedin: 'var(--linkedin)',
         email: 'var(--email)',
         habr: 'var(--habr)',
+        rss: 'var(--rss)',
+        atom: 'var(--atom)',
       },
     },
   },

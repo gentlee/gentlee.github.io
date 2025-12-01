@@ -60,6 +60,15 @@ export const Footer = ({lang}: {lang: Language}) => {
       </div>
 
       <span className="flex-1 sm:text-end min-w-[180px]">{`© 2024 - ${new Date().getFullYear()} ${s(lang, 'full-name')}`}</span>
+
+      <div className="flex items-center justify-center gap-[var(--b-shadow)]">
+        <Link className="small-button small-shadow bg-rss" lang="en" hrefLang="en" href="/rss.xml">
+          RSS
+        </Link>
+        <Link className="small-button small-shadow bg-atom" lang="en" hrefLang="en" href="/atom.xml">
+          Atom
+        </Link>
+      </div>
     </footer>
   )
 }

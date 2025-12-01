@@ -16,6 +16,8 @@
   --linkedin: #009bee;
   --email: #bbb;
   --habr: #a4cbdf;
+  --rss: #ff8800;
+  --atom: #00b7c3;
 
   --border-width: 3px;
   --l-gap: 40px;
@@ -37,6 +39,8 @@
     --instagram: #833a5c;
     --linkedin: #005582;
     --habr: #4a6a7a;
+    --rss: #cc6600;
+    --atom: #007a80;
 
     --border-width: 2px;
   }

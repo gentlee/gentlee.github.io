@@ -3,7 +3,7 @@ title: 'Killers of immutable performance — <strong>Zustand</strong>/<strong>Re
 date: '2026-01-12'
 cover: 'cover.webp'
 cover-alt: 'The symbols "...", "||", "??", "[]" and "{}" grin with anticipation while looking at a sitting on a white couch character that symbolizes the combination of React, Redux, and Zustand'
-spoiler: 'In this article, we will break down the main causes of performance degradation in immutable stores combined with React and discuss approaches to writing high-load code, including <strong>non-obvious and unfamiliar to many</strong>.'
+spoiler: 'In this article, we will break down the <strong>main causes of performance degradation</strong> in immutable stores combined with React and discuss approaches to writing high-load code, including <strong>non-obvious and unfamiliar to many</strong>.'
 links:
 - discuss-github: https://github.com/gentlee/gentlee.github.io/discussions/4
 ---
@@ -234,7 +234,7 @@ And yes, Redux also [supports](https://github.com/gentlee/redux-light/blob/maste
 
 1. Redux documentation does not recommend doing this, so we shouldn’t.
 
-    The developer is responsible for their code, not the Redux team. Mattermost Mobile V1 paid for this — everything had to be rewritten (and it still turned out poorly — apparently they should not have just “rearranged the furniture”).
+    The developer is responsible for their code, not the Redux team. Mattermost Mobile V1 team paid for this - rewrote everything and it still turned out poorly.
 2. Then it’s better to choose another type of store.
 
     If you chronically don’t understand how technologies work and how to use them effectively, rewriting everything to something else does not guarantee solving all problems. And for Zustand, splitting stores is actually the correct approach.
@@ -313,13 +313,13 @@ const useOrder = () => {
 
 There are a couple more nuances:
 - Treat such a collection like an analogue of `useRef()`, and pass `changeKey` instead of it where a dependency on changes is needed.
-- Keep in mind that the value updates immediately, while component props update only after rendering. It’s better to search by id rather than by an index passed through `props`, and to assume the element might not exist (which is a good practice even without mutability).
+- Keep in mind that the value updates immediately, while component props update only after rendering. It’s better to search by id rather than by an index passed through props, and to assume the element might not exist (which is a good practice even without mutability).
 
 Besides performance, one more advantage is the absence of [specific downsides]((https://redux.gitbook.io/docs/recipes/usingimmutablejs#what-are-the-issues-with-using-immutable.js)) of Immutable.js collections.
 
 Recently, version 0.22.2 of the [RRC](https://github.com/gentlee/react-redux-cache) library was released, which allows making all its internal collections mutable with a single option. In most cases, the rest of the code does not need to be changed, since there should not be direct subscriptions to its internal collections anyway. There is also a benchmark demonstrating when this makes sense (briefly and roughly — for collections larger than 1000 elements).
 
-Results of [measurements](https://github.com/gentlee/react-redux-cache/blob/main/scripts/benchmark.mjs) of element insertion time depending on collection size, **in microseconds** (lower is better):
+Results of the [benchmark](https://github.com/gentlee/react-redux-cache/blob/main/scripts/benchmark.mjs) of element insertion time depending on collection size, **in microseconds** (lower is better):
 
 | Collection size | 0 | 1,000 | 10,000 | 100,000 | 1,000,000 |
 |-|-|-|-|-|-|

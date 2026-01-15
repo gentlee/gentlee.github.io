@@ -208,7 +208,7 @@ One of the best ways to degrade immutable store performance [by 100x](https://gi
 
 Many mistakes can simply be avoided by not re-implementing data loading and caching over and over again. Many libraries already exist, from Tanstack Query to Apollo Client. The only issue is that all of them use their own closed stores without direct access. The exception is RTK Query, but we have already decided not to use it (and not only because of performance issues).
 
-An excellent solution for Zustand / Redux is the [RRC](https://github.com/gentlee/react-redux-cache) library, which has a very simple yet flexible interface, full typing, more than 100 unit tests, an immutable store of your choice (Redux/Zustand), supports normalization, deduplication, infinite pagination, mutable collections (see below), and much more. And of course, it does not use Immer — performance is a priority.
+An excellent solution for Zustand / Redux is the [RRC](https://github.com/gentlee/react-redux-cache) library, which generates all necessary functions for caching provided async operations, including hooks and selectors. It has a very simple yet flexible interface, full typing, more than 100 unit tests, an immutable store of your choice (Redux/Zustand), supports normalization, deduplication, infinite pagination, mutable collections (see below), and much more. And of course, it does not use Immer — performance is a priority.
 
 ---
 

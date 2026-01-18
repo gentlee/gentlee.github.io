@@ -9,12 +9,13 @@ import {fixedsysFont} from '~/utils/fonts'
 const ICON_SIZE = 44
 
 export const Footer = ({lang, scale}: {lang: Language; scale?: number}) => {
-  const ariaHidden = !!scale
-  const tabIndex = ariaHidden ? -1 : undefined
+  const scaled = Boolean(scale)
+  const tabIndex = scaled ? -1 : undefined
 
   return (
     <footer
       aria-hidden={!!scale}
+      className={`${fixedsysFont.className} flex flex-wrap items-center justify-center p-[16px] gap-[16px] text-center bg-background border-t-2 border-foreground min-h-[44px] text-[19px] leading-none mt-auto`}
       style={
         scale
           ? {
@@ -24,7 +25,6 @@ export const Footer = ({lang, scale}: {lang: Language; scale?: number}) => {
             }
           : undefined
       }
-      className={`${fixedsysFont.className} flex flex-wrap items-center justify-center p-[16px] gap-[16px] text-center bg-background border-t-2 border-foreground min-h-[44px] text-[19px] leading-none mt-auto`}
     >
       <div className="flex items-center gap-[16px]">
         <Link className="active:scale-90" lang={lang} href={'mailto:' + info.email} tabIndex={tabIndex}>

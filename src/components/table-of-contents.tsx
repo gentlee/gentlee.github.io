@@ -73,40 +73,43 @@ export const TableOfContents = memo(function TableOfContentsInner({lang, items}:
   return (
     <div
       aria-hidden
-      className="hidden toc:block sticky h-0 w-[260px] overflow-visible top-[var(--s-gap)] ml-[calc(50%-260px-var(--max-content-w)/2)] mt-[var(--s-gap)] -mb-[var(--s-gap)]"
+      className="hidden toc:block w-fit sticky h-0 overflow-visible top-[var(--s-gap)] ml-[calc(50%-260px-var(--max-content-w)/2)] mt-[var(--s-gap)] -mb-[var(--s-gap)]"
     >
       <div className="bg-background big-shadow !p-0 !gap-0">
-        <div style={{width: HEADER_FOOTER_WIDTH, height: 23}}>
-          <NavigationBar lang={lang} subpath="articles" scale={HEADER_FOOTER_SCALE} />
-        </div>
+        <div style={CONTENT_WIDTH_STYLE} className="flex flex-col">
+          <div style={{width: HEADER_FOOTER_WIDTH, height: 21}}>
+            <NavigationBar lang={lang} subpath="articles" scale={HEADER_FOOTER_SCALE} />
+          </div>
 
-        <ul className="flex flex-col">
-          {items.map((x, i) => {
-            const isCurrent = currentItemId === x.id
-            return (
-              <Fragment key={x.id}>
-                {i !== 0 && <div className="separator mx-4" />}
-                <li
-                  style={isCurrent ? {fontWeight: 'bold'} : undefined}
-                  className="cursor-pointer py-2 px-4 [&_strong]:text-[var(--accent)]"
-                  onClick={() => document.getElementById(x.id)?.scrollIntoView()}
-                  dangerouslySetInnerHTML={{
-                    __html: isCurrent ? '> ' + x.title : (x.titlePlain ?? x.title),
-                  }}
-                />
-              </Fragment>
-            )
-          })}
-        </ul>
+          <ul className="flex flex-col">
+            {items.map((x, i) => {
+              const isCurrent = currentItemId === x.id
+              return (
+                <Fragment key={x.id}>
+                  {i !== 0 && <div className="separator mx-4" />}
+                  <li
+                    style={isCurrent ? {fontWeight: 'bold'} : undefined}
+                    className="cursor-pointer py-2 px-4 [&_strong]:text-[var(--accent)]"
+                    onClick={() => document.getElementById(x.id)?.scrollIntoView()}
+                    dangerouslySetInnerHTML={{
+                      __html: isCurrent ? '> ' + x.title : (x.titlePlain ?? x.title),
+                    }}
+                  />
+                </Fragment>
+              )
+            })}
+          </ul>
 
-        <div style={{width: HEADER_FOOTER_WIDTH, height: 17}}>
-          <Footer lang={lang} scale={HEADER_FOOTER_SCALE} />
+          <div style={{width: HEADER_FOOTER_WIDTH, height: 17}}>
+            <Footer lang={lang} scale={HEADER_FOOTER_SCALE} />
+          </div>
         </div>
       </div>
     </div>
   )
 })
 
+const CONTENT_WIDTH_STYLE = {width: 245, overflow: 'hidden'}
 const TOGGLE_VISIBLE_WIDTH = 1451
 const HEADER_FOOTER_WIDTH = 1200
-const HEADER_FOOTER_SCALE = 245 / HEADER_FOOTER_WIDTH
+const HEADER_FOOTER_SCALE = CONTENT_WIDTH_STYLE.width / HEADER_FOOTER_WIDTH

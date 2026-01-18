@@ -18,12 +18,13 @@ export const NavigationBar = ({
   scale?: number
 }) => {
   const nextLang: Language = lang === 'en' ? 'ru' : 'en'
-  const ariaHidden = !!scale
-  const tabIndex = ariaHidden ? -1 : undefined
+  const scaled = Boolean(scale)
+  const tabIndex = scaled ? -1 : undefined
 
   return (
     <nav
-      aria-hidden={ariaHidden}
+      aria-hidden={scaled}
+      className={`${fixedsysFont.className}${scaled ? '' : ' dark:border-b-[2px] sm:border-b-[13px]'} bg-background border-b-[4px] border-foreground flex flex-row items-start gap-y-2 gap-x-1 p-2 sm:gap-4 sm:p-4`}
       style={
         scale
           ? {
@@ -33,7 +34,6 @@ export const NavigationBar = ({
             }
           : undefined
       }
-      className={`${fixedsysFont.className} bg-background border-b-[4px] sm:border-b-[13px] dark:border-b-[2px] border-foreground flex flex-row items-start gap-y-2 gap-x-1 p-2 sm:gap-4 sm:p-4`}
     >
       <div className="hidden lg:flex flex-1 gap-2 sm:gap-4 items-center">
         {renderLink({
@@ -66,7 +66,7 @@ export const NavigationBar = ({
 
       <div className="flex flex-1 gap-1 sm:gap-4 justify-end items-center">
         <DonateButton lang={lang} tabIndex={tabIndex} />
-        {!ariaHidden && <DonateModal lang={lang} />}
+        {!scaled && <DonateModal lang={lang} />}
 
         {renderLink({
           'aria-label': `${s(lang, 'change-language-to')}${s(lang, nextLang)}`,

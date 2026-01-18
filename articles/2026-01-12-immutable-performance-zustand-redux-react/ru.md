@@ -1,5 +1,6 @@
 ---
 title: 'Убийцы иммутабельной производительности — <strong>Zustand</strong>/<strong>Redux</strong> в связке с <strong>React</strong>'
+shortTitle: 'Иммутабельная производительность: <strong>Zustand</strong>, <strong>Redux</strong>, <strong>React</strong>'
 date: '2026-01-12'
 cover: 'cover.webp'
 cover-alt: 'Символы "...", "||", "??", "[]" и "{}" с ухмылкой и предвкушением смотрят на сидящего на белом диване персонажа, символизирующего связку технологий React, Redux и Zustand'

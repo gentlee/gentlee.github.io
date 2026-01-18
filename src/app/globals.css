@@ -9,6 +9,7 @@
   --foreground: black;
   --dot: #999;
   --focus: #93c5fd;
+  --accent: rgb(244, 68, 68);
 
   --npm: rgb(232, 43, 0);
   --github: white;
@@ -19,6 +20,7 @@
   --rss: #ff8800;
   --atom: #00b7c3;
 
+  --max-content-w: 900px;
   --border-width: 3px;
   --l-gap: 40px;
   --m-gap: 20px;
@@ -33,6 +35,7 @@
     --foreground: rgb(232, 232, 232);
     --dot: #a7a7a7;
     --focus: #0b51a0;
+    --accent: rgb(140, 140, 140);
     
     --npm: rgb(187, 34, 0);
     --github: black;
@@ -92,7 +95,7 @@ h3 {
 }
 
 h1 strong, h2 strong {
-  color: rgb(244, 68, 68);
+  color: var(--accent)
 }
 
 p code {
@@ -165,7 +168,7 @@ p:has(> img) {
 
 .content {
   width: 100%;
-  max-width: 900px;
+  max-width: var(--max-content-w);
   margin: 0 auto;
   display: flex;
   flex-direction: column;
@@ -173,11 +176,24 @@ p:has(> img) {
   row-gap: var(--s-gap);
 }
 
-@media (prefers-color-scheme: dark) {
-  h1 strong, h2 strong {
-    color: rgb(140, 140, 140);
-  }
+.separator {
+  height: 1px;
+  background-color: var(--foreground);
+}
 
+@media (-webkit-min-device-pixel-ratio: 2) {
+  .separator {
+    height: 0.5px
+  }
+}
+
+@media (-webkit-min-device-pixel-ratio: 3) {
+  .separator {
+    height: 0.33px
+  }
+}
+
+@media (prefers-color-scheme: dark) {
   p code {
     background-color: rgb(38, 38, 38);
   }

@@ -11,19 +11,34 @@ import {fixedsysFont} from '~/utils/fonts'
 export const NavigationBar = ({
   lang,
   subpath,
+  scale,
 }: {
   lang: Language
   subpath: 'contacts' | 'articles' | 'articles/${slug}'
+  scale?: number
 }) => {
   const nextLang: Language = lang === 'en' ? 'ru' : 'en'
+  const ariaHidden = !!scale
+  const tabIndex = ariaHidden ? -1 : undefined
 
   return (
     <nav
+      aria-hidden={ariaHidden}
+      style={
+        scale
+          ? {
+              transform: `scale(${scale})`,
+              transformOrigin: 'left top',
+              userSelect: 'none',
+            }
+          : undefined
+      }
       className={`${fixedsysFont.className} bg-background border-b-[4px] sm:border-b-[13px] dark:border-b-[2px] border-foreground flex flex-row items-start gap-y-2 gap-x-1 p-2 sm:gap-4 sm:p-4`}
     >
       <div className="hidden lg:flex flex-1 gap-2 sm:gap-4 items-center">
         {renderLink({
           'aria-label': s(lang, 'open-home-page'),
+          tabIndex,
           href: `/${lang}/articles`,
           lang,
           hrefLang: lang,
@@ -38,6 +53,7 @@ export const NavigationBar = ({
         href={`/${lang}/articles`}
         lang={lang}
         hrefLang={lang}
+        tabIndex={tabIndex}
       >
         <h1
           className={`${fixedsysFont.className} text-[24px] xs:text-[26px] sm:text-[38px] lg:text-[48px] leading-[1] text-nowrap`}
@@ -49,11 +65,12 @@ export const NavigationBar = ({
       </Link>
 
       <div className="flex flex-1 gap-1 sm:gap-4 justify-end items-center">
-        <DonateButton lang={lang} />
-        <DonateModal lang={lang} />
+        <DonateButton lang={lang} tabIndex={tabIndex} />
+        {!ariaHidden && <DonateModal lang={lang} />}
 
         {renderLink({
           'aria-label': `${s(lang, 'change-language-to')}${s(lang, nextLang)}`,
+          tabIndex,
           href: `/${nextLang}/${subpath}`,
           lang,
           hrefLang: nextLang,
@@ -77,7 +94,7 @@ const renderLink = ({
   selected?: boolean
 }) => {
   return (
-    <Link className={`!inline big-shadow big-button whitespace-pre`} aria-current tabIndex={0} {...props}>
+    <Link className={`!inline big-shadow big-button whitespace-pre`} aria-current {...props}>
       {selected && selectionArrowElement}
       {props.children}
     </Link>

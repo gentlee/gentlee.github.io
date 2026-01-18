@@ -10,11 +10,13 @@ export default {
     extend: {
       screens: {
         xs: '400px',
+        toc: '1452px', // Table of contents visible
       },
       colors: {
         background: 'var(--background)',
         foreground: 'var(--foreground)',
         focus: 'var(--focus)',
+        accent: 'var(--accent)',
 
         npm: 'var(--npm)',
         github: 'var(--github)',

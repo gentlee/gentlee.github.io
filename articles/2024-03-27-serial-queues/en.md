@@ -1,5 +1,6 @@
 ---
 title: 'Hidden knowledge: synchronization, concurrency, <strong>queues</strong>'
+shortTitle: 'Hidden knowledge: <strong>queues</strong>'
 date: '2024-03-27'
 cover: 'graph-1.webp'
 cover-alt: The performance graph of synchronization methods from the article

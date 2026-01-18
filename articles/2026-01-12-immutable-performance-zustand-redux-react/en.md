@@ -1,5 +1,6 @@
 ---
 title: 'Killers of immutable performance — <strong>Zustand</strong>/<strong>Redux</strong> combined with <strong>React</strong>'
+shortTitle: 'Immutable performance: <strong>Zustand</strong>, <strong>Redux</strong>, <strong>React</strong>'
 date: '2026-01-12'
 cover: 'cover.webp'
 cover-alt: 'The symbols "...", "||", "??", "[]" and "{}" grin with anticipation while looking at a sitting on a white couch character that symbolizes the combination of React, Redux, and Zustand'

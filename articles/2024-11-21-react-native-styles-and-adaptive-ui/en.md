@@ -1,5 +1,6 @@
 ---
 title: 'Styles, themes, and <strong>adaptive layout</strong> in React Native'
+shortTitle: <strong>Adaptive layout</strong> in React Native
 date: '2024-11-21'
 cover: 'cover.webp'
 cover-alt: 'An image of adaptive layouts on various devices - from smartphones to computer screens, featuring a contented cat'

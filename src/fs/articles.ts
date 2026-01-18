@@ -39,6 +39,7 @@ export const getArticleHtmlAndFrontmatter = async (slug: string, lang: Language)
 
   const frontmatter = parsedArticle.data as {
     title: string
+    shortTitle: string
     date: string
     cover: string
     'cover-alt': string
@@ -52,7 +53,9 @@ export const getArticleHtmlAndFrontmatter = async (slug: string, lang: Language)
     frontmatter: {
       ...frontmatter,
       titlePlain: removeXml(frontmatter.title),
+      shortTitlePlain: removeXml(frontmatter.shortTitle),
       spoilerPlain: removeXml(frontmatter.spoiler),
+      dateLocalized: new Date(frontmatter.date).toLocaleDateString([lang]),
     },
     html: parsedArticle.toString(),
   }

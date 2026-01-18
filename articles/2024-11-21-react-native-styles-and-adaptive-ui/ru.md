@@ -1,5 +1,6 @@
 ---
 title: 'Стили, темы и <strong>адаптивная верстка</strong> в React Native'
+shortTitle: '<strong>Адаптивная верстка</strong> в React Native'
 date: '2024-11-21'
 cover: 'cover.webp'
 cover-alt: 'Изображение адаптивной верстки на разных устройствах - от смартфонов до экрана компьютера, с довольным котом'

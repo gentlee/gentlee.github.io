@@ -3,6 +3,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 
 import {NavigationBar} from '~/components/navigation-bar'
+import {TableOfContents} from '~/components/table-of-contents'
 import {getArticleHtmlAndFrontmatter, getArticleSlugs} from '~/fs/articles'
 import {s} from '~/localization'
 import {Language, LANGUAGES} from '~/utils/constants'
@@ -24,13 +25,22 @@ const ArticlesPage = async ({params}: Props) => {
     <>
       <NavigationBar lang={lang} subpath="articles" />
       <main>
+        <TableOfContents
+          lang={lang}
+          items={articleData.map((x) => ({
+            id: x.slug,
+            title: x.frontmatter.shortTitle,
+            titlePlain: x.frontmatter.shortTitlePlain,
+          }))}
+        />
+
         <ul className="content">
           {articleData.map(({slug, frontmatter, folderName}, index) => {
             const titleId = 'title-' + slug
             const descriptionId = 'description-' + slug
 
             return (
-              <li key={slug}>
+              <li key={slug} id={slug}>
                 <Link
                   aria-labelledby={titleId}
                   aria-describedby={descriptionId}
@@ -43,7 +53,7 @@ const ArticlesPage = async ({params}: Props) => {
                   <h2
                     id={titleId}
                     dangerouslySetInnerHTML={{
-                      __html: `${frontmatter.title} [${new Date(frontmatter.date).toLocaleDateString([lang])}]`,
+                      __html: `${frontmatter.title} [${frontmatter.dateLocalized}]`,
                     }}
                   />
                   {/* p to fix image margin. See globals.css. */}

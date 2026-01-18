@@ -1,5 +1,6 @@
 ---
 title: 'Библиотека <strong>RRC</strong> для управления запросами и кэшем для <strong>Zustand/Redux</strong>: [лучшая] <strong>альтернатива RTK-Query</strong> и другим решениям'
+shortTitle: '<strong>RRC</strong>: управление кэшем в Zustand/Redux'
 date: '2024-09-14'
 cover: 'cover.webp'
 cover-alt: 'Изображение примера нормализованного состояния'

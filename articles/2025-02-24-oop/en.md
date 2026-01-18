@@ -1,5 +1,6 @@
 ---
 title: 'OOP: <strong>the worst</strong> thing that happened to programming'
+shortTitle: 'OOP - <strong>the worst</strong> of programming'
 date: '2025-02-24'
 cover: 'cover.webp'
 cover-alt: 'The image shows what it would be like if buildings were constructed the same way code is written. Elderly people ask their grandson to build a toilet, and end up with an ugly, monstrous construction, while the grandson is pondering that perhaps the classes should have been inherited differently. In his hands, he holds a banana, surrounded by jungle and several monkeys. The Java logo is on the building.'

@@ -6,7 +6,7 @@ import {DONATE_MODAL_ID} from '~/components/donate-modal'
 import {s} from '~/localization'
 import {Language} from '~/utils/constants'
 
-export const DonateButton = ({lang}: {lang: Language}) => {
+export const DonateButton = ({lang, tabIndex}: {lang: Language; tabIndex?: number}) => {
   const openDialog = () => {
     ;(document.getElementById(DONATE_MODAL_ID) as HTMLDialogElement)?.showModal()
   }
@@ -17,6 +17,7 @@ export const DonateButton = ({lang}: {lang: Language}) => {
       aria-haspopup="dialog"
       className="h-[52px] w-[52px] sm:h-[60px] sm:w-[60px] active:scale-90"
       onClick={openDialog}
+      tabIndex={tabIndex}
     >
       <Image
         className="inline h-[32px] w-[24px] sm:h-[40px] sm:w-[30px]"

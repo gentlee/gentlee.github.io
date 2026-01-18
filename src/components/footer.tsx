@@ -78,7 +78,7 @@ export const Footer = ({lang, scale}: {lang: Language; scale?: number}) => {
       <span className="flex-1 sm:text-end min-w-[180px]">{`© 2024 - ${new Date().getFullYear()} ${s(lang, 'full-name')}`}</span>
 
       <div className="flex items-center justify-center gap-[var(--b-shadow)]">
-        <Link
+        <a
           className="small-button small-shadow bg-rss"
           lang="en"
           hrefLang="en"
@@ -86,8 +86,8 @@ export const Footer = ({lang, scale}: {lang: Language; scale?: number}) => {
           tabIndex={tabIndex}
         >
           RSS
-        </Link>
-        <Link
+        </a>
+        <a
           className="small-button small-shadow bg-atom"
           lang="en"
           hrefLang="en"
@@ -95,7 +95,7 @@ export const Footer = ({lang, scale}: {lang: Language; scale?: number}) => {
           tabIndex={tabIndex}
         >
           Atom
-        </Link>
+        </a>
       </div>
     </footer>
   )

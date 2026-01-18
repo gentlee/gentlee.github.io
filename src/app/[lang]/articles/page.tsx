@@ -91,6 +91,7 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
   const title = s(lang, 'home-title')
   return {
     title,
+    description: s(lang, 'home-description'),
     openGraph: {
       type: 'website',
       title,

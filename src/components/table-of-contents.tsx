@@ -43,11 +43,20 @@ export const TableOfContents = memo(function TableOfContentsInner({lang, items}:
       updatingCurrentRef.current = true
 
       const update = () => {
-        const centerElement = document.elementFromPoint(window.innerWidth / 2, window.innerHeight / 2)
-        const closestLiId = centerElement?.closest('li')?.id
-        if (closestLiId) {
-          setCurrentItemId(closestLiId)
+        if (window.scrollY < 10) {
+          // Scrolled to start
+          setCurrentItemId(items[0].id)
+        } else if (window.scrollY + window.innerHeight >= document.documentElement.scrollHeight - 10) {
+          // Scrolled to end
+          setCurrentItemId(items[items.length - 1].id)
+        } else {
+          const centerElement = document.elementFromPoint(window.innerWidth / 2, 200)
+          const closestLiId = centerElement?.closest('li')?.id
+          if (closestLiId) {
+            setCurrentItemId(closestLiId)
+          }
         }
+
         updatingCurrentRef.current = false
       }
 
@@ -64,6 +73,7 @@ export const TableOfContents = memo(function TableOfContentsInner({lang, items}:
     return () => {
       document.removeEventListener('scroll', listener)
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isVisible])
 
   if (!isVisible) {

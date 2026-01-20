@@ -15,7 +15,7 @@ In this article, we will try to understand why OOP is the worst thing that happe
 
 Unfortunately, programming is quite far from being a science (just like me), so many terms can be interpreted differently. Let’s first define them. I should warn you that these definitions are my subjective opinion, an attempt to bring order and fill in the gaps. Constructive criticism is welcome.
 
-### Definitions
+## Definitions
 
 - **[Data] structure** — pure data that does not contain any processing logic (functions).
 - **Function** — a block of code that performs a specific logic. It can return a value.
@@ -29,7 +29,7 @@ Unfortunately, programming is quite far from being a science (just like me), so 
 - **Procedural style** — a style of FP in which functions operate only on their arguments (without closures) in a mutable style, without returning values.
 - **Math (math-functional, often - just functional) style** — a style of FP that features immutable style and pure functions — functions that always return the same result for the same arguments (in simple terms — they do not use external state), which is typical for mathematical functions (do not confuse with functions in programming).
 
-#### Common Objections
+##### Common Objections
 
 1. OOP was originally designed as \<something else\>.
 
@@ -39,7 +39,7 @@ Unfortunately, programming is quite far from being a science (just like me), so 
 
     I often see FP being used when people actually mean PP, and I rarely encounter PP itself. The concept of a procedure is almost never used anymore, whereas the function is constantly used, likely due to keywords in popular languages like `function` or `func`. At the same time, I frequently encounter the term "functional style," so I decided to separate the concepts of paradigms and programming styles. I also try to avoid unnecessary concepts in this article, such as imperative and declarative styles.
 
-### Drawbacks
+## Drawbacks
 
 The first red flag that made me question the success of the OOP concept was a ~~childhood trauma~~ task from my first OOP interview for a language I had just started learning at the time — C#, which has stayed in my memory to this day:
 
@@ -95,7 +95,7 @@ To understand how good of an idea OOP really is, it's enough to analyze all the 
 
 The following OOP examples will be written in either C# or TypeScript, while the FP examples will be in TypeScript. All statements refer to the classical approach, not various imitations of FP in OOP and vice versa.
 
-#### Methods
+### Methods
 
 The discussion will focus on instance methods, as static methods are essentially an imitation of FP. A simple example:
 
@@ -217,7 +217,7 @@ Everything is as simple as it can be.
 
 It turns out that methods lose to functions in every way, except for one small thing related exclusively to development environments and the notation of their calls (we’ll discuss this at the very end), have strong limitations when it comes to reuse in other types, and they also provoke worse programming practices, adding more opportunities to "shoot yourself in the foot" for no good reason. So, methods are garbage. Let’s move on.
 
-#### Inheritance
+### Inheritance
 
 Regarding this feature, even among OOP developers, there’s a well-established rule — inheritance is an anti-pattern, and delegation should be preferred.
 
@@ -317,7 +317,7 @@ As we can see, the most correct option is to use not inheritance, and not even d
 
 Conclusion: inheritance adds many problems but solves none. Garbage, even by OOP standards.
 
-#### Polymorphism
+### Polymorphism
 
 Polymorphism is the ability of a function to handle data of different types.
 
@@ -475,7 +475,7 @@ const hasFriend = (target: { friendIds: string[] }, friendId: string) => { … }
 
 **Conclusion:** As we can see, polymorphism in FP is perfectly implemented without classes and all their drawbacks, and the code is simpler and more concise, even in traditional OOP examples. In real projects, when it's much more complex, and as the codebase grows, the difference only becomes more pronounced.
 
-#### Encapsulation
+### Encapsulation
 
 Here, I'll quickly go over the analogs of `private`, `public`, etc., for classes in TypeScript for FP:
 
@@ -521,7 +521,7 @@ const freezedArray = Object.freeze(["John"])
 freezedArray[0] = "Peter" // Compilation error. If executed, it will also fail at runtime.
 ```
 
-#### Encapsulation
+### Encapsulation
 
 As we can see, there are no problems with encapsulation in FP, and all scenarios are quite simply implemented without the need for additional symbols like access modifiers. However, it is worth noting that encapsulation is often not only unnecessary but can even be harmful — it increases the amount of code, complicates testing, and slows application performance.
 
@@ -531,19 +531,19 @@ As we can see, there are no problems with encapsulation in FP, and all scenarios
 
 With the main differences covered, let's take a look at some typical problems that often arise from using OOP:
 
-#### Language Syntax
+### Language Syntax
 
 OOP languages are excessively complicated with redundant syntax that emerged as an attempt by language developers to address inherent OOP issues. Only partially, though, since it's impossible to fully resolve architectural flaws. Classes, abstract classes, static classes and methods, constructors, inheritance, interfaces, various method overloading, getters/setters, default method implementations in interfaces, access modifiers, annotations/attributes, and much more — all of this makes the learning curve of OOP languages significantly steeper. Moreover, many of these features overlap, forcing developers to spend even more time choosing the least bad option. As a result, a substantial part of development is spent not on solving business problems but on battling the language and its limitations.
 
 FP languages, in contrast, have a much simpler syntax (especially if they are not in radically mathematical style), omitting almost all of the aforementioned complexities.
 
-#### Design Patterns
+### Design Patterns
 
 The same can be said about the vast number of design patterns with fancy names. Many books have been written about them, and they are frequently asked about in interviews. But in reality, OOP design patterns are just workarounds that "heroically" attempt to partially fix one of OOP’s inherent issues. For example, the _Decorator_ pattern extends a class when inheritance is not an option.
 
 In FP, once you understand these three techniques — 1. adding a function argument; 2. using a closure; 3. wrapping a function in another — you already know all the core patterns.
 
-#### Constructors
+### Constructors
 
 In most OOP languages, you are constantly required to implement constructors with typical boilerplate code. In FP, this is a rare occurrence because data is separated from logic, and in most cases, creating an entity of any type is simply creating standard data structures like strings, arrays, or associative arrays:
 
@@ -568,7 +568,7 @@ const user: User = {
 
 Moreover, the next point is that it turns out that using constructors in OOP is an anti-pattern.
 
-#### Containers and Dependency Injection
+### Containers and Dependency Injection
 
 Unlike in FP, where most code resides in functions that are typically just exported and imported, in OOP, a large portion of the code is in non-static classes that need to be initialized. To address such inherent issue in OOP and initialize class objects in a way that's convenient and flexible beyond any real need, dependency injection containers were introduced. In short — it turns out that using constructors is an anti-pattern (doesn't it always seem that way in OOP?). Sooner or later, you will have to pass all dependencies to all class instances, which is why it’s better to pass a single dependency container and initialize objects only through it. 
 
@@ -599,7 +599,7 @@ const main = () => {
 
 Testability is not an issue here — any import in TypeScript can be easily replaced in tests without any problems.
 
-#### Serialization, Copying, Comparing
+### Serialization, Copying, Comparing
 
 Since in FP data is separated from logic and is primarily either primitive type or composed of primitives, it is usually serializable by default. It can also be shallowly or deeply copied and compared without any extra code:
 
@@ -636,7 +636,7 @@ const areDeeplyEqual = deepEqual(x, y)
 
 In OOP languages, it is often necessary to implement serialization, copying and comparing functions in each individual class, which affects both the development speed and the bug-proneness of the code.
 
-#### Working with Arrays
+### Working with Arrays
 
 A class contains both data and methods to manipulate it. Following this logic, developers often write methods for working with, for example, `User` inside the `User` class, which may seem logical. But what if, in the future, we need to work with multiple users?
 
@@ -666,7 +666,7 @@ const updateUsers = (data: User | User[]) => {
 }
 ```
 
-#### Multiple Models
+### Multiple Models
 
 This problem can be observed in the section about polymorphism — OOP encourages creating a separate domain model, different from the one used for data transfer, such as from the backend. The data comes serialized in a specific format, while in OOP, everything must be contained within classes with methods.
 
@@ -674,15 +674,17 @@ In FP, it is also possible to use a custom model, but in many cases, transformin
 
 Someone might argue that this isn't flexible and that changes in the backend model would require rewriting the application code. But in reality, it would need to be rewritten in both cases, and with a separate model, technical debt starts to accumulate if not addressed immediately. What OOP developers do is essentially overengineering. Moreover, changing several fields in the application code is done through refactoring in an IDE in seconds, compared to writing thousands of lines of unnecessary code.
 
-#### Concurrency and Multithreading
+### Concurrency and Multithreading
 
 A huge advantage of the _math-functional_ style of FP is the support for concurrency without additional effort and synchronization. In OOP, it's common to work in a mutable style, which leads to the need to write very complex and error-prone synchronization code for data access. In a [recent article](/en/articles/serial-queues), I even wrote that, to this day, most programmers, including creators of popular programming languages, still struggle with this.
 
-### Conclusions
+---
+
+## Conclusions
 
 As we can see, OOP not only fails to solve any problem better than FP, but it also introduces a multitude of other issues, which are completely unsolvable with any "design patterns" or workarounds. It requires knowledge and usage of an enormous number of such patterns, many of which even prohibit the use of basic class features like constructors or inheritance. Many OOP developers have either forgotten why they do all this or never knew, diving straight into the framework's intricacies and doing it "because it's the norm". In the end, we have far more ugly, overcomplicated code, which can be succinctly described as "a monstrous collection of crutches."
 
-##### Did anyone notice these drawbacks in early years of OOP language development?
+## Did anyone notice these drawbacks in early years of OOP language development?
 
 - Many programming giants, like Linus Torvalds, quickly came to a similar conclusion, and the latter banned the use of C++ in the Linux kernel.
 - Even the creator of Java later admitted that adding classes was a mistake: “If you could do Java over again, what would you change?” “I’d leave out classes,” he replied. Later though softened to wording that the real problem was implementation inheritance.
@@ -691,7 +693,7 @@ However, there were those who gained incredible popularity by describing the pri
 
 Of course, one cannot fail to mention the highly popular book on design patterns by the so-called "Gang of Four ~~Incompetents~~." Without delving into the fundamental problems of OOP and without finding a proper solution (such as abandoning classes), the authors focused on describing crutch-like patterns that often only partially and rather awkwardly address the architecturally inherent issues, thereby indirectly justifying and perpetuating the very concept of classes and OOP.
 
-### Why Is It So Popular?
+## Why Is It So Popular?
 
 There is still some sense, considering how many OOP languages there are today and how many developers use them, that the popularity of OOP isn't just based on Oracle's massive advertising campaign for Java in the past, or the fact that 99% of people ~~are idiots~~ have IQs below 140. And indeed, there is one "advantage" — **Autocomplete** — the ability to see which functions can be called with a specific data type is so convenient that most people are willing to tolerate all the other shortcomings (in most cases, not even realizing them — see the point about 99% of people).
 
@@ -727,7 +729,7 @@ Which language would I like to highlight from the modern and popular ones, in wh
 
 ---
 
-### Conclusion
+## Summary
 
 I am absolutely sure that a person writing commercial code in a purely OOP language for more than 3-4 years, who hasn't noticed many of its problems and hasn't started thinking about transitioning or switching to FP — cannot be considered a skilled engineer. A true engineer always thinks about the simplest solutions, notices flaws and complexities, and cannot miss such a log in the eye.
 
@@ -735,6 +737,6 @@ Development environments, unfortunately, even today, in 2025, are heavily tuned 
 
 But there is progress, and even OOP languages are gradually incorporating functional practices, and there are already languages that are almost free from the listed problems.
 
-### Advice
+## Advice
 
 ..from someone who has been writing code without classes for many years: use languages that do not have classes (Go), avoid classes if possible (TypeScript, Python), and avoid languages where classes are the core (Java, C#, C++ and others). Write functional code - as simple code as possible.

@@ -11,13 +11,13 @@ links:
 
 ![The symbols "...", "||", "??", "[]" and "{}" grin with anticipation while looking at a sitting on a white couch character that symbolizes the combination of React, Redux, and Zustand](/articles/2026-01-12-immutable-performance-zustand-redux-react/cover.webp)
 
-### Introduction
+## Introduction
 
 Immutable UI development patterns have become some of the most popular in recent years due to a combination of simple architecture and good performance. They are built on functional programming without classes, using standard data structures (without extra magic or Proxy), fast (reference / shallow) comparison, and memoization at all levels. In general, these principles are almost the same ones React itself is built on. The downside of these patterns is performance degradation as the project grows, and how easy it is to break that performance with just a few familiar and seemingly harmless things. Once again — just like in React.
 
 And perhaps the saddest part is that I have encountered these problems in absolutely every project where these patterns were used, and almost **regardless of the developers’ seniority**. There is clearly a need to improve code analyzers, like what ESLint does for React hooks, and to improve libraries by catching the most obvious mistakes already in debug builds. But until this is properly developed, I suggest going through the main problems and manually checking your projects for their presence.
 
-### 1. Main problems
+## 1. Main problems
 
 They are generally related to the previously mentioned characteristics — reference / shallow comparison at all levels.
 
@@ -132,7 +132,7 @@ const ListScreen = memo(({items}: Props) => {
 
 So, we have fixed the main problems that lead to re-rendering the entire screen 100 times per second. Let’s move on to slightly more complex topics.
 
-### 2. Lists
+## 2. Lists
 
 Many believe it is impossible in immutable stores to re-render only a single list item when that item changes. In reality, it is quite simple — you need **normalization**. More precisely, store the data order (ids) and the data itself (entities) separately.
 
@@ -157,7 +157,7 @@ const ListScreenItem = memo(({id}: {id: string}) => {
 
 ---
 
-### 3. Memoized selectors with parameters
+## 3. Memoized selectors with parameters
 
 With memoized selectors, it is important to understand where the memoization is stored. Reselect, by default, stores the cache inside the selector itself, and only for the last value of the last input parameters. If multiple mounted components use it with different parameters or different stores, it will be constantly recalculated:
 
@@ -199,13 +199,13 @@ Or read the [documentation](https://reselect.js.org/api/weakMapMemoize) about ot
 
 ---
 
-### 4. Immer
+## 4. Immer
 
 One of the best ways to degrade immutable store performance [by 100x](https://github.com/reduxjs/redux-toolkit/issues/4793) is to use Immer. And yes, it is used by default and cannot be disabled in RTK slices and RTK Query. Which means they **do not suit us** — for RTK, use vanilla reducers.
 
 ---
 
-### 5. Don’t write boilerplate
+## 5. Don’t write boilerplate
 
 Many mistakes can simply be avoided by not re-implementing data loading and caching over and over again. Many libraries already exist, from Tanstack Query to Apollo Client. The only issue is that all of them use their own closed stores without direct access. The exception is RTK Query, but we have already decided not to use it (and not only because of performance issues).
 
@@ -213,7 +213,7 @@ An excellent solution for Zustand / Redux is the [RRC](https://github.com/gentle
 
 ---
 
-### 6. Splitting stores
+## 6. Splitting stores
 
 In most projects, there are no issues with storing data in a single store. But if you expect many simultaneously mounted screens under heavy load, it makes sense to split immutable stores in order to **reduce the number of subscribers** (store write time includes both state mutation and subscriber notification with selector computation), as well as to slightly reduce string comparisons (`action.type` in Redux) and shallow copying of root objects. One option is to split the model into independent domains and create a store for each.
 
@@ -231,7 +231,7 @@ Store splitting options:
 
 And yes, Redux also [supports](https://github.com/gentlee/redux-light/blob/master/src/create-context-and-hooks.ts) multiple stores, albeit not very conveniently and not very well documented.
 
-#### Objections
+##### Objections
 
 1. Redux documentation does not recommend doing this, so we shouldn’t.
 
@@ -245,7 +245,7 @@ And yes, Redux also [supports](https://github.com/gentlee/redux-light/blob/maste
 
 ---
 
-### 7. Unnecessary subscriptions
+## 7. Unnecessary subscriptions
 
 Code becomes slightly more efficient if you don’t subscribe to data that is not needed for rendering. For example, data used only inside event handlers.
 
@@ -267,14 +267,14 @@ const Button = () => {
   }
 }
 ```
-#### Objections
+##### Objections
 1. This doesn’t help much, but now I also have to think about this.
 
     When writing code, it’s better to think all the time — it’s a habit worth developing. Also, small optimizations may be invisible on their own but work very well when applied everywhere.
 
 ---
 
-### 8. Data copying
+## 8. Data copying
 
 The asymptotic complexity of adding an element to a standard collection (array, object) in an immutable store is O(N), since it requires shallow copying (usually via the `...` operator). Additionally, garbage collection is required for the previous collection. For most projects this is not an issue, since collection sizes rarely exceed 1000 and battery consumption is not critical. But for huge projects this can become a problem, and there are ways to turn O(N) into O(log N), or even O(1).
 
@@ -283,7 +283,7 @@ The asymptotic complexity of adding an element to a standard collection (array, 
 Everything is simple here — replace arrays with List and objects with Map from the `immutable` library. Briefly about the implementation: we now work with a tree structure where the size of array “leaves” does not exceed a certain value (usually 32). In the case of List, each tree leaf is an array of up to 32 elements, and when the threshold is exceeded, the nesting level increases — a new branch is created, where one of the leaves is the old array. For example, storing a billion values requires only 6 levels of nesting.
 There are downsides as well — slower for small collections, serialization, debugging, new API. Better to read [here](https://redux.gitbook.io/docs/recipes/usingimmutablejs#what-are-the-issues-with-using-immutable.js).
 
-### Objections
+##### Objections
 1. Learn another library again, rewrite half the project, and in the end everyone will write `.toJS()` everywhere and it will only get worse.
 
     If you are not confident about performance issues, development processes, or the team’s ability to learn a small library, you shouldn’t go there. Start with profiling and basic optimizations from other sections.
@@ -327,14 +327,14 @@ Results of the [benchmark](https://github.com/gentlee/react-redux-cache/blob/mai
 | Immutable reducer | 1.57 | 1.81 | 7.62 | 103.82 | 1457.89 |
 | Mutable reducer | 1.4 | 1.15 | 0.65 | 1.03 | 0.76 |
 
-#### Objections
+##### Objections
 1. This is not according to the documentation, you can’t do this!
 
     Yes, I don’t recommend doing this all the time — it’s unlikely that performance issues stem from this. But it’s worth knowing about this possibility, as well as about storing mutable data in such stores in general — for example, metadata that should be cleared together with the store. Or as an optimization technique for large collections if you don’t want to pull in Immutable.js.
 
 ---
 
-### 9. Persistence
+## 9. Persistence
 
 Oh, that `redux-persist`, which in many projects is configured so poorly that it saves not only individual reducers but additionally the entire state...
 
@@ -351,7 +351,7 @@ And most importantly — log and measure disk operations so you don’t end up i
 
 ---
 
-### 10. Interface responsiveness-critical operations
+## 10. Interface responsiveness-critical operations
 It’s important to understand that immutable stores are not designed for bidirectional binding of user input in text fields or for animating the coordinates of an object being dragged across the screen. For highly frequent and critical interface updates with minimal delay, a more imperative approach should be used, ideally one that doesn't require even a VDOM re-render. For example, in React Native, `react-native-reanimated` is often used for this purpose.
 
 ---

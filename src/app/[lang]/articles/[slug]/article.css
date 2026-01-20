@@ -9,12 +9,12 @@ article a {
   text-decoration: underline;
 }
 
-article h2, article h3, article h4 {
+article h2, article h3, article h4, article h5 {
   font-family: var(--fira-sans);
   font-weight: 700;
 }
 
-article h3, article h4 {
+article h3, article h4, article h5 {
   margin-bottom: calc(var(--s-gap)/-2);
 }
 
@@ -27,6 +27,10 @@ article h3 {
 }
 
 article h4 {
+  font-size: 18px;
+}
+
+article h5 {
   font-size: 18px;
 }
 

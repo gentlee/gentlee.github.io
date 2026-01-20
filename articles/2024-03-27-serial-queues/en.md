@@ -14,7 +14,7 @@ Is it possible that most popular programming languages lack the most efficient s
 
 This article assumes that you already have a basic understanding of synchronization mechanisms. The code is written in C#, but the specific language is not of particular importance.
 
-#### Background
+## Background
 
 I haven’t written in C# for a long time, but about 12 years ago, I began working on cross-platform mobile development using Xamarin. Tasks often required implementing various synchronization mechanisms to handle access to the state from the main and background threads, as well as synchronization for working with the SQLite database. When developing for iOS (surprisingly, many projects were iOS-only), Xamarin offered both the tools available in native development — such as Grand Central Dispatch with parallel and serial queues and NSOperationQueue based on them — and tools from C# — Monitor, SpinLock, Mutex, Semaphore, TPL Dataflow, Thread, thread-safe collections, RxUI, and much more. With such a vast variety of tools, developers used "what they could" and what they could find faster through search engines or on StackOverflow: blocking all calls from the main thread or thread pool primitives, creating separate threads, synchronization via the main thread, and the whole zoo of mechanisms I listed earlier. This occasionally led to errors like UI freezes, race conditions, or deadlocks.
 
@@ -25,7 +25,7 @@ But I loved getting to the heart of the matter and finding the best solution, an
 
 But this doesn’t work with blocking operations — during full thread locks (Mutex), the thread pool is forced to create additional threads so that CPU cores do not idle, while during spinlocks (SpinLock), the CPU cycles are wasted. While the solution for I/O operations is obvious — use non-blocking alternatives — all the standard synchronization mechanisms in popular languages like C# block the waiting thread for the duration of the queue wait time, which can often be longer than the operation itself.
 
-#### Introduction to GCD
+## Introduction to GCD
 
 Exploring the capabilities of the GCD library from Apple while working with Xamarin, parallel queues did not seem particularly necessary — essentially, they are equivalent to ThreadPool or TaskPool in C#. 
 
@@ -39,7 +39,7 @@ They are **lightweight** (essentially just a list under synchronization primitiv
 
 The fact that they do not block the waiting thread suggests that for lengthy operations, the best solution for synchronization is precisely serial queues. But in practice, even for the shortest operations, when developing with an existing main thread queue (e.g., on iOS), it makes no sense to use lower-level, more complex, and error-prone constructions that **other team members might not be familiar with**. For a nanosecond operation, it’s better to throw it into this very main thread queue, as it will have no impact on the frames per second. Moreover, practice shows that even those who **think they know** synchronization primitives often misunderstand them and produce poor, buggy, and slow code. Bugs in "multithreading" are often very unstable and difficult to reproduce and fix. Additionally, this approach aligns well with the commonly accepted rule of always invoking callback methods on the main thread, eliminating the need to guess which thread you are currently on and avoiding additional synchronization concerns. Incidentally, in Xamarin, for async/await calls from the main thread, this worked by default, which was quite convenient.
 
-#### Real-life Examples of Thread Blocking and Synchronization Issues
+## Real-life Examples of Thread Blocking and Synchronization Issues
 
 Here are some real-world examples of thread-blocking errors that have impacted product quality:
 
@@ -55,19 +55,19 @@ Here are some real-world examples of thread-blocking errors that have impacted p
 
 As we can see, this is indeed an important topic that directly impacts the quality and user experience of client applications, as well as the performance, stability, and cost of infrastructure for server-side applications.
 
-#### What’s the Problem?
+## What’s the Problem?
 
 Strangely enough, the standard libraries of many programming languages — both back then and now — despite the variety of synchronization tools, do not include this solution out of the box, even though it’s very simple to implement using existing tools. For example, in C#, it can be done via `SemaphoreSlim`, `ActionBlock`, or simply chaining tasks together. Moreover, Microsoft felt that something like this was needed and created a class with the awkward name `SynchronizationContext`. However, they failed to fully develop the idea or use it as a foundational synchronization mechanism. Could we have had a _SerialTheadPoolSynchronizationContext_? No, _SerialQueue_ sounds much better.
 
 Even on Apple’s platform, where these queues originated, the [most popular SQLite library](https://github.com/stephencelis/SQLite.swift/blob/3d25271a74098d30f3936d84ec1004d6b785d6cd/Sources/SQLite/Core/Connection.swift#L694) (with around 10k stars) uses queues but in a blocking mode, nullifying all their advantages. Moreover, even experienced native iOS developers often consider queues to be heavy and believe that a skilled developer should use synchronization primitives because they are much faster. In reality, they often work much slower than queues, which many find hard to grasp. Even during interviews at top tech companies, I got tired of arguing about this and found it beneath me to answer questions the way interviewers expected just to pass their filters.
 
-#### Writing a Library
+## Writing a Library
 
 After finishing my work with Xamarin about 8 years ago, I wrote [my own implementation of serial queues](https://github.com/gentlee/SerialQueue) for synchronizing data access in C#, to fill the gap for all other platforms of the C# language, which, unfortunately, only Apple had managed to figure out (perhaps somewhere else and much earlier—feel free to share in the comments).
 
 Only recently, many years later, after yet another discussion with a developer who decided I was spouting nonsense and after receiving [yet another downvote](https://stackoverflow.com/a/59976799/1768179) on StackOverflow, I decided to finally write a [**load test**](https://github.com/gentlee/SerialQueue/tree/master/Benchmark) to validate my beliefs and to reference in future discussions. Especially since those who have seriously engaged in optimization know that even obvious improvements can often make things worse in practice, so testing hypotheses is always better. At the same time, I wrote a lighter implementation that doesn't use `Task`.
 
-#### Usage Examples
+## Usage Examples
 
 Let’s consider its usage with an example of a request handler based on Task, and here is example with the familiar Monitor:
 
@@ -136,7 +136,7 @@ void HandleRequest(Request request, Action<Request, Response> next) {
 }
 ```
 
-#### Performance Test Results (Apple M1, 16GB)
+## Performance Test Results (Apple M1, 16GB)
 
 <details>
 <summary>Table of Results (in CPU ticks — the fewer, the better):</summary>
@@ -205,7 +205,7 @@ Key insights from these results:
 
 It is also important to emphasize once again that with **blocking methods** (e.g., SpinLock, Monitor, etc.), the **costs of synchronization and performing the operation** are **entirely borne by the calling thread**. In contrast, for **non-blocking methods** (SerialQueue), the **calling thread is only blocked for the time it takes to add the operation to the queue**, while the remaining costs and the operation itself are handled in the thread pool. This provides even more advantages for queues when working from the main application thread.
 
-#### Conclusions
+## Conclusions
 
 So, what is the correct approach to use for:
 
@@ -226,13 +226,13 @@ However, it’s crucial to acknowledge that serial queues are an **asynchronous 
 
 Another point to note: synchronization mechanisms are not always the primary bottleneck, even in the examples discussed earlier. The main law of modern software development has long been clear to me: **"Even bad code works just fine"** (albeit not as well on low-end devices with drained batteries). This is just a small part of the enormous codebase that could perform better. But that doesn’t mean we shouldn’t know, learn, and strive to do things the best way possible.
 
-#### What About Concurrent Collections and ReaderWriterLock?
+## What About Concurrent Collections and ReaderWriterLock?
 
 Thread-safe collections should also be discarded, as they are only suitable for Hello World-level applications. They are implemented using blocking synchronization methods and also provoke race condition bugs when you need to synchronize access to multiple collections in a single transaction or perform several operations on one. It’s always better to use non-thread-safe implementations of any logic and wrap their usage in a synchronization mechanism that fits best. This approach also avoids bugs like deadlocks since there will be no nested synchronizations.
 
 ReaderWriterLock also seems useless to me. First, the approach using immutable data structures allows them to be read from any thread, and a simple queue can suffice here. Second, if you use mutable structures, I believe implementations of `ReaderWriter[Serial]Queue` and `ReaderWriterSpinLock` would be far more efficient. But I won’t write these implementations or verify this hypothesis.
 
-#### Epilogue
+## Epilogue
 
 How is it possible that such fundamental concepts are practically unknown? Why do developers in leading global IT companies continue to write more and more subpar code like _Concurrent Collections_ instead of adding and advocating for better synchronization methods? I would say that truly skilled developers are few and far between. Most are limited to solving LeetCode-style tasks and blindly using the most popular frameworks. Then the same people conduct interviews, hiring those like themselves. Some become CTOs and promote outright poor technologies in the largest companies, producing developers trained on these technologies.
 

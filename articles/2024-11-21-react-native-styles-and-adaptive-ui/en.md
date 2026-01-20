@@ -503,7 +503,7 @@ This same code can be used to generate access code for any assets, such as Lotti
 
 ---
 
-**Conclusion**
+## Conclusion
 
 As we can see, adaptive layouts and style organization in React Native are easily handled using built-in tools and a few simple functions. Any libraries for this purpose should be considered a poor architectural decision. Moreover, these approaches have been successfully applied in practice — a significant refactor of a 7-year-old, three-platform project written in "how not to do it" style passed an accessibility audit by Deque, which included adaptive interface testing.
 

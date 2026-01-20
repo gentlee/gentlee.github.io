@@ -56,7 +56,7 @@ Quick Comparison of Libraries:
 
 \**** - RTK overall has fewer stars compared to other popular libraries, and RTK-Query, being an optional part of it, is even less popular.
 
-#### Why Only React?
+##### Why Only React?
 
 Supporting all kinds of UI libraries in addition to the most popular one (which is also used in React Native) would complicate things, and I am not ready for that yet.
 
@@ -74,7 +74,7 @@ These examples are the best demonstration of how significantly user experience a
 - Requests are constantly sent, even when the existing data is still fresh enough.
     
 
-#### Example of State with Normalization
+##### Example of State with Normalization
 
 ```javascript
 {
@@ -118,7 +118,7 @@ These examples are the best demonstration of how significantly user experience a
 
 ```
 
-#### Example of State Without Normalization
+##### Example of State Without Normalization
 
 ```javascript
 {
@@ -159,7 +159,7 @@ These examples are the best demonstration of how significantly user experience a
 }
 ```
 
-### Installation
+## Installation
 
 `react`, `redux`, and `react-redux` are peer dependencies.
 
@@ -169,11 +169,11 @@ These examples are the best demonstration of how significantly user experience a
 npm add react-redux-cache react redux react-redux fast-deep-equal
 ```
 
-### Initialization
+## Initialization
 
 The only function you need to import is `createCache`, which creates fully typed reducers, hooks, actions, selectors, and utilities for use in your application. You can create as many caches as needed, but note that normalization is not shared between them. All types, queries, and mutations must be passed during cache initialization for correct typing.
 
-#### `cache.ts`
+##### `cache.ts`
 
 ```typescript
 // Mapping normalized entities to their types
@@ -204,7 +204,7 @@ export const {
 })
 ```
 
-### Requirements for Normalization
+## Requirements for Normalization
 
 To use normalization, two things are required:
 
@@ -224,7 +224,7 @@ type EntityChanges<T extends Typenames> = {
 }
 ```
 
-#### `store.ts` (Redux)
+##### `store.ts` (Redux)
 
 Create the Redux store as usual, passing the new cache reducer under the name of the cache. If a different Redux structure is needed, you should additionally pass a selector for the cache state when creating the cache.
 
@@ -237,7 +237,7 @@ const store = configureStore({
 })
 ```
 
-#### `api.ts`
+##### `api.ts`
 
 The result type of a query should be `NormalizedQueryResponse` or `QueryResponse`, and for a mutation — `NormalizedMutationResponse` or `MutationResponse`. In this example, the `normalizr` package is used for normalization, but other tools can be used if the query result conforms to the required type. Ideally, the backend returns already normalized data.
 
@@ -282,7 +282,7 @@ export const removeUser = async (id: number, abortSignal: AbortSignal) => {
 }
 ```
 
-#### `UserScreen.tsx`
+##### `UserScreen.tsx`
 
 ```typescript
 export const UserScreen = () => {
@@ -311,9 +311,9 @@ export const UserScreen = () => {
 }
 ```
 
-### Advanced Features
+## Advanced Features
 
-#### Infinite Scrolling with Pagination
+### Infinite Scrolling with Pagination
 
 Here’s an example of configuring the `getUsers` query to support infinite scrolling — a feature unavailable in RTK-Query. The full implementation can be found in the `/example` folder.
 
@@ -384,7 +384,7 @@ export const GetUsersScreen = () => {
 }
 ```
 
-#### redux-persist
+### redux-persist
 
 Here’s a simple configuration for `redux-persist`:
 
@@ -408,6 +408,6 @@ const persistedReducer = persistReducer(
 
 Other usage examples can be found in the [documentation](https://github.com/gentlee/react-redux-cache).
 
-### Conclusion
+## Conclusion
 
 Although the project is still under development, it is ready for use. Constructive criticism and qualified contributions are welcome.

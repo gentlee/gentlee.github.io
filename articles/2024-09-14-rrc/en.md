@@ -4,14 +4,14 @@ shortTitle: '<strong>RRC</strong>: caching library for Zustand/Redux'
 date: '2024-09-14'
 cover: 'cover.webp'
 cover-alt: 'Example of normalized state'
-spoiler: 'Introducing <code>react-redux-cache</code> (RRC) - a lightweight library for data fetching and caching in React applications that supports normalization, unlike React Query and RTK Query, while featuring a similar but much simpler interface. Built for Zustand/Redux, it is fully tested, completely typed, and written in TypeScript.'
+spoiler: 'Introducing RRC - a lightweight library for data fetching and caching in React applications that supports normalization, unlike React Query and RTK Query, while featuring a similar but much simpler interface. Built for Zustand/Redux, it is fully tested, completely typed, and written in TypeScript.'
 links:
-- npm: https://www.npmjs.com/package/react-redux-cache
-- github: https://github.com/gentlee/react-redux-cache
+- npm: https://www.npmjs.com/package/rrc
+- github: https://github.com/gentlee/rrc
 - discuss-github: https://github.com/gentlee/gentlee.github.io/discussions/2
 ---
 
-Introducing [react-redux-cache](https://github.com/gentlee/react-redux-cache) (RRC) - a lightweight library for data fetching and caching in React applications that supports normalization, unlike **React Query** and **RTK Query**, while featuring a similar but much simpler interface. Built for Zustand/Redux, it is fully tested, completely typed, and written in TypeScript.
+Introducing [RRC](https://github.com/gentlee/rrc) - a lightweight library for data fetching and caching in React applications that supports normalization, unlike **React Query** and **RTK Query**, while featuring a similar but much simpler interface. Built for Zustand/Redux, it is fully tested, completely typed, and written in TypeScript.
 
 Additionally, unlike **RTK Query**, it easily supports such basic functionality as infinite scrolling with pagination (see example below).
 
@@ -166,7 +166,7 @@ These examples are the best demonstration of how significantly user experience a
 `fast-deep-equal` is an optional peer dependency if deep comparison is needed for optimizing re-renders (`deepComparisonEnabled`, default is `true`).
 
 ```bash
-npm add react-redux-cache react redux react-redux fast-deep-equal
+npm add rrc react redux react-redux fast-deep-equal
 ```
 
 ## Initialization
@@ -406,7 +406,7 @@ const persistedReducer = persistReducer(
 )
 ```
 
-Other usage examples can be found in the [documentation](https://github.com/gentlee/react-redux-cache).
+Other usage examples can be found in the [documentation](https://github.com/gentlee/rrc).
 
 ## Conclusion
 

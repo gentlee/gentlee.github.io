@@ -209,7 +209,7 @@ One of the best ways to degrade immutable store performance [by 100x](https://gi
 
 Many mistakes can simply be avoided by not re-implementing data loading and caching over and over again. Many libraries already exist, from Tanstack Query to Apollo Client. The only issue is that all of them use their own closed stores without direct access. The exception is RTK Query, but we have already decided not to use it (and not only because of performance issues).
 
-An excellent solution for Zustand / Redux is the [RRC](https://github.com/gentlee/react-redux-cache) library, which generates all necessary functions for caching provided async operations, including hooks and selectors. It has a very simple yet flexible interface, full typing, more than 100 unit tests, an immutable store of your choice (Redux/Zustand), supports normalization, deduplication, infinite pagination, mutable collections (see below), and much more. And of course, it does not use Immer — performance is a priority.
+An excellent solution for Zustand / Redux is the [RRC](https://github.com/gentlee/rrc) library, which generates all necessary functions for caching provided async operations, including hooks and selectors. It has a very simple yet flexible interface, full typing, more than 100 unit tests, an immutable store of your choice (Redux/Zustand), supports normalization, deduplication, infinite pagination, mutable collections (see below), and much more. And of course, it does not use Immer — performance is a priority.
 
 ---
 
@@ -318,9 +318,9 @@ There are a couple more nuances:
 
 Besides performance, one more advantage is the absence of [specific downsides]((https://redux.gitbook.io/docs/recipes/usingimmutablejs#what-are-the-issues-with-using-immutable.js)) of Immutable.js collections.
 
-Recently, version 0.22.2 of the [RRC](https://github.com/gentlee/react-redux-cache) library was released, which allows making all its internal collections mutable with a single option. In most cases, the rest of the code does not need to be changed, since there should not be direct subscriptions to its internal collections anyway. There is also a benchmark demonstrating when this makes sense (briefly and roughly — for collections larger than 1000 elements).
+Recently, version 0.22.2 of the [RRC](https://github.com/gentlee/rrc) library was released, which allows making all its internal collections mutable with a single option. In most cases, the rest of the code does not need to be changed, since there should not be direct subscriptions to its internal collections anyway. There is also a benchmark demonstrating when this makes sense (briefly and roughly — for collections larger than 1000 elements).
 
-Results of the [benchmark](https://github.com/gentlee/react-redux-cache/blob/main/scripts/benchmark.mjs) of element insertion time depending on collection size, **in microseconds** (lower is better):
+Results of the [benchmark](https://github.com/gentlee/rrc/blob/main/scripts/benchmark.mjs) of element insertion time depending on collection size, **in microseconds** (lower is better):
 
 | Collection size | 0 | 1,000 | 10,000 | 100,000 | 1,000,000 |
 |-|-|-|-|-|-|

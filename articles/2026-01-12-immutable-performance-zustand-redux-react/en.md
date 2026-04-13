@@ -157,9 +157,73 @@ const ListScreenItem = memo(({id}: {id: string}) => {
 
 ---
 
-## 3. Memoized selectors with parameters
+## 3. Subscriptions
 
-With memoized selectors, it is important to understand where the memoization is stored. Reselect, by default, stores the cache inside the selector itself, and only for the last value of the last input parameters. If multiple mounted components use it with different parameters or different stores, it will be constantly recalculated:
+One of the most important and problematic points when working with stores, which greatly affects performance.
+
+### 3.1. Heavy selectors
+
+If selectors compute too much, then every change to the store's state slows down. The solution is memoization of the selector, moving computations before the store change, or after — into the component.
+
+```ts
+const Component = ({id}: Props) => {
+  const data = useStore((state) => {
+    // Long-running computations are triggered on every state change of the store,
+    // which slows down every such change.
+    return someLongEvaluation(state, id)
+  })
+}
+```
+
+Fixing it:
+```ts
+// Memoizing the selector.
+
+const reselectData = createSelector(
+  selectItems,
+  (_, id) => id,
+  someLongEvaluation
+)
+
+const Component = ({id}: Props) => {
+  const data = useStore((state) => reselectData(state, id))
+}
+
+// Alternatively, perform the computation in the component using useMemo.
+// This is worse because the computation is done by each component and may lead to the
+// issue described in the next section, but in certain cases it is acceptable.
+
+const Component = ({id}: Props) => {
+  const items = useStore(selectItems)
+
+  const data = useMemo(() => someLongEvaluation(data, id), [data, id])
+}
+```
+
+### 3.2. Too broad selectors
+
+The opposite problem — subscribing to too much data, performing computations inside the component itself, which leads to too frequent re-renders.
+
+```ts
+const ListItem = ({id}: Props) => {
+  //  On every change of currentItemId, all ListItem cells will re-render.
+  const currentItemId = useStore(selectCurrentItemId)
+  const isItemSelected = currentItemId === id
+}
+```
+
+Fixing it:
+```ts
+const ListItem = ({id}: Props) => {
+  // Only two cells re-render when currentItemId changes —
+  // the previously selected one (true -> false), and the new one (false -> true).
+  const isItemSelected = useStore((state) => selectCurrentItemId(state) === id)
+}
+```
+
+### 3.3. Memoized selectors with parameters
+
+A consequence of a poor solution to the problem from section 3.1. With memoized selectors, it is important to understand where the memoization is stored. Reselect, by default, stores the cache inside the selector itself, and only for the last value of the last input parameters. If multiple mounted components use it with different parameters or different stores, it will be constantly recalculated:
 
 ```tsx
 const reselectOptions = createSelector(
@@ -196,6 +260,48 @@ const Button = ({id}: {id: string}) => {
 ```
 
 Or read the [documentation](https://reselect.js.org/api/weakMapMemoize) about other ways to configure LRU or WeakMap caching.
+
+### 3.4. Disabling subscriptions
+
+Sometimes it makes sense to disable subscriptions by passing a dummy selector, eliminating unnecessary selector computations and re-renders.
+
+```ts
+const Component = ({enabled}: Props) => {
+  // Disabling the subscription using a dummy selector.
+  const data = useStore(enabled ? selectData : selectUndefined)
+}
+
+export const selectUndefined = () => undefined
+
+export const selectFalse = () => false
+```
+
+## 3.5. Unnecessary subscriptions
+
+Code becomes even more efficient if you don’t subscribe to data that is not needed for rendering. For example, data used only inside event handlers.
+
+```ts
+const Button = () => {
+  const store = useStore()
+
+  // Do not do this:
+  // const worldName = useSelector(selectWorldName)
+  // const currentId = useSelector(selectCurrentId)
+
+  const onPress = () => {
+    // Subscription will not update the alert anyway.
+    Alert.alert(`Hello, ${selectWorldName(store.getState())}!`)
+
+    // And not needed here either.
+    const currentId = selectCurrentId(store.getState())
+    fetchData(currentId)
+  }
+}
+```
+##### Objections
+1. This doesn’t help much, but now I also have to think about this.
+
+    When writing code, it’s better to think all the time — it’s a habit worth developing. Also, small optimizations may be invisible on their own but work very well when applied everywhere.
 
 ---
 
@@ -245,40 +351,11 @@ And yes, Redux also [supports](https://github.com/gentlee/redux-light/blob/maste
 
 ---
 
-## 7. Unnecessary subscriptions
-
-Code becomes slightly more efficient if you don’t subscribe to data that is not needed for rendering. For example, data used only inside event handlers.
-
-```ts
-const Button = () => {
-  const store = useStore()
-
-  // Do not do this:
-  // const worldName = useSelector(selectWorldName)
-  // const currentId = useSelector(selectCurrentId)
-
-  const onPress = () => {
-    // Subscription will not update the alert anyway.
-    Alert.alert(`Hello, ${selectWorldName(store.getState())}!`)
-
-    // And not needed here either.
-    const currentId = selectCurrentId(store.getState())
-    fetchData(currentId)
-  }
-}
-```
-##### Objections
-1. This doesn’t help much, but now I also have to think about this.
-
-    When writing code, it’s better to think all the time — it’s a habit worth developing. Also, small optimizations may be invisible on their own but work very well when applied everywhere.
-
----
-
-## 8. Data copying
+## 7. Data copying
 
 The asymptotic complexity of adding an element to a standard collection (array, object) in an immutable store is O(N), since it requires shallow copying (usually via the `...` operator). Additionally, garbage collection is required for the previous collection. For most projects this is not an issue, since collection sizes rarely exceed 1000 and battery consumption is not critical. But for huge projects this can become a problem, and there are ways to turn O(N) into O(log N), or even O(1).
 
-### 8.1. O(log N) — Immutable.js
+### 7.1. O(log N) — Immutable.js
 
 Everything is simple here — replace arrays with List and objects with Map from the `immutable` library. Briefly about the implementation: we now work with a tree structure where the size of array “leaves” does not exceed a certain value (usually 32). In the case of List, each tree leaf is an array of up to 32 elements, and when the threshold is exceeded, the nesting level increases — a new branch is created, where one of the leaves is the old array. For example, storing a billion values requires only 6 levels of nesting.
 There are downsides as well — slower for small collections, serialization, debugging, new API. Better to read [here](https://redux.gitbook.io/docs/recipes/usingimmutablejs#what-are-the-issues-with-using-immutable.js).
@@ -288,7 +365,7 @@ There are downsides as well — slower for small collections, serialization, deb
 
     If you are not confident about performance issues, development processes, or the team’s ability to learn a small library, you shouldn’t go there. Start with profiling and basic optimizations from other sections.
 
-### 8.2. O(1) — Mutable collections
+### 7.2. O(1) — Mutable collections
 
 No copying — no problems (almost). When you understand how the technology works, making localized optimizations is not a problem, but many people don’t fully understand it and, naturally, are afraid. Using an immutable store usually <strong>does not forbid mutable data</strong>, it just prevents direct subscriptions to it and the use of tools like time-travel debugging (does anyone actually use that?). But you can always subscribe indirectly via a special change key:
 
@@ -334,7 +411,7 @@ Results of the [benchmark](https://github.com/gentlee/rrc/blob/main/scripts/benc
 
 ---
 
-## 9. Persistence
+## 8. Persistence
 
 Oh, that `redux-persist`, which in many projects is configured so poorly that it saves not only individual reducers but additionally the entire state...
 
@@ -351,7 +428,7 @@ And most importantly — log and measure disk operations so you don’t end up i
 
 ---
 
-## 10. Interface responsiveness-critical operations
+## 9. Interface responsiveness-critical operations
 It’s important to understand that immutable stores are not designed for bidirectional binding of user input in text fields or for animating the coordinates of an object being dragged across the screen. For highly frequent and critical interface updates with minimal delay, a more imperative approach should be used, ideally one that doesn't require even a VDOM re-render. For example, in React Native, `react-native-reanimated` is often used for this purpose.
 
 ---

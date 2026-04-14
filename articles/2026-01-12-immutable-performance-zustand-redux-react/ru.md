@@ -6,7 +6,7 @@ cover: 'cover.webp'
 cover-alt: 'Символы "...", "||", "??", "[]" и "{}" с ухмылкой и предвкушением смотрят на сидящего на белом диване персонажа, символизирующего связку технологий React, Redux и Zustand'
 spoiler: 'В этой статье мы разберем основные <strong>причины деградации производительности</strong> иммутабельных сторов в связке с React и рассмотрим подходы к написанию высоконагруженного кода, включая <strong>неочевидные и многим не знакомые</strong>.'
 links:
-- discuss-github: https://github.com/gentlee/gentlee.github.io/discussions/4
+- discuss-github: https://github.com/gentlee/gentlee.github.io/discussions/5
 - discuss-habr: https://habr.com/ru/articles/984654/comments/
 ---
 

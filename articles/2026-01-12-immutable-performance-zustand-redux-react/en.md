@@ -6,7 +6,7 @@ cover: 'cover.webp'
 cover-alt: 'The symbols "...", "||", "??", "[]" and "{}" grin with anticipation while looking at a sitting on a white couch character that symbolizes the combination of React, Redux, and Zustand'
 spoiler: 'In this article, we will break down the <strong>main causes of performance degradation</strong> in immutable stores combined with React and discuss approaches to writing high-load code, including <strong>non-obvious and unfamiliar to many</strong>.'
 links:
-- discuss-github: https://github.com/gentlee/gentlee.github.io/discussions/4
+- discuss-github: https://github.com/gentlee/gentlee.github.io/discussions/5
 ---
 
 ![The symbols "...", "||", "??", "[]" and "{}" grin with anticipation while looking at a sitting on a white couch character that symbolizes the combination of React, Redux, and Zustand](/articles/2026-01-12-immutable-performance-zustand-redux-react/cover.webp)

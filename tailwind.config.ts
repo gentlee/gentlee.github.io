@@ -17,6 +17,7 @@ export default {
         foreground: 'var(--foreground)',
         focus: 'var(--focus)',
         accent: 'var(--accent)',
+        border: 'var(--border)',
 
         npm: 'var(--npm)',
         github: 'var(--github)',

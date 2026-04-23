@@ -81,24 +81,46 @@ article blockquote {
 }
 
 article table {
-  width: 100%;
+  display: block; /* To make overflow-x work. */
   overflow-x: auto;
+  width: fit-content;
+  max-width: 100%;
+  overscroll-behavior-x: none;
+  border: 1px solid var(--border);
 }
 
 article details table {
-  display: block; /* To make overflow-x work. */
-  border-width: 0;
-  width: fit-content;
-  max-width: 100%;
-  overflow-x: auto;
-}
-
-article table, article th, article td {
-  border: 1px solid rgb(192, 192, 192);
+  border: none;
 }
 
 article th, article td {
-  padding: 8px;
+  min-width: 80px;
+  border: 1px solid var(--border);
+  padding: 8px var(--s-gap);
+}
+
+@media (max-width: 639px) {
+  article th, article td {
+    min-width: 44px;
+  }
+}
+
+article table tr:first-child th {
+  border-top: none;
+}
+
+article table tr:last-child td {
+  border-bottom: none;
+}
+
+article table th:first-child,
+article table td:first-child {
+  border-left: none;
+}
+
+article table th:last-child,
+article table td:last-child {
+  border-right: none;
 }
 
 article th {

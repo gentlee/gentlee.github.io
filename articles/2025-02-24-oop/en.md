@@ -3,13 +3,13 @@ title: 'OOP: <strong>the worst</strong> thing that happened to programming'
 shortTitle: 'OOP - <strong>the worst</strong> of programming'
 date: '2025-02-24'
 cover: 'cover.webp'
-cover-alt: 'The image shows what it would be like if buildings were constructed the same way code is written. Elderly people ask their grandson to build a toilet, and end up with an ugly, monstrous construction, while the grandson is pondering that perhaps the classes should have been inherited differently. In his hands, he holds a banana, surrounded by jungle and several monkeys. The Java logo is on the building.'
+cover-alt: 'The image shows what it would be like if buildings were constructed the same way code is written. Elderly people ask their grandson to build a toilet, and end up with an ugly, monstrous construction, while the grandson is pondering that perhaps the classes should have been inherited differently. In his hands, he holds a banana, surrounded by jungle with gorilla. The Java logo is on the building.'
 spoiler: 'In this article, we will try to understand why OOP is the worst thing that happened to programming, how it became so popular, why experienced Java (C#, C++, etc.) programmers can’t really be considered great engineers, and why code in Java cannot be considered good.'
 links:
 - discuss-github: https://github.com/gentlee/gentlee.github.io/discussions/4
 ---
 
-![The image shows what it would be like if buildings were constructed the same way code is written. Elderly people ask their grandson to build a toilet, and end up with an ugly, monstrous construction, while the grandson is pondering that perhaps the classes should have been inherited differently. In his hands, he holds a banana, surrounded by jungle and several monkeys. The Java logo is on the building.](/articles/2025-02-24-oop/cover.webp)
+![The image shows what it would be like if buildings were constructed the same way code is written. Elderly people ask their grandson to build a toilet, and end up with an ugly, monstrous construction, while the grandson is pondering that perhaps the classes should have been inherited differently. In his hands, he holds a banana, surrounded by jungle with gorilla. The Java logo is on the building.](/articles/2025-02-24-oop/cover.webp)
 
 In this article, we will try to understand why OOP is the worst thing that happened to programming, how it became so popular, why experienced Java (C#, C++, etc.) programmers can’t really be considered great engineers, and why code in Java cannot be considered good.
 
@@ -221,7 +221,7 @@ It turns out that methods lose to functions in every way, except for one small t
 
 Regarding this feature, even among OOP developers, there’s a well-established rule — inheritance is an anti-pattern, and delegation should be preferred.
 
-Why? Because, first of all, you can’t inherit specific fields or methods — only the whole class. This problem even has its own name — **The banana and monkey problem** by Joe Armstrong: you wanted a banana, but it gave you a monkey holding the banana and the entire jungle.
+Why? Because, first of all, you can’t inherit specific fields or methods — only the whole class. This problem even has its own name — **The banana and gorilla problem** by Joe Armstrong: you wanted a banana but what you got was a gorilla holding the banana and the entire jungle.
 
 Secondly — in most languages, you can only inherit from one class.
 

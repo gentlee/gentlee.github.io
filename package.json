@@ -4,12 +4,12 @@
   "private": true,
   "scripts": {
     "dev": "npm run clean-and-copy-images; next dev --turbopack",
-    "build": "npm run clean-and-copy-images; npm run generate-xss-atom; next build",
+    "build": "npm run clean-and-copy-images && npm run generate-xss-atom && next build",
     "serve": "npx serve out",
     "start": "next start",
     "lint": "next lint",
     "generate-xss-atom": "tsx src/fs/rss-atom.ts",
-    "clean-and-copy-images": "rm -rf public/articles; rsync -zavr --include='*.webp' --include='*/' --exclude='*' articles public",
+    "clean-and-copy-images": "rm -rf public/articles && rsync -zavr --include='*.webp' --include='*/' --exclude='*' articles public",
     "to-webp": "cwebp input.png -o output.webp"
   },
   "dependencies": {

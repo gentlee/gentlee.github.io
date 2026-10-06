@@ -9,7 +9,7 @@ import remarkRehype from 'remark-rehype'
 import {unified} from 'unified'
 import yaml from 'yaml'
 
-import {baseurl} from '~/assets/info.json'
+import info from '~/assets/info.json'
 import {Language} from '~/utils/constants'
 
 export type Source = 'npm' | 'github' | 'discuss-github' | 'discuss-habr'
@@ -62,7 +62,7 @@ export const getArticleHtmlAndFrontmatter = async (slug: string, lang: Language)
 }
 
 export const getUrlForArticleImage = (image: string, folder: string) => {
-  return `${baseurl}articles/${folder}/${image}`
+  return `${info.baseurl}articles/${folder}/${image}`
 }
 
 const removeXml = (data: string) => {

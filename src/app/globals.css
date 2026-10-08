@@ -1,6 +1,34 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import 'tailwindcss';
+@theme {
+  --breakpoint-xs: 25rem;
+  --breakpoint-toc: 90.75rem;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-focus: var(--focus);
+  --color-accent: var(--accent);
+  --color-border: var(--border);
+  --color-npm: var(--npm);
+  --color-github: var(--github);
+  --color-instagram: var(--instagram);
+  --color-linkedin: var(--linkedin);
+  --color-email: var(--email);
+  --color-habr: var(--habr);
+  --color-rss: var(--rss);
+  --color-atom: var(--atom);
+}
+
+@layer base {
+  dialog {
+    margin: auto;
+  }
+
+  button, [role='button'] {
+    cursor: pointer;
+  }
+}
 
 /* Variables */
 

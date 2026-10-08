@@ -42,14 +42,14 @@ export const DonateModal = ({lang}: {lang: Language}) => {
   return (
     <dialog
       id={DONATE_MODAL_ID}
-      className="bg-transparent text-[--foreground]"
+      className="bg-transparent text-foreground"
       aria-modal={true}
       aria-labelledby={DONATE_LABEL_ID}
       onClick={onOpenedDialogClick}
     >
       <div
         role="radiogroup"
-        className={`${fixedsysFont.className} text-[18px] !px-[--l-gap] !py-[--s-gap] !gap-[28px] big-shadow bg-white dark:bg-black max-w-full flex flex-col flex-wrap items-center justify-center`}
+        className={`${fixedsysFont.className} text-[18px] px-[var(--l-gap)]! py-[var(--s-gap)]! gap-[28px]! big-shadow bg-white dark:bg-black max-w-full flex flex-col flex-wrap items-center justify-center`}
       >
         <div id={DONATE_LABEL_ID} className="flex flex-col items-center gap-[8px]">
           <h2 className={`${fixedsysFont.className} leading-none mb-[-5px]`}>{s(lang, 'donate')}</h2>
@@ -69,7 +69,7 @@ export const DonateModal = ({lang}: {lang: Language}) => {
                 alt={`${s(lang, 'qr-code-for')} ${s(lang, selectedCoin)}`}
                 width={200}
                 height={200}
-                priority
+                preload
               />
             )
           })}

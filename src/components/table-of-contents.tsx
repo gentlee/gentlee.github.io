@@ -85,7 +85,7 @@ export const TableOfContents = memo(function TableOfContentsInner({lang, items}:
       aria-hidden
       className="hidden toc:block w-fit sticky h-0 overflow-visible top-[var(--s-gap)] ml-[calc(50%-260px-var(--max-content-w)/2)] mt-[var(--s-gap)] -mb-[var(--s-gap)]"
     >
-      <div className="bg-background big-shadow !p-0 !gap-0">
+      <div className="bg-background big-shadow p-0! gap-0!">
         <div style={CONTENT_WIDTH_STYLE} className="flex flex-col">
           <div style={{width: HEADER_FOOTER_WIDTH, height: 21}}>
             <NavigationBar lang={lang} subpath="articles" scale={HEADER_FOOTER_SCALE} />

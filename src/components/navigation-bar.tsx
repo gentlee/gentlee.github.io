@@ -94,7 +94,7 @@ const renderLink = ({
   selected?: boolean
 }) => {
   return (
-    <Link className={`!inline big-shadow big-button whitespace-pre`} aria-current {...props}>
+    <Link className={`inline! big-shadow big-button whitespace-pre`} aria-current {...props}>
       {selected && selectionArrowElement}
       {props.children}
     </Link>

@@ -64,7 +64,8 @@ const ArticlesPage = async ({params}: Props) => {
                       src={`/articles/${folderName}/${frontmatter.cover}`}
                       width={809}
                       height={460}
-                      priority={index === 0 ? true : false}
+                      style={{height: 'auto'}}
+                      preload={index === 0}
                     />
                   </p>
                   <p id={descriptionId} dangerouslySetInnerHTML={{__html: frontmatter.spoiler}} />

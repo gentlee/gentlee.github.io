@@ -1,7 +1,5 @@
 'use client'
 
-import '../app/globals.css'
-
 import {Fragment, memo, useEffect, useRef, useState} from 'react'
 
 import {Footer} from '~/components/footer'

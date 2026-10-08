@@ -3,7 +3,7 @@ import localFont from 'next/font/local'
 
 export const fixedsysFont = localFont({
   variable: '--fixedsys',
-  src: '../assets/fonts/fixedsys.ttf',
+  src: '../assets/fonts/fixedsys.woff2',
 })
 
 export const firaSansFont = Fira_Sans({

@@ -59,7 +59,7 @@ export const DonateModal = ({lang}: {lang: Language}) => {
         </div>
 
         <div className="flex items-center justify-center">
-          {/* Render all for preload and fast switch */}
+          {/* Render all for preload and fast switch. Eager + low priority: loaded after main content, before modal opens. */}
           {(info.coins as Coin[]).map((coin) => {
             return (
               <Image
@@ -69,7 +69,8 @@ export const DonateModal = ({lang}: {lang: Language}) => {
                 alt={`${s(lang, 'qr-code-for')} ${s(lang, selectedCoin)}`}
                 width={200}
                 height={200}
-                preload
+                loading="eager"
+                fetchPriority="low"
               />
             )
           })}

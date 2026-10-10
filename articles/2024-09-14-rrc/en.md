@@ -19,7 +19,7 @@ RRC can be considered an ApolloClient for protocols other than GraphQL (though t
 
 Principles guiding the library's creation:
 
-- Maximum simplicity, minimum restrictions. All essential features are available out-of-the-box, the rest can be implemented as needed.
+- Maximum simplicity, minimum restrictions. All essential features are available out-of-the-box; the rest can be implemented as needed.
 - High performance.
 - High test coverage, 100% type safety, and intolerance for bugs.
 - Functional style.
@@ -28,7 +28,7 @@ Principles guiding the library's creation:
 
 Below is a comparison with existing libraries for managing requests and state. Why you should use libraries for this instead of writing everything manually with `useEffect`/`redux-saga`, etc., will be left for other articles.
 
-- Full control over the store not only provides more capabilities, simplifies debugging, and coding but also helps avoid **fewer hacks** when a task goes beyond the typical hello-world scenarios from documentation, saving time on struggling with dubious library interfaces and sifting through massive source codes.
+- Full control over the store not only provides more capabilities, simplifies debugging and coding, but also lets you get by with **fewer hacks** when a task goes beyond the typical hello-world scenarios from documentation, saving time on struggling with dubious library interfaces and sifting through massive source codes.
 
 - Zustand/Redux are excellent, simple, and proven tools for storing "slow" data — that is, data that does not require updates every frame or every keypress. **Minimal learning curve** for those familiar with the library. The ecosystem provides **convenient debugging tools and numerous ready-made solutions**, such as state persistence (`redux-persist`). It is written in a **functional** style.
 

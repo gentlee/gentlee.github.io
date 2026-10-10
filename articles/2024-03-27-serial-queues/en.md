@@ -4,7 +4,7 @@ shortTitle: 'Hidden knowledge: <strong>queues</strong>'
 date: '2024-03-27'
 cover: 'graph-1.webp'
 cover-alt: The performance graph of synchronization methods from the article
-spoiler: 'Is it possible that most popular programming languages lack the most efficient synchronization mechanism? Could it be that engineers at Microsoft, Oracle, and many other major companies — not to mention everyone else — have not figured out the most effective way to synchronize data access even by 2025? Is most of what programmers, including those in top IT companies (except for rare Apple platform developers), know about synchronization — wrong? Today, we will explore this in detail. <br><br>This article assumes that you already have a basic understanding of synchronization mechanisms. The code is written in C#, but the specific language is not of particular importance.'
+spoiler: 'Is it possible that most popular programming languages lack the most efficient synchronization mechanism? Could it be that engineers at Microsoft, Oracle, and many other major companies — not to mention everyone else — have not figured out the most effective way to synchronize data access even by 2024? Is most of what programmers, including those in top IT companies (except for rare Apple platform developers), know about synchronization — wrong? Today, we will explore this in detail. <br><br>This article assumes that you already have a basic understanding of synchronization mechanisms. The code is written in C#, but the specific language is not of particular importance.'
 links:
 - github: https://github.com/gentlee/SerialQueue
 - discuss-github: https://github.com/gentlee/gentlee.github.io/discussions/1
@@ -27,7 +27,7 @@ But this doesn’t work with blocking operations — during full thread locks (M
 
 ## Introduction to GCD
 
-Exploring the capabilities of the GCD library from Apple while working with Xamarin, parallel queues did not seem particularly necessary — essentially, they are equivalent to ThreadPool or TaskPool in C#. 
+While exploring the capabilities of the GCD library from Apple and working with Xamarin, I found that parallel queues did not seem particularly necessary — essentially, they are equivalent to ThreadPool or TaskPool in C#. 
 
 However, **serial queues** caught my attention. Here’s what Apple’s documentation says about them:
 
@@ -57,7 +57,7 @@ As we can see, this is indeed an important topic that directly impacts the quali
 
 ## What’s the Problem?
 
-Strangely enough, the standard libraries of many programming languages — both back then and now — despite the variety of synchronization tools, do not include this solution out of the box, even though it’s very simple to implement using existing tools. For example, in C#, it can be done via `SemaphoreSlim`, `ActionBlock`, or simply chaining tasks together. Moreover, Microsoft felt that something like this was needed and created a class with the awkward name `SynchronizationContext`. However, they failed to fully develop the idea or use it as a foundational synchronization mechanism. Could we have had a _SerialTheadPoolSynchronizationContext_? No, _SerialQueue_ sounds much better.
+Strangely enough, the standard libraries of many programming languages — both back then and now — despite the variety of synchronization tools, do not include this solution out of the box, even though it’s very simple to implement using existing tools. For example, in C#, it can be done via `SemaphoreSlim`, `ActionBlock`, or simply chaining tasks together. Moreover, Microsoft felt that something like this was needed and created a class with the awkward name `SynchronizationContext`. However, they failed to fully develop the idea or use it as a foundational synchronization mechanism. Could we have had a _SerialThreadPoolSynchronizationContext_? No, _SerialQueue_ sounds much better.
 
 Even on Apple’s platform, where these queues originated, the [most popular SQLite library](https://github.com/stephencelis/SQLite.swift/blob/3d25271a74098d30f3936d84ec1004d6b785d6cd/Sources/SQLite/Core/Connection.swift#L694) (with around 10k stars) uses queues but in a blocking mode, nullifying all their advantages. Moreover, even experienced native iOS developers often consider queues to be heavy and believe that a skilled developer should use synchronization primitives because they are much faster. In reality, they often work much slower than queues, which many find hard to grasp. Even during interviews at top tech companies, I got tired of arguing about this and found it beneath me to answer questions the way interviewers expected just to pass their filters.
 
@@ -69,12 +69,12 @@ Only recently, many years later, after yet another discussion with a developer w
 
 ## Usage Examples
 
-Let’s consider its usage with an example of a request handler based on Task, and here is example with the familiar Monitor:
+Let’s consider its usage with an example of a request handler based on Task, and here is an example with the familiar Monitor:
 
 ```csharp
 readonly object locker = new object();
 
-// This function is called concurrenlty in the thread pool for each request
+// This function is called concurrently in the thread pool for each request
 async Task<Response> HandleRequest(Request request) {
   ...
   lock(locker) {
@@ -89,7 +89,7 @@ Here’s the same code using a SerialQueue based on Task:
 ```csharp
 readonly SerialQueue serialQueue = new SerialQueue();
 
-// This function is called concurrenlty in the thread pool for each request
+// This function is called concurrently in the thread pool for each request
 async Task<Response> HandleRequest(Request request) {
   ...
   await serialQueue.Enqueue(() => {
@@ -104,7 +104,7 @@ Now let's look at a request handler based on callback methods. Here’s the impl
 ```csharp
 readonly object locker = new object();
 
-// This function is called concurrenlty in the thread pool for each request
+// This function is called concurrently in the thread pool for each request
 void HandleRequest(Request request, Action<Request, Response> next) {
   ...
   lock(locker) {
@@ -120,7 +120,7 @@ Here’s the same code using a lightweight SerialQueue (not based on Task):
 ```csharp
 readonly SerialQueue serialQueue = new SerialQueue();
 
-// This function is called concurrenlty in the thread pool for each request
+// This function is called concurrently in the thread pool for each request
 void HandleRequest(Request request, Action<Request, Response> next) {
   ...
   serialQueue.DispatchAsync(() => {

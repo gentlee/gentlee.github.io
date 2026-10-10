@@ -3,13 +3,13 @@ title: 'Killers of immutable performance — <strong>Zustand</strong>/<strong>Re
 shortTitle: 'Immutable performance: <strong>Zustand</strong>, <strong>Redux</strong>, <strong>React</strong>'
 date: '2026-01-12'
 cover: 'cover.webp'
-cover-alt: 'The symbols "...", "||", "??", "[]" and "{}" grin with anticipation while looking at a sitting on a white couch character that symbolizes the combination of React, Redux, and Zustand'
+cover-alt: 'The symbols "...", "||", "??", "[]" and "{}" grin with anticipation while looking at a character sitting on a white couch, who symbolizes the combination of React, Redux, and Zustand'
 spoiler: 'In this article, we will break down the <strong>main causes of performance degradation</strong> in immutable stores combined with React and discuss approaches to writing high-load code, including <strong>non-obvious and unfamiliar to many</strong>.'
 links:
 - discuss-github: https://github.com/gentlee/gentlee.github.io/discussions/5
 ---
 
-![The symbols "...", "||", "??", "[]" and "{}" grin with anticipation while looking at a sitting on a white couch character that symbolizes the combination of React, Redux, and Zustand](/articles/2026-01-12-immutable-performance-zustand-redux-react/cover.webp)
+![The symbols "...", "||", "??", "[]" and "{}" grin with anticipation while looking at a character sitting on a white couch, who symbolizes the combination of React, Redux, and Zustand](/articles/2026-01-12-immutable-performance-zustand-redux-react/cover.webp)
 
 ## Introduction
 
@@ -46,7 +46,7 @@ const mapStateToProps = (state, ownProps) => {
     // And memoization does not help if the reselector returns `Falsy`.
     options: reselectOptions(state, ownProps.id) || {},
     // 4. Even dates betray us. Date is an object.
-    date: parseDate(state.map[ownProps.id].dateString) 
+    date: parseDate(state.map[ownProps.id].dateString),
     // 5. Selecting user and avatar is fine, but wrapping everything
     // into a new object will cause constant re-renders.
     userInfo: {
@@ -196,7 +196,7 @@ const Component = ({id}: Props) => {
 const Component = ({id}: Props) => {
   const items = useStore(selectItems)
 
-  const data = useMemo(() => someLongEvaluation(data, id), [data, id])
+  const data = useMemo(() => someLongEvaluation(items, id), [items, id])
 }
 ```
 
@@ -276,7 +276,7 @@ export const selectUndefined = () => undefined
 export const selectFalse = () => false
 ```
 
-## 3.5. Unnecessary subscriptions
+### 3.5. Unnecessary subscriptions
 
 Code becomes even more efficient if you don’t subscribe to data that is not needed for rendering. For example, data used only inside event handlers.
 
@@ -358,6 +358,7 @@ The asymptotic complexity of adding an element to a standard collection (array, 
 ### 7.1. O(log N) — Immutable.js
 
 Everything is simple here — replace arrays with List and objects with Map from the `immutable` library. Briefly about the implementation: we now work with a tree structure where the size of array “leaves” does not exceed a certain value (usually 32). In the case of List, each tree leaf is an array of up to 32 elements, and when the threshold is exceeded, the nesting level increases — a new branch is created, where one of the leaves is the old array. For example, storing a billion values requires only 6 levels of nesting.
+
 There are downsides as well — slower for small collections, serialization, debugging, new API. Better to read [here](https://redux.gitbook.io/docs/recipes/usingimmutablejs#what-are-the-issues-with-using-immutable.js).
 
 ##### Objections
@@ -393,7 +394,7 @@ There are a couple more nuances:
 - Treat such a collection like an analogue of `useRef()`, and pass `changeKey` instead of it where a dependency on changes is needed.
 - Keep in mind that the value updates immediately, while component props update only after rendering. It’s better to search by id rather than by an index passed through props, and to assume the element might not exist (which is a good practice even without mutability).
 
-Besides performance, one more advantage is the absence of [specific downsides]((https://redux.gitbook.io/docs/recipes/usingimmutablejs#what-are-the-issues-with-using-immutable.js)) of Immutable.js collections.
+Besides performance, one more advantage is the absence of [specific downsides](https://redux.gitbook.io/docs/recipes/usingimmutablejs#what-are-the-issues-with-using-immutable.js) of Immutable.js collections.
 
 Recently, version 0.22.2 of the [RRC](https://github.com/gentlee/rrc) library was released, which allows making all its internal collections mutable with a single option. In most cases, the rest of the code does not need to be changed, since there should not be direct subscriptions to its internal collections anyway. There is also a benchmark demonstrating when this makes sense (briefly and roughly — for collections larger than 1000 elements).
 

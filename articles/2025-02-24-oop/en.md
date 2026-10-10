@@ -3,13 +3,13 @@ title: 'OOP: <strong>the worst</strong> thing that happened to programming'
 shortTitle: 'OOP - <strong>the worst</strong> of programming'
 date: '2025-02-24'
 cover: 'cover.webp'
-cover-alt: 'The image shows what it would be like if buildings were constructed the same way code is written. Elderly people ask their grandson to build a toilet, and end up with an ugly, monstrous construction, while the grandson is pondering that perhaps the classes should have been inherited differently. In his hands, he holds a banana, surrounded by jungle with gorilla. The Java logo is on the building.'
+cover-alt: 'The image shows what it would be like if buildings were constructed the same way code is written. Elderly people ask their grandson to build a toilet, and end up with an ugly, monstrous construction, while the grandson is pondering that perhaps the classes should have been inherited differently. In his hands, he holds a banana, surrounded by a jungle with a gorilla. The Java logo is on the building.'
 spoiler: 'In this article, we will try to understand why OOP is the worst thing that happened to programming, how it became so popular, why experienced Java (C#, C++, etc.) programmers can’t really be considered great engineers, and why code in Java cannot be considered good.'
 links:
 - discuss-github: https://github.com/gentlee/gentlee.github.io/discussions/4
 ---
 
-![The image shows what it would be like if buildings were constructed the same way code is written. Elderly people ask their grandson to build a toilet, and end up with an ugly, monstrous construction, while the grandson is pondering that perhaps the classes should have been inherited differently. In his hands, he holds a banana, surrounded by jungle with gorilla. The Java logo is on the building.](/articles/2025-02-24-oop/cover.webp)
+![The image shows what it would be like if buildings were constructed the same way code is written. Elderly people ask their grandson to build a toilet, and end up with an ugly, monstrous construction, while the grandson is pondering that perhaps the classes should have been inherited differently. In his hands, he holds a banana, surrounded by a jungle with a gorilla. The Java logo is on the building.](/articles/2025-02-24-oop/cover.webp)
 
 In this article, we will try to understand why OOP is the worst thing that happened to programming, how it became so popular, why experienced Java (C#, C++, etc.) programmers can’t really be considered great engineers, and why code in Java cannot be considered good.
 
@@ -21,7 +21,7 @@ Unfortunately, programming is quite far from being a science (just like me), so 
 - **Function** — a block of code that performs a specific logic. It can return a value.
 - **Object** — an entity that contains both data and functions to process them — methods. An object can be imitated in FP by placing data and functions in the same structure. In classical OOP, this is always an instance of a class.
 - **Class** — a blueprint for creating objects, defining their data and methods. The foundation of OOP.
-- **Method** — a function that is part of a class. Instance methods (non-static) have a reference to the object itself (`this`, `self`), with all its data and methods, which is essentially a implicit first argument.
+- **Method** — a function that is part of a class. Instance methods (non-static) have a reference to the object itself (`this`, `self`), with all its data and methods, which is essentially an implicit first argument.
 - **Functional programming (FP)** — programming using structures and functions. Do not confuse with functional (math) style.
 - **Object-oriented programming (OOP)** — programming using classes, objects, and all their features — inheritance, encapsulation, polymorphism, etc. If desired, one can mimic structures using classes [almost] without methods and functions with static methods in static classes.
 - **Mutable style** — a programming style where data is typically changed in place rather than copied. This can be used in both FP and OOP, but it is characteristic of OOP.
@@ -142,7 +142,7 @@ How do the method and function `getDisplayName` differ?
 **First**, the method is tightly coupled with the type of its implicit argument — `this`, which is `User`. It depends not on the interface, but on the specific class. This leads to several problems:
 - **Reusability with other types**: The method requires not only the data and methods it actually needs to function but also those it doesn't need, simply because they exist in the `User` class — including all fields and methods of this class, even private ones. This means that anyone reusing the method must also include them, whether through inheritance (which is a major drawback — more on that later) or delegation. As a result, reusing the method with a different type while providing only the data and methods it actually uses is impossible.
 - **Dependence on classes**: The method cannot be used without creating an instance of this class or its descendant. For example, it cannot be used for a dictionary with the same fields.
-- **Inability to handle situations where user is `null` or `undefined`** from withing the method.
+- **Inability to handle situations where user is `null` or `undefined`** from within the method.
 
 In JS/TS, you could of course hack this through `call`/`apply`, but these are hacks specific to the language, go against KISS, and are themselves a sign of bad code.
 
@@ -424,7 +424,7 @@ class Program
 }
 ```
 
-In FP, parametric (true) polymorphism is used. In the next example union type, generics and interface are used for that:
+In FP, parametric (true) polymorphism is used. In the next example, a union type, generics, and an interface are used for that:
 
 ```typescript
 type Circle = { type: "circle"; radius: number }
@@ -468,7 +468,7 @@ logShapes(
   getArea
 )
 
-// Example from Inheritance section is also polymorphism using interface.
+// The example from the Inheritance section is also polymorphism using interface.
 // Here we handle any type which has friendIds: string[].
 const hasFriend = (target: { friendIds: string[] }, friendId: string) => { … }
 ```
@@ -521,8 +521,6 @@ const freezedArray = Object.freeze(["John"])
 freezedArray[0] = "Peter" // Compilation error. If executed, it will also fail at runtime.
 ```
 
-### Encapsulation
-
 As we can see, there are no problems with encapsulation in FP, and all scenarios are quite simply implemented without the need for additional symbols like access modifiers. However, it is worth noting that encapsulation is often not only unnecessary but can even be harmful — it increases the amount of code, complicates testing, and slows application performance.
 
 **Conclusion:** OOP does not implement encapsulation any better than FP.
@@ -570,7 +568,7 @@ Moreover, the next point is that it turns out that using constructors in OOP is 
 
 ### Containers and Dependency Injection
 
-Unlike in FP, where most code resides in functions that are typically just exported and imported, in OOP, a large portion of the code is in non-static classes that need to be initialized. To address such inherent issue in OOP and initialize class objects in a way that's convenient and flexible beyond any real need, dependency injection containers were introduced. In short — it turns out that using constructors is an anti-pattern (doesn't it always seem that way in OOP?). Sooner or later, you will have to pass all dependencies to all class instances, which is why it’s better to pass a single dependency container and initialize objects only through it. 
+Unlike in FP, where most code resides in functions that are typically just exported and imported, in OOP, a large portion of the code is in non-static classes that need to be initialized. To address such an inherent issue in OOP and initialize class objects in a way that's convenient and flexible beyond any real need, dependency injection containers were introduced. In short — it turns out that using constructors is an anti-pattern (doesn't it always seem that way in OOP?). Sooner or later, you will have to pass all dependencies to all class instances, which is why it’s better to pass a single dependency container and initialize objects only through it. 
 
 Moreover, should a class even know that it is a singleton? For perfect flexibility, of course not. What if someone someday wants to make a singleton not a singleton? This has never happened in history, but why not write even more code, making it even more complicated?
 
@@ -601,7 +599,7 @@ Testability is not an issue here — any import in TypeScript can be easily repl
 
 ### Serialization, Copying, Comparing
 
-Since in FP data is separated from logic and is primarily either primitive type or composed of primitives, it is usually serializable by default. It can also be shallowly or deeply copied and compared without any extra code:
+Since in FP data is separated from logic and is primarily either primitive types or composed of primitives, it is usually serializable by default. It can also be shallowly or deeply copied and compared without any extra code:
 
 ```typescript
 const user: User = {
@@ -643,7 +641,7 @@ A class contains both data and methods to manipulate it. Following this logic, d
 ```typescript
 class User {
   update() {
-    service.updateUser(this.id, ...) // E.g. here goes long async IO operation.
+    service.updateUser(this.id, ...) // E.g. here goes a long async IO operation.
   }
 }
 
@@ -684,10 +682,10 @@ A huge advantage of the _math-functional_ style of FP is the support for concurr
 
 As we can see, OOP not only fails to solve any problem better than FP, but it also introduces a multitude of other issues, which are completely unsolvable with any "design patterns" or workarounds. It requires knowledge and usage of an enormous number of such patterns, many of which even prohibit the use of basic class features like constructors or inheritance. Many OOP developers have either forgotten why they do all this or never knew, diving straight into the framework's intricacies and doing it "because it's the norm". In the end, we have far more ugly, overcomplicated code, which can be succinctly described as "a monstrous collection of crutches."
 
-## Did anyone notice these drawbacks in early years of OOP language development?
+## Did anyone notice these drawbacks in the early years of OOP language development?
 
 - Many programming giants, like Linus Torvalds, quickly came to a similar conclusion, and the latter banned the use of C++ in the Linux kernel.
-- Even the creator of Java later admitted that adding classes was a mistake: “If you could do Java over again, what would you change?” “I’d leave out classes,” he replied. Later though softened to wording that the real problem was implementation inheritance.
+- Even the creator of Java later admitted that adding classes was a mistake: “If you could do Java over again, what would you change?” “I’d leave out classes,” he replied. Later, though, he softened this, saying that the real problem was implementation inheritance.
 
 However, there were those who gained incredible popularity by describing the principles and patterns of OOP. One of the most famous programmers, who is also an exceptionally poor coder, is Robert Martin with his SOLID OOP principles and the book *Clean Code*. [In this article](https://habr.com/ru/articles/875426/), you can evaluate how bad "clean" code by this "guru" of Java looks compared to a simple function in TypeScript and draw clear conclusions.
 
@@ -697,7 +695,7 @@ Of course, one cannot fail to mention the highly popular book on design patterns
 
 There is still some sense, considering how many OOP languages there are today and how many developers use them, that the popularity of OOP isn't just based on Oracle's massive advertising campaign for Java in the past, or the fact that 99% of people ~~are idiots~~ have IQs below 140. And indeed, there is one "advantage" — **Autocomplete** — the ability to see which functions can be called with a specific data type is so convenient that most people are willing to tolerate all the other shortcomings (in most cases, not even realizing them — see the point about 99% of people).
 
-But the thing is, autocomplete for dot notation is not a feature of the language or even the programming paradigm. It is a 100% feature of specific IDE. But didn’t FP developers think of creating something similar? Surprisingly (as far as I know), this feature was not available for functional languages for a long time. For example, in Haskell, there is a site called [Hoogle](https://hoogle.haskell.org/) to search for functions by name or approximate signature, but it’s one thing to see it in an IDE in a fraction of a second and another to go to a website. Requiring developers to memorize thousands of functions for all types instead of providing a convenient suggestion is a serious drawback when using FP in most popular IDEs.
+But the thing is, autocomplete for dot notation is not a feature of the language or even the programming paradigm. It is a 100% feature of specific IDEs. But didn’t FP developers think of creating something similar? Surprisingly (as far as I know), this feature was not available for functional languages for a long time. For example, in Haskell, there is a site called [Hoogle](https://hoogle.haskell.org/) to search for functions by name or approximate signature, but it’s one thing to see it in an IDE in a fraction of a second and another to go to a website. Requiring developers to memorize thousands of functions for all types instead of providing a convenient suggestion is a serious drawback when using FP in most popular IDEs.
 
 Today, of course, there are VS Code plugins for Haskell and other languages that make it easy to search for functions by providing one or even several parameters from the function's signature. However, in the same VS Code, by default, this functionality is not available for JS or TS (together the most popular programming languages).
 

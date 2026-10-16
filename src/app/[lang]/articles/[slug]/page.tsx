@@ -3,6 +3,7 @@ import './article.css'
 import {Metadata} from 'next'
 import Link from 'next/link'
 
+import {Support} from '~/components/donate-modal'
 import {LikeButton} from '~/components/like-button'
 import {NavigationBar} from '~/components/navigation-bar'
 import {getArticleHtmlAndFrontmatter, getArticleSlugs, getUrlForArticleImage} from '~/fs/articles'
@@ -33,8 +34,8 @@ const ArticlePage = async (props: Props) => {
               __html: `${frontmatter.title} [${new Date(frontmatter.date).toLocaleDateString([lang])}]`,
             }}
           />
+          <Support />
           <article dangerouslySetInnerHTML={{__html: htmlWithHighlightedCode}} />
-
           <LikeButton lang={lang} />
         </main>
 

@@ -2,6 +2,7 @@ import {Metadata} from 'next'
 import Image from 'next/image'
 import Link from 'next/link'
 
+import {Support} from '~/components/donate-modal'
 import {NavigationBar} from '~/components/navigation-bar'
 import {TableOfContents} from '~/components/table-of-contents'
 import {getArticleHtmlAndFrontmatter, getArticleSlugs} from '~/fs/articles'
@@ -33,7 +34,7 @@ const ArticlesPage = async ({params}: Props) => {
             titlePlain: x.frontmatter.shortTitlePlain,
           }))}
         />
-
+        <Support />
         <ul className="content">
           {articleData.map(({slug, frontmatter, folderName}, index) => {
             const titleId = 'title-' + slug

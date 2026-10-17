@@ -186,7 +186,7 @@ export const TableOfContents = memo(function TableOfContentsInner({
                   }
                 >
                   <div>
-                    {i !== 0 && <div className="separator mx-4" />}
+                    {i !== 0 && x.level !== 3 && <div className="separator mx-4" />}
                     <a
                       href={`#${x.id}`}
                       tabIndex={-1}
@@ -227,8 +227,9 @@ export const TableOfContents = memo(function TableOfContentsInner({
                       style={{
                         display: 'block',
                         fontWeight: isCurrent ? 'bold' : undefined,
+                        fontSize: x.level === 3 ? 15 : undefined,
                       }}
-                      className={`py-2 px-4 [&_strong]:text-[var(--accent)] ${x.level === 3 ? 'pl-7' : ''}`}
+                      className={`px-4 pb-2 [&_strong]:text-[var(--accent)] ${x.level === 3 ? 'pt-0 pl-7' : 'pt-2'}`}
                     >
                       {(titleLines[x.id] ?? [x.title]).map((line, lineIndex) => (
                         <span

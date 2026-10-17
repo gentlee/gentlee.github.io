@@ -2,7 +2,8 @@ export type SectionBounds = {id: string; top: number; end: number}
 
 const EDGE_GAP = 16
 
-// Invert the reading point: viewport center, moving toward its bottom near page end.
+// AI-assisted; not deeply reviewed by a human.
+/** Invert the reading point: viewport center, moving toward its bottom near page end. */
 export const getSectionSelectionTop = (headingTop: number, viewportHeight: number, scrollHeight: number) => {
   const centered = headingTop - viewportHeight / 2
   const top =
@@ -12,6 +13,8 @@ export const getSectionSelectionTop = (headingTop: number, viewportHeight: numbe
   return Math.max(0, Math.min(Math.max(0, scrollHeight - viewportHeight), top))
 }
 
+// AI-assisted; not deeply reviewed by a human.
+/** Choose a clamped destination from section bounds, viewport size, and page-end constraints. */
 export const getSectionScrollTop = (
   section: SectionBounds,
   index: number,
@@ -37,7 +40,8 @@ export const getSectionScrollTop = (
   return Math.max(0, Math.min(maxScroll, top))
 }
 
-// Selection thresholds depend only on heading geometry, never on previous clicks.
+// AI-assisted; not deeply reviewed by a human.
+/** Selection thresholds depend only on heading geometry, never on previous clicks. */
 export const getCurrentSection = (positions: number[], scrollTop: number, maxScroll: number) => {
   if (scrollTop <= 1) {
     return 0
@@ -54,6 +58,8 @@ export const getCurrentSection = (positions: number[], scrollTop: number, maxScr
   return current
 }
 
+// AI-assisted; not deeply reviewed by a human.
+/** Keep clicks inside the selected interval; use its last safe position near page end. */
 export const getSectionClickScrollTop = (
   positions: number[],
   index: number,

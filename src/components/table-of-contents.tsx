@@ -19,6 +19,8 @@ type Props = {
   subpath?: `articles/${string}` | 'articles'
 }
 
+// AI-assisted; not deeply reviewed by a human.
+/** Render article navigation with stable title lines and position-based selection. */
 export const TableOfContents = memo(function TableOfContentsInner({
   lang,
   items,
@@ -29,11 +31,13 @@ export const TableOfContents = memo(function TableOfContentsInner({
   const listRef = useRef<HTMLUListElement>(null)
   const [titleLines, setTitleLines] = useState<Record<string, string[]>>({})
 
+  // Keep title measurements in sync with font loading and viewport changes.
   useEffect(() => {
     if (!isVisible) {
       return
     }
     let cancelled = false
+    /** Recompute fixed title lines after fonts load or the viewport changes. */
     const measure = () => {
       if (cancelled || !listRef.current) {
         return
@@ -65,12 +69,14 @@ export const TableOfContents = memo(function TableOfContentsInner({
     return () => mediaQuery.removeEventListener('change', mediaListener)
   }, [])
 
+  // Track the active section from document geometry and clean up event subscriptions.
   useEffect(() => {
     if (!isVisible || items.length === 0) {
       return
     }
 
     let timeout: ReturnType<typeof setTimeout> | undefined
+    /** Select the section whose reading threshold has been reached. */
     const update = () => {
       timeout = undefined
       const scrollingElement = document.scrollingElement ?? document.documentElement
@@ -82,6 +88,7 @@ export const TableOfContents = memo(function TableOfContentsInner({
       )
       setCurrentItemId(items[current].id)
     }
+    /** Coalesce scroll, resize, and hash events into one pending update. */
     const listener = () => {
       timeout ??= setTimeout(update, 64)
     }
@@ -138,6 +145,7 @@ export const TableOfContents = memo(function TableOfContentsInner({
                       }
                     }}
                     onClick={(event) => {
+                      // Update the fragment and scroll within the selected section’s activation interval.
                       if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) {
                         return
                       }
@@ -198,6 +206,8 @@ export const TableOfContents = memo(function TableOfContentsInner({
   )
 })
 
+// AI-assisted; not deeply reviewed by a human.
+/** Measure section boundaries and derive selection thresholds or ordered click destinations. */
 const getScrollPositions = (
   items: Props['items'],
   scrollingElement: Element,
@@ -217,6 +227,7 @@ const getScrollPositions = (
   }
   let previous = -2
   return items.map((item, index) => {
+    // Include nested headings in the section and keep destinations in document order.
     const nextIndex = items.findIndex((next, i) => i > index && (next.level ?? 2) <= (item.level ?? 2))
     const article = elements[index]?.closest('article')
     const end =

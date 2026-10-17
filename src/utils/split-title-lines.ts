@@ -1,4 +1,5 @@
-// Measure the bold title once and retain its inline markup in each fixed line.
+// AI-assisted; not deeply reviewed by a human.
+/** Measure the bold title once and retain its inline markup in each fixed line. */
 export const splitTitleLines = (html: string, link: HTMLElement, markerWidth: number): string[] => {
   const style = getComputedStyle(link)
   const measure = document.createElement('div')
@@ -20,6 +21,7 @@ export const splitTitleLines = (html: string, link: HTMLElement, markerWidth: nu
     while (walker.nextNode()) {
       nodes.push(walker.currentNode as Text)
     }
+    /** Convert offsets in the combined title text into a range spanning its text nodes. */
     const range = (start: number, end: number) => {
       const result = document.createRange()
       let offset = 0

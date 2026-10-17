@@ -27,6 +27,7 @@ export const TableOfContents = memo(function TableOfContentsInner({
   subpath = 'articles',
 }: Props) {
   const [isVisible, setIsVisible] = useState(true)
+  const [heightMode, setHeightMode] = useState<'full' | 'headings' | 'hidden'>('hidden')
   const [currentItemId, setCurrentItemId] = useState(items[0]?.id)
   const listRef = useRef<HTMLUListElement>(null)
   const [titleLines, setTitleLines] = useState<Record<string, string[]>>({})
@@ -56,6 +57,42 @@ export const TableOfContents = memo(function TableOfContentsInner({
       window.removeEventListener('resize', measure)
     }
   }, [isVisible, items])
+
+  useEffect(() => {
+    const list = listRef.current
+    if (!isVisible || !list) {
+      return
+    }
+    /** Fit all entries, then only main headings, or hide the panel if neither fits. */
+    const measureHeight = () => {
+      const availableHeight = parseFloat(getComputedStyle(list).maxHeight)
+      let fullHeight = 0
+      let headingsHeight = 0
+      Array.from(list.children).forEach((item, index) => {
+        const height = item.firstElementChild?.getBoundingClientRect().height ?? 0
+        fullHeight += height
+        if (items[index].level !== 3) {
+          headingsHeight += height
+        }
+      })
+      setHeightMode(
+        fullHeight <= availableHeight ? 'full' : headingsHeight <= availableHeight ? 'headings' : 'hidden',
+      )
+    }
+    const observer = new ResizeObserver(measureHeight)
+    observer.observe(list)
+    for (const item of list.children) {
+      if (item.firstElementChild) {
+        observer.observe(item.firstElementChild)
+      }
+    }
+    measureHeight()
+    window.addEventListener('resize', measureHeight)
+    return () => {
+      observer.disconnect()
+      window.removeEventListener('resize', measureHeight)
+    }
+  }, [isVisible, items, titleLines])
 
   useEffect(() => {
     const mediaListener = (event: {matches: boolean}) => {
@@ -111,10 +148,16 @@ export const TableOfContents = memo(function TableOfContentsInner({
     return null
   }
 
+  const currentIndex = items.findIndex((item) => item.id === currentItemId)
+  const visibleCurrentId =
+    heightMode === 'headings' && items[currentIndex]?.level === 3
+      ? items.slice(0, currentIndex).findLast((item) => item.level !== 3)?.id
+      : currentItemId
+
   return (
     <div
       aria-hidden="true"
-      style={{overflowAnchor: 'none'}}
+      style={{overflowAnchor: 'none', visibility: heightMode === 'hidden' ? 'hidden' : 'visible'}}
       className="hidden toc:block w-fit sticky h-0 overflow-visible top-[var(--s-gap)] ml-[calc(50%-260px-var(--max-content-w)/2)] mt-[var(--s-gap)] -mb-[var(--s-gap)]"
     >
       <div className="bg-background big-shadow p-0! gap-0!">
@@ -131,65 +174,76 @@ export const TableOfContents = memo(function TableOfContentsInner({
 
           <ul ref={listRef} className="overflow-y-auto" style={LIST_STYLE}>
             {items.map((x, i) => {
-              const isCurrent = currentItemId === x.id
+              const isCurrent = visibleCurrentId === x.id
               return (
-                <li key={x.id}>
-                  {i !== 0 && <div className="separator mx-4" />}
-                  <a
-                    href={`#${x.id}`}
-                    tabIndex={-1}
-                    onMouseDown={(event) => {
-                      // A focused link in the scrolling sidebar can move the page when its text reflows.
-                      if (event.button === 0) {
+                <li
+                  key={x.id}
+                  style={
+                    heightMode !== 'full' && x.level === 3
+                      ? {height: 0, overflow: 'hidden', visibility: 'hidden'}
+                      : undefined
+                  }
+                >
+                  <div>
+                    {i !== 0 && <div className="separator mx-4" />}
+                    <a
+                      href={`#${x.id}`}
+                      tabIndex={-1}
+                      onMouseDown={(event) => {
+                        // A focused link in the scrolling sidebar can move the page when its text reflows.
+                        if (event.button === 0) {
+                          event.preventDefault()
+                        }
+                      }}
+                      onClick={(event) => {
+                        // Update the fragment and scroll within the selected section’s activation interval.
+                        if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) {
+                          return
+                        }
+                        const target = document.getElementById(x.id)
+                        if (!target) {
+                          return
+                        }
                         event.preventDefault()
-                      }
-                    }}
-                    onClick={(event) => {
-                      // Update the fragment and scroll within the selected section’s activation interval.
-                      if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) {
-                        return
-                      }
-                      const target = document.getElementById(x.id)
-                      if (!target) {
-                        return
-                      }
-                      event.preventDefault()
-                      window.history.pushState(window.history.state, '', `#${encodeURIComponent(x.id)}`)
-                      const scrollingElement = document.scrollingElement ?? document.documentElement
-                      const maxScroll = Math.max(
-                        0,
-                        scrollingElement.scrollHeight - scrollingElement.clientHeight,
-                      )
-                      const headingTop = target.getBoundingClientRect().top + scrollingElement.scrollTop
-                      window.scrollTo({
-                        top: getSectionClickScrollTop(
-                          getScrollPositions(items, scrollingElement, subpath !== 'articles', true),
-                          i,
-                          maxScroll,
-                          subpath !== 'articles' && headingTop - 16 > maxScroll,
-                          getScrollPositions(items, scrollingElement, subpath !== 'articles')[i],
-                        ),
-                        behavior: 'instant',
-                      })
-                    }}
-                    style={{
-                      display: 'block',
-                      fontWeight: isCurrent ? 'bold' : undefined,
-                    }}
-                    className={`py-2 px-4 [&_strong]:text-[var(--accent)] ${x.level === 3 ? 'pl-7' : ''}`}
-                  >
-                    {(titleLines[x.id] ?? [x.title]).map((line, lineIndex) => (
-                      <span
-                        key={lineIndex}
-                        style={{display: 'block', whiteSpace: titleLines[x.id] ? 'nowrap' : undefined}}
-                      >
-                        {lineIndex === 0 && isCurrent && (
-                          <span style={{display: 'inline-block', width: 16, whiteSpace: 'pre'}}>{'> '}</span>
-                        )}
-                        <span dangerouslySetInnerHTML={{__html: line}} />
-                      </span>
-                    ))}
-                  </a>
+                        window.history.pushState(window.history.state, '', `#${encodeURIComponent(x.id)}`)
+                        const scrollingElement = document.scrollingElement ?? document.documentElement
+                        const maxScroll = Math.max(
+                          0,
+                          scrollingElement.scrollHeight - scrollingElement.clientHeight,
+                        )
+                        const headingTop = target.getBoundingClientRect().top + scrollingElement.scrollTop
+                        window.scrollTo({
+                          top: getSectionClickScrollTop(
+                            getScrollPositions(items, scrollingElement, subpath !== 'articles', true),
+                            i,
+                            maxScroll,
+                            subpath !== 'articles' && headingTop - 16 > maxScroll,
+                            getScrollPositions(items, scrollingElement, subpath !== 'articles')[i],
+                          ),
+                          behavior: 'instant',
+                        })
+                      }}
+                      style={{
+                        display: 'block',
+                        fontWeight: isCurrent ? 'bold' : undefined,
+                      }}
+                      className={`py-2 px-4 [&_strong]:text-[var(--accent)] ${x.level === 3 ? 'pl-7' : ''}`}
+                    >
+                      {(titleLines[x.id] ?? [x.title]).map((line, lineIndex) => (
+                        <span
+                          key={lineIndex}
+                          style={{display: 'block', whiteSpace: titleLines[x.id] ? 'nowrap' : undefined}}
+                        >
+                          {lineIndex === 0 && isCurrent && (
+                            <span style={{display: 'inline-block', width: 16, whiteSpace: 'pre'}}>
+                              {'> '}
+                            </span>
+                          )}
+                          <span dangerouslySetInnerHTML={{__html: line}} />
+                        </span>
+                      ))}
+                    </a>
+                  </div>
                 </li>
               )
             })}

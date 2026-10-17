@@ -5,7 +5,12 @@ import {memo, useEffect, useRef, useState} from 'react'
 import {Footer} from '~/components/footer'
 import {NavigationBar} from '~/components/navigation-bar'
 import {Language} from '~/utils/constants'
-import {getReadingPoint, getSectionScrollTop} from '~/utils/section-scroll'
+import {
+  getCurrentSection,
+  getSectionClickScrollTop,
+  getSectionScrollTop,
+  getSectionSelectionTop,
+} from '~/utils/section-scroll'
 import {splitTitleLines} from '~/utils/split-title-lines'
 
 type Props = {
@@ -69,19 +74,13 @@ export const TableOfContents = memo(function TableOfContentsInner({
     const update = () => {
       timeout = undefined
       const scrollingElement = document.scrollingElement ?? document.documentElement
-      const readingPoint = getReadingPoint(
+      const positions = getScrollPositions(items, scrollingElement, subpath !== 'articles', true)
+      const current = getCurrentSection(
+        positions,
         scrollingElement.scrollTop,
-        scrollingElement.clientHeight,
-        scrollingElement.scrollHeight,
+        scrollingElement.scrollHeight - scrollingElement.clientHeight,
       )
-      let current = items[0].id
-      for (const item of items) {
-        const element = document.getElementById(item.id)
-        if (element && element.getBoundingClientRect().top <= readingPoint + 1) {
-          current = item.id
-        }
-      }
-      setCurrentItemId(current)
+      setCurrentItemId(items[current].id)
     }
     const listener = () => {
       timeout ??= setTimeout(update, 64)
@@ -99,7 +98,7 @@ export const TableOfContents = memo(function TableOfContentsInner({
         clearTimeout(timeout)
       }
     }
-  }, [isVisible, items])
+  }, [isVisible, items, subpath])
 
   if (!isVisible || items.length === 0) {
     return null
@@ -148,24 +147,19 @@ export const TableOfContents = memo(function TableOfContentsInner({
                       }
                       event.preventDefault()
                       window.history.pushState(window.history.state, '', `#${encodeURIComponent(x.id)}`)
-                      if (i === 0) {
-                        window.scrollTo({top: 0, behavior: 'instant'})
-                        return
-                      }
-                      if (i === items.length - 1) {
-                        target.scrollIntoView({block: 'start', behavior: 'instant'})
-                        return
-                      }
                       const scrollingElement = document.scrollingElement ?? document.documentElement
-                      const targetRect = target.getBoundingClientRect()
-                      // Land inside the heading, rather than on the boundary between two sections.
-                      const sectionPosition =
-                        targetRect.top + scrollingElement.scrollTop + targetRect.height / 2
+                      const maxScroll = Math.max(
+                        0,
+                        scrollingElement.scrollHeight - scrollingElement.clientHeight,
+                      )
+                      const headingTop = target.getBoundingClientRect().top + scrollingElement.scrollTop
                       window.scrollTo({
-                        top: getSectionScrollTop(
-                          sectionPosition,
-                          scrollingElement.clientHeight,
-                          scrollingElement.scrollHeight,
+                        top: getSectionClickScrollTop(
+                          getScrollPositions(items, scrollingElement, subpath !== 'articles', true),
+                          i,
+                          maxScroll,
+                          subpath !== 'articles' && headingTop - 16 > maxScroll,
+                          getScrollPositions(items, scrollingElement, subpath !== 'articles')[i],
                         ),
                         behavior: 'instant',
                       })
@@ -203,6 +197,50 @@ export const TableOfContents = memo(function TableOfContentsInner({
     </div>
   )
 })
+
+const getScrollPositions = (
+  items: Props['items'],
+  scrollingElement: Element,
+  allowBottomAlignment: boolean,
+  forSelection = false,
+) => {
+  const elements = items.map((item) => document.getElementById(item.id))
+  const tops = elements.map(
+    (element) => (element?.getBoundingClientRect().top ?? 0) + scrollingElement.scrollTop,
+  )
+  if (forSelection) {
+    return tops.map((top, index) =>
+      index === 0
+        ? 0
+        : getSectionSelectionTop(top, scrollingElement.clientHeight, scrollingElement.scrollHeight),
+    )
+  }
+  let previous = -2
+  return items.map((item, index) => {
+    const nextIndex = items.findIndex((next, i) => i > index && (next.level ?? 2) <= (item.level ?? 2))
+    const article = elements[index]?.closest('article')
+    const end =
+      nextIndex >= 0
+        ? tops[nextIndex] - 16
+        : article
+          ? article.getBoundingClientRect().bottom + scrollingElement.scrollTop
+          : scrollingElement.scrollHeight
+    const desired = getSectionScrollTop(
+      {id: item.id, top: tops[index], end: Math.max(tops[index], end)},
+      index,
+      items.length,
+      scrollingElement.clientHeight,
+      scrollingElement.scrollHeight,
+      allowBottomAlignment,
+    )
+    // Adjacent sections must not acquire reversed landing positions.
+    previous = Math.min(
+      Math.max(0, scrollingElement.scrollHeight - scrollingElement.clientHeight),
+      Math.max(previous + 2, desired),
+    )
+    return previous
+  })
+}
 
 const CONTENT_WIDTH_STYLE = {width: 245, overflow: 'hidden'}
 const TOGGLE_VISIBLE_WIDTH = 1451

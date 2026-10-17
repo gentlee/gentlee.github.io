@@ -108,12 +108,21 @@ export const TableOfContents = memo(function TableOfContentsInner({
       return
     }
 
+    const scrollingElement = document.scrollingElement ?? document.documentElement
+    const headings = items.map((item) => document.getElementById(item.id))
+    let positions: number[] | undefined
+    let measuredHeight = 0
+    let measuredViewport = 0
     let timeout: ReturnType<typeof setTimeout> | undefined
     /** Select the section whose reading threshold has been reached. */
     const update = () => {
       timeout = undefined
-      const scrollingElement = document.scrollingElement ?? document.documentElement
-      const positions = getSelectionPositions(items, scrollingElement)
+      const {scrollHeight, clientHeight} = scrollingElement
+      if (!positions || measuredHeight !== scrollHeight || measuredViewport !== clientHeight) {
+        positions = getSelectionPositions(headings, scrollingElement)
+        measuredHeight = scrollHeight
+        measuredViewport = clientHeight
+      }
       const current = getCurrentSection(
         positions,
         scrollingElement.scrollTop,
@@ -125,20 +134,33 @@ export const TableOfContents = memo(function TableOfContentsInner({
     const listener = () => {
       timeout ??= setTimeout(update, 64)
     }
+    /** Invalidate cached thresholds when page layout changes, including expanded details. */
+    const invalidate = () => {
+      positions = undefined
+      listener()
+    }
+    const observer = new ResizeObserver(invalidate)
+    observer.observe(document.body)
+    for (const element of document.querySelectorAll('main, main > *')) {
+      observer.observe(element)
+    }
+    document.addEventListener('toggle', invalidate, true)
     document.addEventListener('scroll', listener, {passive: true})
-    window.addEventListener('resize', listener)
+    window.addEventListener('resize', invalidate)
     window.addEventListener('hashchange', listener)
     update()
 
     return () => {
+      observer.disconnect()
+      document.removeEventListener('toggle', invalidate, true)
       document.removeEventListener('scroll', listener)
-      window.removeEventListener('resize', listener)
+      window.removeEventListener('resize', invalidate)
       window.removeEventListener('hashchange', listener)
       if (timeout !== undefined) {
         clearTimeout(timeout)
       }
     }
-  }, [isVisible, heightMode, items, subpath])
+  }, [isVisible, heightMode, items])
 
   if (!isVisible || items.length === 0) {
     return null
@@ -210,7 +232,10 @@ export const TableOfContents = memo(function TableOfContentsInner({
                         const headingTop = target.getBoundingClientRect().top + scrollingElement.scrollTop
                         window.scrollTo({
                           top: getSectionClickScrollTop(
-                            getSelectionPositions(items, scrollingElement),
+                            getSelectionPositions(
+                              items.map((item) => document.getElementById(item.id)),
+                              scrollingElement,
+                            ),
                             i,
                             maxScroll,
                             subpath !== 'articles' && headingTop - 16 > maxScroll,
@@ -259,13 +284,13 @@ export const TableOfContents = memo(function TableOfContentsInner({
 
 // AI-assisted; not deeply reviewed by a human.
 /** Measure heading positions and convert them into section-selection thresholds. */
-const getSelectionPositions = (items: Props['items'], scrollingElement: Element) => {
+const getSelectionPositions = (headings: (HTMLElement | null)[], scrollingElement: Element) => {
   const {scrollTop, clientHeight, scrollHeight} = scrollingElement
-  return items.map((item, index) => {
+  return headings.map((heading, index) => {
     if (index === 0) {
       return 0
     }
-    const headingTop = (document.getElementById(item.id)?.getBoundingClientRect().top ?? 0) + scrollTop
+    const headingTop = (heading?.getBoundingClientRect().top ?? 0) + scrollTop
     return getSectionSelectionTop(headingTop, clientHeight, scrollHeight)
   })
 }

@@ -1,7 +1,7 @@
 import {JSDOM} from 'jsdom'
 
 // AI-assisted; not deeply reviewed by a human.
-/** Assign collision-free heading IDs and extract escaped navigation titles and levels. */
+/** Assign collision-free heading IDs and extract navigation titles, preserving only strong emphasis. */
 export const addArticleHeadingIds = (html: string) => {
   const {document} = new JSDOM(html).window
   const usedIds = new Set(Array.from(document.querySelectorAll('[id]'), (element) => element.id))
@@ -17,7 +17,17 @@ export const addArticleHeadingIds = (html: string) => {
     }
 
     const title = document.createElement('span')
-    title.textContent = heading.textContent
+    title.append(...Array.from(heading.childNodes, (node) => node.cloneNode(true)))
+    // Keep emphasis without copying links, IDs, or other heading attributes into navigation.
+    for (const element of Array.from(title.querySelectorAll('*')).reverse()) {
+      if (element.tagName === 'STRONG') {
+        for (const attribute of Array.from(element.attributes)) {
+          element.removeAttribute(attribute.name)
+        }
+      } else {
+        element.replaceWith(...element.childNodes)
+      }
+    }
     return {
       id: heading.id,
       title: title.innerHTML,

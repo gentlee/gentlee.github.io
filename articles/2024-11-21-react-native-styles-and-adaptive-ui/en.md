@@ -25,7 +25,7 @@ But why use libraries for styling at all? Isn’t the built-in functionality of 
 
 Create an adaptive and accessible interface for iOS, Android, and Web platforms, including desktops, tablets, and different screen orientations. The minimum supported window width is 320px.
 
-## How NOT to Do It
+## How **NOT** to Do It
 
 > Why do non-native technologies have a worse reputation, even when they’re better? Because all problems can always be blamed on them. And that’s what regularly happens.
 

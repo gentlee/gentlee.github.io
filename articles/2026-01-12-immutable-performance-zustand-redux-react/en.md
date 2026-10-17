@@ -17,7 +17,7 @@ Immutable UI development patterns have become some of the most popular in recent
 
 And perhaps the saddest part is that I have encountered these problems in absolutely every project where these patterns were used, and almost **regardless of the developers’ seniority**. There is clearly a need to improve code analyzers, like what ESLint does for React hooks, and to improve libraries by catching the most obvious mistakes already in debug builds. But until this is properly developed, I suggest going through the main problems and manually checking your projects for their presence.
 
-## 1. Main problems
+## 1. **Main** problems
 
 They are generally related to the previously mentioned characteristics — reference / shallow comparison at all levels.
 
@@ -161,7 +161,7 @@ const ListScreenItem = memo(({id}: {id: string}) => {
 
 One of the most important and problematic points when working with stores, which greatly affects performance.
 
-### 3.1. Heavy selectors
+### 3.1. **Heavy** selectors
 
 If selectors compute too much, then every change to the store's state slows down. The solution is memoization of the selector, moving computations before the store change, or after — into the component.
 
@@ -200,7 +200,7 @@ const Component = ({id}: Props) => {
 }
 ```
 
-### 3.2. Too broad selectors
+### 3.2. Too **broad** selectors
 
 The opposite problem — subscribing to too much data, performing computations inside the component itself, which leads to too frequent re-renders.
 
@@ -221,7 +221,7 @@ const ListItem = ({id}: Props) => {
 }
 ```
 
-### 3.3. Memoized selectors with parameters
+### 3.3. **Memoized** selectors with parameters
 
 A consequence of a poor solution to the problem from section 3.1. With memoized selectors, it is important to understand where the memoization is stored. Reselect, by default, stores the cache inside the selector itself, and only for the last value of the last input parameters. If multiple mounted components use it with different parameters or different stores, it will be constantly recalculated:
 
@@ -261,7 +261,7 @@ const Button = ({id}: {id: string}) => {
 
 Or read the [documentation](https://reselect.js.org/api/weakMapMemoize) about other ways to configure LRU or WeakMap caching.
 
-### 3.4. Disabling subscriptions
+### 3.4. **Disabling** subscriptions
 
 Sometimes it makes sense to disable subscriptions by passing a dummy selector, eliminating unnecessary selector computations and re-renders.
 
@@ -276,7 +276,7 @@ export const selectUndefined = () => undefined
 export const selectFalse = () => false
 ```
 
-### 3.5. Unnecessary subscriptions
+### 3.5. **Unnecessary** subscriptions
 
 Code becomes even more efficient if you don’t subscribe to data that is not needed for rendering. For example, data used only inside event handlers.
 
@@ -311,7 +311,7 @@ One of the best ways to degrade immutable store performance [by 100x](https://gi
 
 ---
 
-## 5. Don’t write boilerplate
+## 5. Don’t write **boilerplate**
 
 Many mistakes can simply be avoided by not re-implementing data loading and caching over and over again. Many libraries already exist, from Tanstack Query to Apollo Client. The only issue is that all of them use their own closed stores without direct access. The exception is RTK Query, but we have already decided not to use it (and not only because of performance issues).
 
@@ -351,7 +351,7 @@ And yes, Redux also [supports](https://github.com/gentlee/redux-light/blob/maste
 
 ---
 
-## 7. Data copying
+## 7. Data **copying**
 
 The asymptotic complexity of adding an element to a standard collection (array, object) in an immutable store is O(N), since it requires shallow copying (usually via the `...` operator). Additionally, garbage collection is required for the previous collection. For most projects this is not an issue, since collection sizes rarely exceed 1000 and battery consumption is not critical. But for huge projects this can become a problem, and there are ways to turn O(N) into O(log N), or even O(1).
 
@@ -429,7 +429,7 @@ And most importantly — log and measure disk operations so you don’t end up i
 
 ---
 
-## 9. Interface responsiveness-critical operations
+## 9. Interface **responsiveness**-critical operations
 It’s important to understand that immutable stores are not designed for bidirectional binding of user input in text fields or for animating the coordinates of an object being dragged across the screen. For highly frequent and critical interface updates with minimal delay, a more imperative approach should be used, ideally one that doesn't require even a VDOM re-render. For example, in React Native, `react-native-reanimated` is often used for this purpose.
 
 ---

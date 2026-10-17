@@ -6,9 +6,11 @@ import Link from 'next/link'
 import {Support} from '~/components/donate-modal'
 import {LikeButton} from '~/components/like-button'
 import {NavigationBar} from '~/components/navigation-bar'
+import {TableOfContents} from '~/components/table-of-contents'
 import {getArticleHtmlAndFrontmatter, getArticleSlugs, getUrlForArticleImage} from '~/fs/articles'
 import {Source} from '~/fs/articles'
 import {s} from '~/localization'
+import {addArticleHeadingIds} from '~/utils/article-headings'
 import {Language, LANGUAGES} from '~/utils/constants'
 import {fixedsysFont} from '~/utils/fonts'
 import {highlightCode} from '~/utils/highlight-code'
@@ -22,11 +24,12 @@ const ArticlePage = async (props: Props) => {
 
   const {frontmatter, html} = await getArticleHtmlAndFrontmatter(slug, lang)
 
-  const htmlWithHighlightedCode = highlightCode(html)
+  const {html: htmlWithHighlightedCode, items} = addArticleHeadingIds(highlightCode(html))
 
   return (
     <>
       <NavigationBar lang={lang} subpath={`articles/${slug}` as 'articles/${slug}'} />
+      <TableOfContents lang={lang} items={items} subpath={`articles/${slug}`} />
       <div className="content">
         <main className="big-shadow bg-background">
           <h1

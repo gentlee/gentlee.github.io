@@ -25,7 +25,7 @@ But I loved getting to the heart of the matter and finding the best solution, an
 
 But this doesn’t work with blocking operations — during full thread locks (Mutex), the thread pool is forced to create additional threads so that CPU cores do not idle, while during spinlocks (SpinLock), the CPU cycles are wasted. While the solution for I/O operations is obvious — use non-blocking alternatives — all the standard synchronization mechanisms in popular languages like C# block the waiting thread for the duration of the queue wait time, which can often be longer than the operation itself.
 
-## Introduction to GCD
+## Introduction to **GCD**
 
 While exploring the capabilities of the GCD library from Apple and working with Xamarin, I found that parallel queues did not seem particularly necessary — essentially, they are equivalent to ThreadPool or TaskPool in C#. 
 
@@ -39,7 +39,7 @@ They are **lightweight** (essentially just a list under synchronization primitiv
 
 The fact that they do not block the waiting thread suggests that for lengthy operations, the best solution for synchronization is precisely serial queues. But in practice, even for the shortest operations, when developing with an existing main thread queue (e.g., on iOS), it makes no sense to use lower-level, more complex, and error-prone constructions that **other team members might not be familiar with**. For a nanosecond operation, it’s better to throw it into this very main thread queue, as it will have no impact on the frames per second. Moreover, practice shows that even those who **think they know** synchronization primitives often misunderstand them and produce poor, buggy, and slow code. Bugs in "multithreading" are often very unstable and difficult to reproduce and fix. Additionally, this approach aligns well with the commonly accepted rule of always invoking callback methods on the main thread, eliminating the need to guess which thread you are currently on and avoiding additional synchronization concerns. Incidentally, in Xamarin, for async/await calls from the main thread, this worked by default, which was quite convenient.
 
-## Real-life Examples of Thread Blocking and Synchronization Issues
+## **Real-life** Examples of Thread Blocking and Synchronization Issues
 
 Here are some real-world examples of thread-blocking errors that have impacted product quality:
 
@@ -55,7 +55,7 @@ Here are some real-world examples of thread-blocking errors that have impacted p
 
 As we can see, this is indeed an important topic that directly impacts the quality and user experience of client applications, as well as the performance, stability, and cost of infrastructure for server-side applications.
 
-## What’s the Problem?
+## What’s the **Problem**?
 
 Strangely enough, the standard libraries of many programming languages — both back then and now — despite the variety of synchronization tools, do not include this solution out of the box, even though it’s very simple to implement using existing tools. For example, in C#, it can be done via `SemaphoreSlim`, `ActionBlock`, or simply chaining tasks together. Moreover, Microsoft felt that something like this was needed and created a class with the awkward name `SynchronizationContext`. However, they failed to fully develop the idea or use it as a foundational synchronization mechanism. Could we have had a _SerialThreadPoolSynchronizationContext_? No, _SerialQueue_ sounds much better.
 
@@ -136,7 +136,7 @@ void HandleRequest(Request request, Action<Request, Response> next) {
 }
 ```
 
-## Performance Test Results (Apple M1, 16GB)
+## **Performance** Test Results (Apple M1, 16GB)
 
 <details>
 <summary>Table of Results (in CPU ticks — the fewer, the better):</summary>

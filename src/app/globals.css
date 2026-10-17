@@ -37,7 +37,7 @@
   --foreground: black;
   --dot: #999;
   --focus: #93c5fd;
-  --accent: rgb(244, 68, 68);
+  --accent: rgb(232, 56, 56);
   --border: rgb(192, 192, 192);
 
   --npm: rgb(232, 43, 0);
@@ -123,7 +123,7 @@ h3 {
   line-height: 1;
 }
 
-h1 strong, h2 strong {
+h1 strong, h2 strong, h3 strong {
   color: var(--accent)
 }
 
@@ -243,5 +243,18 @@ p:has(> img) {
 @media (hover: hover) {
   .touchscreen-only {
     display: none;
+  }
+}
+
+/** Table of contents */
+
+@keyframes toc-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .table-of-contents[data-ready='true'] {
+    animation: toc-fade-in 100ms ease-out;
   }
 }

@@ -33,13 +33,13 @@ export const TableOfContents = memo(function TableOfContentsInner({
   const [titleLines, setTitleLines] = useState<Record<string, string[]>>({})
   const [measuredItems, setMeasuredItems] = useState<Props['items'] | null>(null)
 
-  // Keep title measurements in sync with font loading and viewport changes.
+  // Measure fixed-width titles after fonts load, once per item set.
   useEffect(() => {
-    if (!isVisible) {
+    if (!isVisible || measuredItems === items) {
       return
     }
     let cancelled = false
-    /** Recompute fixed title lines after fonts load or the viewport changes. */
+    /** Measure fixed title lines using the loaded fonts. */
     const measure = () => {
       if (cancelled || !listRef.current || document.fonts.status !== 'loaded') {
         return
@@ -53,12 +53,10 @@ export const TableOfContents = memo(function TableOfContentsInner({
       setMeasuredItems(items)
     }
     void document.fonts.ready.then(measure)
-    window.addEventListener('resize', measure)
     return () => {
       cancelled = true
-      window.removeEventListener('resize', measure)
     }
-  }, [isVisible, items])
+  }, [isVisible, items, measuredItems])
 
   useLayoutEffect(() => {
     const list = listRef.current
@@ -111,7 +109,7 @@ export const TableOfContents = memo(function TableOfContentsInner({
 
   // Track the active section from document geometry and clean up event subscriptions.
   useEffect(() => {
-    if (!isVisible || items.length === 0) {
+    if (!isVisible || heightMode === 'hidden' || items.length === 0) {
       return
     }
 
@@ -145,7 +143,7 @@ export const TableOfContents = memo(function TableOfContentsInner({
         clearTimeout(timeout)
       }
     }
-  }, [isVisible, items, subpath])
+  }, [isVisible, heightMode, items, subpath])
 
   if (!isVisible || items.length === 0) {
     return null

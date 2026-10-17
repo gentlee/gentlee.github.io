@@ -175,8 +175,9 @@ export const TableOfContents = memo(function TableOfContentsInner({
   return (
     <div
       aria-hidden="true"
+      data-ready={heightMode !== 'hidden'}
       style={{overflowAnchor: 'none', visibility: heightMode === 'hidden' ? 'hidden' : 'visible'}}
-      className="hidden toc:block w-fit sticky h-0 overflow-visible top-[var(--s-gap)] ml-[calc(50%-260px-var(--max-content-w)/2)] mt-[var(--s-gap)] -mb-[var(--s-gap)]"
+      className="table-of-contents hidden toc:block w-fit sticky h-0 overflow-visible top-[var(--s-gap)] ml-[calc(50%-260px-var(--max-content-w)/2)] mt-[var(--s-gap)] -mb-[var(--s-gap)]"
     >
       <div className="bg-background big-shadow p-0! gap-0!">
         <div style={CONTENT_WIDTH_STYLE}>

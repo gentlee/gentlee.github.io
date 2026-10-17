@@ -8,7 +8,7 @@ export const fixedsysFont = localFont({
 
 export const firaSansFont = Fira_Sans({
   variable: '--fira-sans',
-  weight: ['400', '700'],
+  weight: ['400', '500', '700'],
   subsets: ['latin', 'cyrillic'],
 })
 

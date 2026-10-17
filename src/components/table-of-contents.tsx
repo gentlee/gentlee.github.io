@@ -224,7 +224,7 @@ export const TableOfContents = memo(function TableOfContentsInner({
                         fontWeight: isCurrent ? 'bold' : undefined,
                         fontSize: x.level === 3 ? 15 : undefined,
                       }}
-                      className={`px-4 pb-2 [&_strong]:text-[var(--accent)] ${x.level === 3 ? 'pt-0 pl-7' : 'pt-2'}`}
+                      className={`px-4 pb-2 [&_strong]:text-[var(--accent)] ${isCurrent ? '[&_strong]:font-bold' : '[&_strong]:font-medium'} ${x.level === 3 ? 'pt-0 pl-7' : 'pt-2'}`}
                     >
                       {(titleLines[x.id] ?? [x.title]).map((line, lineIndex) => (
                         <span

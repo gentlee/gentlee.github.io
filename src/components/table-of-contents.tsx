@@ -1,6 +1,6 @@
 'use client'
 
-import {memo, useEffect, useRef, useState} from 'react'
+import {memo, useEffect, useLayoutEffect, useRef, useState} from 'react'
 
 import {Footer} from '~/components/footer'
 import {NavigationBar} from '~/components/navigation-bar'
@@ -31,6 +31,7 @@ export const TableOfContents = memo(function TableOfContentsInner({
   const [currentItemId, setCurrentItemId] = useState(items[0]?.id)
   const listRef = useRef<HTMLUListElement>(null)
   const [titleLines, setTitleLines] = useState<Record<string, string[]>>({})
+  const [measuredItems, setMeasuredItems] = useState<Props['items'] | null>(null)
 
   // Keep title measurements in sync with font loading and viewport changes.
   useEffect(() => {
@@ -40,7 +41,7 @@ export const TableOfContents = memo(function TableOfContentsInner({
     let cancelled = false
     /** Recompute fixed title lines after fonts load or the viewport changes. */
     const measure = () => {
-      if (cancelled || !listRef.current) {
+      if (cancelled || !listRef.current || document.fonts.status !== 'loaded') {
         return
       }
       const links = listRef.current.querySelectorAll('a')
@@ -49,6 +50,7 @@ export const TableOfContents = memo(function TableOfContentsInner({
           items.map((item, index) => [item.id, splitTitleLines(item.title, links[index], 16)]),
         ),
       )
+      setMeasuredItems(items)
     }
     void document.fonts.ready.then(measure)
     window.addEventListener('resize', measure)
@@ -58,9 +60,10 @@ export const TableOfContents = memo(function TableOfContentsInner({
     }
   }, [isVisible, items])
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const list = listRef.current
-    if (!isVisible || !list) {
+    if (!isVisible || !list || measuredItems !== items) {
+      setHeightMode('hidden')
       return
     }
     /** Fit all entries, then only main headings, or hide the panel if neither fits. */
@@ -92,7 +95,7 @@ export const TableOfContents = memo(function TableOfContentsInner({
       observer.disconnect()
       window.removeEventListener('resize', measureHeight)
     }
-  }, [isVisible, items, titleLines])
+  }, [isVisible, items, titleLines, measuredItems])
 
   useEffect(() => {
     const mediaListener = (event: {matches: boolean}) => {

@@ -5,12 +5,7 @@ import {memo, useEffect, useLayoutEffect, useRef, useState} from 'react'
 import {Footer} from '~/components/footer'
 import {NavigationBar} from '~/components/navigation-bar'
 import {Language} from '~/utils/constants'
-import {
-  getCurrentSection,
-  getSectionClickScrollTop,
-  getSectionScrollTop,
-  getSectionSelectionTop,
-} from '~/utils/section-scroll'
+import {getCurrentSection, getSectionClickScrollTop, getSectionSelectionTop} from '~/utils/section-scroll'
 import {splitTitleLines} from '~/utils/split-title-lines'
 
 type Props = {
@@ -118,7 +113,7 @@ export const TableOfContents = memo(function TableOfContentsInner({
     const update = () => {
       timeout = undefined
       const scrollingElement = document.scrollingElement ?? document.documentElement
-      const positions = getScrollPositions(items, scrollingElement, subpath !== 'articles', true)
+      const positions = getSelectionPositions(items, scrollingElement)
       const current = getCurrentSection(
         positions,
         scrollingElement.scrollTop,
@@ -215,11 +210,11 @@ export const TableOfContents = memo(function TableOfContentsInner({
                         const headingTop = target.getBoundingClientRect().top + scrollingElement.scrollTop
                         window.scrollTo({
                           top: getSectionClickScrollTop(
-                            getScrollPositions(items, scrollingElement, subpath !== 'articles', true),
+                            getSelectionPositions(items, scrollingElement),
                             i,
                             maxScroll,
                             subpath !== 'articles' && headingTop - 16 > maxScroll,
-                            getScrollPositions(items, scrollingElement, subpath !== 'articles')[i],
+                            Math.max(0, Math.min(maxScroll, headingTop - 16)),
                           ),
                           behavior: 'instant',
                         })
@@ -263,49 +258,15 @@ export const TableOfContents = memo(function TableOfContentsInner({
 })
 
 // AI-assisted; not deeply reviewed by a human.
-/** Measure section boundaries and derive selection thresholds or ordered click destinations. */
-const getScrollPositions = (
-  items: Props['items'],
-  scrollingElement: Element,
-  allowBottomAlignment: boolean,
-  forSelection = false,
-) => {
-  const elements = items.map((item) => document.getElementById(item.id))
-  const tops = elements.map(
-    (element) => (element?.getBoundingClientRect().top ?? 0) + scrollingElement.scrollTop,
-  )
-  if (forSelection) {
-    return tops.map((top, index) =>
-      index === 0
-        ? 0
-        : getSectionSelectionTop(top, scrollingElement.clientHeight, scrollingElement.scrollHeight),
-    )
-  }
-  let previous = -2
+/** Measure heading positions and convert them into section-selection thresholds. */
+const getSelectionPositions = (items: Props['items'], scrollingElement: Element) => {
+  const {scrollTop, clientHeight, scrollHeight} = scrollingElement
   return items.map((item, index) => {
-    // Include nested headings in the section and keep destinations in document order.
-    const nextIndex = items.findIndex((next, i) => i > index && (next.level ?? 2) <= (item.level ?? 2))
-    const article = elements[index]?.closest('article')
-    const end =
-      nextIndex >= 0
-        ? tops[nextIndex] - 16
-        : article
-          ? article.getBoundingClientRect().bottom + scrollingElement.scrollTop
-          : scrollingElement.scrollHeight
-    const desired = getSectionScrollTop(
-      {id: item.id, top: tops[index], end: Math.max(tops[index], end)},
-      index,
-      items.length,
-      scrollingElement.clientHeight,
-      scrollingElement.scrollHeight,
-      allowBottomAlignment,
-    )
-    // Adjacent sections must not acquire reversed landing positions.
-    previous = Math.min(
-      Math.max(0, scrollingElement.scrollHeight - scrollingElement.clientHeight),
-      Math.max(previous + 2, desired),
-    )
-    return previous
+    if (index === 0) {
+      return 0
+    }
+    const headingTop = (document.getElementById(item.id)?.getBoundingClientRect().top ?? 0) + scrollTop
+    return getSectionSelectionTop(headingTop, clientHeight, scrollHeight)
   })
 }
 
